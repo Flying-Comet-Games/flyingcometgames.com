@@ -13,6 +13,7 @@ import ColorMatcher from './games/ColorMatcher';
 import DigitShift from './games/DigitShift';
 import WordWizard from './games/WordWizard';
 import Home from './components/Home';
+import ShapeSorter from './games/ShapeSorter';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -52,6 +53,7 @@ function App() {
             <Route path="/color-matcher" element={<ColorMatcher />} />
             <Route path="/digit-shift" element={<DigitShift />} />
             <Route path="/word-wizard" element={<WordWizard />} />
+            <Route path="/shape-sorter" element={<ShapeSorter />} />
           </Routes>
         </Container>
       </Router>

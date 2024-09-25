@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import PaletteIcon from '@mui/icons-material/Palette';
 import GridViewIcon from '@mui/icons-material/GridView';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import ShapesIcon from '@mui/icons-material/Category';
 
 const GameButton = ({ to, title, description, icon, color }) => (
   <Button
@@ -55,7 +56,6 @@ const Home = () => {
         minHeight: 'calc(100vh - 56px)',
         display: 'flex',
         flexDirection: 'column',
-        // background: 'linear-gradient(120deg, #f0f0f0 0%, #e0e0e0 100%)',
       }}
     >
       <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
@@ -112,6 +112,15 @@ const Home = () => {
             description="Unscramble words against the clock!"
             icon={<AutoFixHighIcon />}
             color="#FFC107"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <GameButton
+            to="/shape-sorter"
+            title="Shape Sorter"
+            description="Sort shapes by color and type!"
+            icon={<ShapesIcon />}
+            color="#9C27B0"
           />
         </Grid>
       </Grid>
