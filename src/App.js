@@ -14,6 +14,9 @@ import DigitShift from './games/DigitShift';
 import WordWizard from './games/WordWizard';
 import Home from './components/Home';
 import ShapeSorter from './games/ShapeSorter';
+import PatternPredictor from './games/PatternPredictor';
+import SwampCleanupChallenge from './games/SwampCleanupChallenge';
+import TarnishedOrdeal from './games/TarnishedOrdeal';
 
 // Create a theme instance.
 const theme = createTheme({
@@ -54,6 +57,9 @@ function App() {
             <Route path="/digit-shift" element={<DigitShift />} />
             <Route path="/word-wizard" element={<WordWizard />} />
             <Route path="/shape-sorter" element={<ShapeSorter />} />
+            <Route path="/pattern-predictor" element={<PatternPredictor />} />
+            <Route path="/swamp-cleanup-challenge" element={<SwampCleanupChallenge />} />
+            <Route path="/tarnished-ordeal" element={<TarnishedOrdeal />} />
           </Routes>
         </Container>
       </Router>

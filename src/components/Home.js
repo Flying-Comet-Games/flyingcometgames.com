@@ -10,6 +10,9 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import GridViewIcon from '@mui/icons-material/GridView';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ShapesIcon from '@mui/icons-material/Category';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EcoIcon from '@mui/icons-material/NaturePeople';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 const GameButton = ({ to, title, description, icon, color }) => (
   <Button
@@ -121,6 +124,33 @@ const Home = () => {
             description="Sort shapes by color and type!"
             icon={<ShapesIcon />}
             color="#9C27B0"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <GameButton
+            to="/pattern-predictor"
+            title="Pattern Predictor"
+            description="Predict the next shape in the sequence!"
+            icon={<VisibilityIcon />}
+            color="#FF5722"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <GameButton
+            to="/swamp-cleanup-challenge"
+            title="Swamp Cleanup"
+            description="Help Shrek keep his swamp ogre-only!"
+            icon={<EcoIcon />}
+            color="#4CAF50"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <GameButton
+            to="/tarnished-ordeal"
+            title="Tarnished's Ordeal"
+            description="Face Elden Ring bosses in quick battles!"
+            icon={<EmojiEventsIcon />}
+            color="#FFD700"
           />
         </Grid>
       </Grid>
