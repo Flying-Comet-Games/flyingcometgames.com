@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const ColorMatcher = () => {
   const theme = useTheme();
@@ -24,6 +26,13 @@ const ColorMatcher = () => {
   const [playerColor, setPlayerColor] = useState({ r: 128, g: 128, b: 128 });
   const [showPulse, setShowPulse] = useState(false);
   const [isCloseMatch, setIsCloseMatch] = useState(false);
+  const [difficulty, setDifficulty] = useState('medium');
+
+  const difficultySettings = {
+    easy: { marginOfError: 50, timeLimit: 90, pointsPerMatch: 1 },
+    medium: { marginOfError: 30, timeLimit: 60, pointsPerMatch: 2 },
+    hard: { marginOfError: 15, timeLimit: 45, pointsPerMatch: 3 },
+  };
 
   useEffect(() => {
     if (!gameOver && timeLeft > 0) {
@@ -38,8 +47,8 @@ const ColorMatcher = () => {
     const diff = Math.abs(targetColor.r - playerColor.r) +
                  Math.abs(targetColor.g - playerColor.g) +
                  Math.abs(targetColor.b - playerColor.b);
-    setIsCloseMatch(diff <= 50);
-  }, [playerColor, targetColor]);
+    setIsCloseMatch(diff <= difficultySettings[difficulty].marginOfError);
+  }, [playerColor, targetColor, difficulty]);
 
   const handleColorChange = (color, value) => {
     setPlayerColor(prevColor => ({ ...prevColor, [color]: parseInt(value) }));
@@ -49,8 +58,8 @@ const ColorMatcher = () => {
     const diff = Math.abs(targetColor.r - playerColor.r) +
                  Math.abs(targetColor.g - playerColor.g) +
                  Math.abs(targetColor.b - playerColor.b);
-    if (diff <= 30) {
-      setScore(score + 1);
+    if (diff <= difficultySettings[difficulty].marginOfError) {
+      setScore(score + difficultySettings[difficulty].pointsPerMatch);
       setTargetColor(getRandomColor());
       setShowPulse(true);
       setTimeout(() => setShowPulse(false), 300);
@@ -62,10 +71,19 @@ const ColorMatcher = () => {
 
   const handleRestart = () => {
     setScore(0);
-    setTimeLeft(60);
+    setTimeLeft(difficultySettings[difficulty].timeLimit);
     setGameOver(false);
     setTargetColor(getRandomColor());
     setPlayerColor({ r: 128, g: 128, b: 128 });
+  };
+
+  const handleDifficultyChange = (event) => {
+    const newDifficulty = event.target.value;
+    setDifficulty(newDifficulty);
+    setTimeLeft(prevTime => Math.ceil((prevTime / difficultySettings[difficulty].timeLimit) * difficultySettings[newDifficulty].timeLimit));
+    if (gameOver) {
+      handleRestart();
+    }
   };
 
   return (
@@ -96,7 +114,7 @@ const ColorMatcher = () => {
         <Box sx={{ width: '50%', mx: 2 }}>
           <LinearProgress
             variant="determinate"
-            value={(timeLeft / 60) * 100}
+            value={(timeLeft / difficultySettings[difficulty].timeLimit) * 100}
             sx={{
               height: 10,
               borderRadius: 5,
@@ -108,6 +126,18 @@ const ColorMatcher = () => {
           />
         </Box>
         <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{timeLeft}s</Typography>
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <Select
+          value={difficulty}
+          onChange={handleDifficultyChange}
+          sx={{ width: '100%' }}
+        >
+          <MenuItem value="easy">Easy</MenuItem>
+          <MenuItem value="medium">Medium</MenuItem>
+          <MenuItem value="hard">Hard</MenuItem>
+        </Select>
       </Box>
 
       <Box sx={{
