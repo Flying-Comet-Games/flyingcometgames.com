@@ -80,10 +80,8 @@ const ColorMatcher = () => {
   const handleDifficultyChange = (event) => {
     const newDifficulty = event.target.value;
     setDifficulty(newDifficulty);
-    setTimeLeft(prevTime => Math.ceil((prevTime / difficultySettings[difficulty].timeLimit) * difficultySettings[newDifficulty].timeLimit));
-    if (gameOver) {
-      handleRestart();
-    }
+    setTimeLeft(difficultySettings[newDifficulty].timeLimit);
+    handleRestart();
   };
 
   return (
@@ -244,24 +242,25 @@ const ColorMatcher = () => {
         >
           CHECK MATCH
         </Button>
-        {gameOver && (
-          <Button
-            variant="contained"
-            onClick={handleRestart}
-            color="secondary"
-            sx={{
-              fontSize: '1.1rem',
-              py: 1.2,
-              px: 4,
-              borderRadius: 3,
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-              width: '100%',
-              mt: 1,
-            }}
-          >
-            Restart
-          </Button>
-        )}
+        <Button
+          variant="contained"
+          onClick={handleRestart}
+          sx={{
+            fontSize: '1.1rem',
+            py: 1.2,
+            px: 4,
+            borderRadius: 3,
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            width: '100%',
+            mt: 2,
+            background: 'linear-gradient(45deg, #ff6b6b 30%, #feca57 90%)',
+            '&:hover': {
+              background: 'linear-gradient(45deg, #feca57 30%, #ff6b6b 90%)',
+            },
+          }}
+        >
+          RESTART
+        </Button>
       </Box>
     </Box>
   );
