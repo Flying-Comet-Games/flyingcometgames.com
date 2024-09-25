@@ -32,6 +32,9 @@ jobs:
         CI: false
       run: npm run build
 
+    - name: Create 404.html as a fallback for client-side routing
+      run: cp build/index.html build/404.html
+
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
       with:

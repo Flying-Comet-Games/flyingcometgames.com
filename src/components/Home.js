@@ -55,7 +55,7 @@ const Home = () => {
         minHeight: 'calc(100vh - 56px)',
         display: 'flex',
         flexDirection: 'column',
-        background: 'linear-gradient(120deg, #f0f0f0 0%, #e0e0e0 100%)',
+        // background: 'linear-gradient(120deg, #f0f0f0 0%, #e0e0e0 100%)',
       }}
     >
       <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
