@@ -6,43 +6,77 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import PaletteIcon from '@mui/icons-material/Palette';
-import GridViewIcon from '@mui/icons-material/GridView';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import ShapesIcon from '@mui/icons-material/Category';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import EcoIcon from '@mui/icons-material/NaturePeople';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
-const GameButton = ({ to, title, description, icon, color }) => (
+const GameButton = ({ to, title, description, logoSrc }) => (
   <Button
     component={Link}
     to={to}
     variant="contained"
-    startIcon={icon}
     sx={{
       width: '100%',
-      height: { xs: '130px', sm: '140px', md: '160px' },
+      height: { xs: '160px', sm: '180px', md: '200px' },
       padding: { xs: 1, sm: 2 },
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       textAlign: 'center',
-      background: `linear-gradient(45deg, ${color} 30%, ${color}88 90%)`,
+      background: theme => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
+      color: 'white',
       transition: 'all 0.3s ease',
       '&:hover': {
         transform: 'scale(1.03)',
-        boxShadow: `0 4px 8px ${color}66`,
+        boxShadow: theme => `0 4px 8px ${theme.palette.primary.main}66`,
         filter: 'brightness(1.1)',
       },
+      overflow: 'hidden',
     }}
   >
-    {React.cloneElement(icon, { style: { fontSize: '1.5rem', marginBottom: '4px' } })}
-    <Typography variant="subtitle1" component="div" fontWeight="bold" gutterBottom>
+    <Box
+      component="img"
+      src={process.env.PUBLIC_URL + logoSrc}
+      alt={`${title} logo`}
+      sx={{
+        width: { xs: '60px', sm: '70px', md: '80px' },
+        height: { xs: '60px', sm: '70px', md: '80px' },
+        objectFit: 'cover',
+        borderRadius: '12px',
+        mb: 1,
+      }}
+    />
+    <Typography
+      variant="subtitle1"
+      component="div"
+      fontWeight="bold"
+      sx={{
+        fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' },
+        lineHeight: 1.2,
+        mb: 0.5,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: '-webkit-box',
+        WebkitLineClamp: 1,
+        WebkitBoxOrient: 'vertical',
+        color: 'inherit',
+      }}
+    >
       {title}
     </Typography>
-    <Typography variant="body2" sx={{ mt: 0.5, fontSize: '0.75rem', lineHeight: 1.2 }}>{description}</Typography>
+    <Typography
+      variant="body2"
+      sx={{
+        fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+        lineHeight: 1.2,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        color: 'inherit',
+      }}
+    >
+      {description}
+    </Typography>
   </Button>
 );
 
@@ -53,115 +87,118 @@ const Home = () => {
   return (
     <Box
       sx={{
-        textAlign: 'center',
-        px: 2,
-        py: { xs: 2, sm: 3, md: 4 },
-        minHeight: 'calc(100vh - 56px)',
         display: 'flex',
         flexDirection: 'column',
+        minHeight: '100vh',
+        overflow: 'auto',
+        backgroundColor: theme.palette.background.default,
       }}
     >
-      <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
-        <img src={`${process.env.PUBLIC_URL}/assets/logo.svg`}  alt="Flying Comet Games Logo" style={{ width: '60px', height: 'auto', marginBottom: '0.5rem' }} />
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{
-            fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
-            fontWeight: 700,
-            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
-          }}
-        >
-          Hybrid Casual Game Portal
-        </Typography>
-      </Box>
-
-      <Grid
-        container
-        spacing={2}
+      <Box
         sx={{
-          maxWidth: '100%',
-          margin: 'auto',
-          flex: 1,
-          justifyContent: 'center',
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          px: 2,
+          py: { xs: 2, sm: 3, md: 4 },
         }}
       >
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/color-matcher"
-            title="Color Matcher"
-            description="Test your color matching skills!"
-            icon={<PaletteIcon />}
-            color="#2196F3"
-          />
+        <Box
+          sx={{
+            maxWidth: '600px',
+            textAlign: 'center',
+            mb: { xs: 3, sm: 4, md: 5 },
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h1"
+            gutterBottom
+            sx={{
+              fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
+              fontWeight: 700,
+              mb: 2,
+            }}
+          >
+            Hi, we're Calli and Eden.
+          </Typography>
+          <Typography
+            variant="h5"
+            component="h2"
+            gutterBottom
+            sx={{
+              fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+              fontWeight: 500,
+              mb: 2,
+            }}
+          >
+            Together we're building hybrid-casual games at lightning speed.
+          </Typography>
+          <Typography
+            variant="h6"
+            component="h3"
+            sx={{
+              fontSize: { xs: '0.875rem', sm: '1rem', md: '1.25rem' },
+              fontWeight: 400,
+            }}
+          >
+            We call this venture Flying Comet Games.
+          </Typography>
+        </Box>
+
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            maxWidth: '100%',
+            justifyContent: 'center',
+          }}
+        >
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
+              to="/color-matcher"
+              title="Color Matcher"
+              description="Test your color matching skills!"
+              logoSrc="/assets/game-logos/color-matcher-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
+              to="/digit-shift"
+              title="Digit Shift"
+              description="Shift digits to solve the puzzle!"
+              logoSrc="/assets/game-logos/digit-shift-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
+              to="/word-wizard"
+              title="Word Wizard"
+              description="Unscramble words against the clock!"
+              logoSrc="/assets/game-logos/word-wizard-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
+              to="/shape-sorter"
+              title="Shape Sorter"
+              description="Sort shapes by color and type!"
+              logoSrc="/assets/game-logos/shape-sorter-logo.png"
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/digit-shift"
-            title="Digit Shift"
-            description="Shift digits to solve the puzzle!"
-            icon={<GridViewIcon />}
-            color="#4CAF50"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/word-wizard"
-            title="Word Wizard"
-            description="Unscramble words against the clock!"
-            icon={<AutoFixHighIcon />}
-            color="#FFC107"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/shape-sorter"
-            title="Shape Sorter"
-            description="Sort shapes by color and type!"
-            icon={<ShapesIcon />}
-            color="#9C27B0"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/pattern-predictor"
-            title="Pattern Predictor"
-            description="Predict the next shape in the sequence!"
-            icon={<VisibilityIcon />}
-            color="#FF5722"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/swamp-cleanup-challenge"
-            title="Swamp Cleanup"
-            description="Help Shrek keep his swamp ogre-only!"
-            icon={<EcoIcon />}
-            color="#4CAF50"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <GameButton
-            to="/tarnished-ordeal"
-            title="Tarnished's Ordeal"
-            description="Face Elden Ring bosses in quick battles!"
-            icon={<EmojiEventsIcon />}
-            color="#FFD700"
-          />
-        </Grid>
-      </Grid>
+      </Box>
 
       <Box
         component="footer"
         sx={{
-          mt: { xs: 2, sm: 3, md: 4 },
           py: 2,
+          px: 2,
+          mt: 'auto',
+          borderTop: '1px solid',
+          borderColor: 'divider',
           textAlign: 'center',
-          borderTop: '1px solid #ddd',
         }}
       >
         <Typography variant="body2" color="text.secondary">

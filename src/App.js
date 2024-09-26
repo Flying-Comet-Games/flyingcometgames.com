@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
@@ -18,20 +17,7 @@ import PatternPredictor from './games/PatternPredictor';
 import SwampCleanupChallenge from './games/SwampCleanupChallenge';
 import TarnishedOrdeal from './games/TarnishedOrdeal';
 
-// Create a theme instance.
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#556cd6',
-    },
-    secondary: {
-      main: '#19857b',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-});
+import theme from './theme';
 
 function App() {
   return (
@@ -39,11 +25,15 @@ function App() {
       <CssBaseline />
       <Router basename={process.env.PUBLIC_URL}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar position="static" elevation={0}>
             <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Game Portal
-              </Typography>
+              <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/logo-vertical.svg`}
+                  alt="Flying Comet Games Logo"
+                  style={{ height: '40px', marginRight: '10px' }}
+                />
+              </Box>
               <Button color="inherit" component={Link} to="/">
                 Home
               </Button>
