@@ -80,6 +80,69 @@ const GameButton = ({ to, title, description, logoSrc }) => (
   </Button>
 );
 
+const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: { xs: 'column', md: 'row' },
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 4,
+      py: 4,
+      px: 2,
+      backgroundColor: theme => theme.palette.primary.main,
+      borderRadius: 2,
+      color: 'white',
+      mb: 4,
+    }}
+  >
+    <a
+      href={appStoreLink}
+      style={{
+        width: '170px',
+        height: '170px',
+        borderRadius: '22px',
+        overflow: 'hidden',
+        display: 'inline-block',
+        verticalAlign: 'middle',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      }}
+    >
+      <img
+        src={appStoreImageSrc}
+        alt={title}
+        style={{
+          width: '170px',
+          height: '170px',
+          borderRadius: '22px',
+          overflow: 'hidden',
+          display: 'inline-block',
+          verticalAlign: 'middle',
+        }}
+      />
+    </a>
+    <Box sx={{ textAlign: { xs: 'center', md: 'left' }, maxWidth: '500px' }}>
+      <Typography variant="h4" component="h2" gutterBottom fontWeight="bold" color="white">
+        {title}
+      </Typography>
+      <Typography variant="body1" paragraph color="white">
+        {description}
+      </Typography>
+      <Button
+        variant="contained"
+        color="secondary"
+        component="a"
+        href={appStoreLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{ mt: 2 }}
+      >
+        Download on App Store
+      </Button>
+    </Box>
+  </Box>
+);
+
 const Home = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -146,6 +209,13 @@ const Home = () => {
             We call this venture Flying Comet Games.
           </Typography>
         </Box>
+
+        <FeaturedGame
+          title="Keep Bufo Alive"
+          description="Help Bufo navigate through challenging environments and stay alive in this exciting adventure!"
+          appStoreLink="https://apps.apple.com/us/app/keep-bufo-alive/id6596775642?itscg=30200&itsct=apps_box_artwork"
+          appStoreImageSrc="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/9c/e4/e39ce4cf-7e03-badc-7b2a-9d0bd4277a22/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/540x540bb.jpg"
+        />
 
         <Grid
           container
