@@ -1,42 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { Box, Typography, Button, Grid, Paper, CircularProgress, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import LinearProgress from '@mui/material/LinearProgress';
 
 const shapes = ['circle', 'square', 'triangle', 'diamond'];
-const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FAD02E'];
+const colors = ['primary', 'secondary', 'error', 'warning'];
+const fills = ['filled', 'outlined'];
 
-const generatePattern = () => {
-  const startShapeIndex = Math.floor(Math.random() * shapes.length);
-  const startColorIndex = Math.floor(Math.random() * colors.length);
-  const pattern = [];
-  for (let i = 0; i < 4; i++) {
-    pattern.push({
-      shape: shapes[(startShapeIndex + i) % shapes.length],
-      color: colors[(startColorIndex + i) % colors.length],
-    });
+const generatePattern = (level) => {
+  const patternLength = Math.min(3 + Math.floor(level / 2), 6);
+  return Array.from({ length: patternLength }, () => ({
+    shape: shapes[Math.floor(Math.random() * shapes.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
+    fill: fills[Math.floor(Math.random() * fills.length)]
+  }));
+};
+
+const Shape = ({ shape, color, fill }) => {
+  const theme = useTheme();
+  const size = 60;
+  const style = {
+    width: size,
+    height: size,
+    backgroundColor: fill === 'filled' ? theme.palette[color].main : 'transparent',
+    border: `2px solid ${theme.palette[color].main}`,
+    borderRadius: shape === 'circle' ? '50%' : shape === 'square' ? '0%' : '0%',
+    transform: shape === 'diamond' ? 'rotate(45deg)' : 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  };
+
+  if (shape === 'triangle') {
+    return (
+      <Box sx={{ width: size, height: size, position: 'relative' }}>
+        <Box
+          sx={{
+            width: 0,
+            height: 0,
+            borderLeft: `${size / 2}px solid transparent`,
+            borderRight: `${size / 2}px solid transparent`,
+            borderBottom: `${size}px solid ${fill === 'filled' ? theme.palette[color].main : 'transparent'}`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+          }}
+        />
+        <Box
+          sx={{
+            width: 0,
+            height: 0,
+            borderLeft: `${size / 2}px solid transparent`,
+            borderRight: `${size / 2}px solid transparent`,
+            borderBottom: `${size}px solid ${theme.palette[color].main}`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            clipPath: fill === 'filled' ? 'none' : 'polygon(3% 3%, 97% 3%, 50% 97%)',
+          }}
+        />
+      </Box>
+    );
   }
-  return pattern;
+
+  return <Box sx={style} />;
 };
 
 const PatternPredictor = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const [pattern, setPattern] = useState([]);
   const [options, setOptions] = useState([]);
   const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-
-  useEffect(() => {
-    startNewRound();
-  }, []);
+  const [powerUpActive, setPowerUpActive] = useState(false);
+  const [powerUpCooldown, setPowerUpCooldown] = useState(0);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     if (!gameOver && timeLeft > 0) {
@@ -47,198 +86,144 @@ const PatternPredictor = () => {
     }
   }, [timeLeft, gameOver]);
 
+  useEffect(() => {
+    startNewRound();
+  }, [level]);
+
+  useEffect(() => {
+    if (powerUpCooldown > 0) {
+      const timer = setTimeout(() => setPowerUpCooldown(powerUpCooldown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [powerUpCooldown]);
+
   const startNewRound = () => {
-    const newPattern = generatePattern();
+    const newPattern = generatePattern(level);
     setPattern(newPattern);
-    const correctNext = {
-      shape: shapes[(shapes.indexOf(newPattern[3].shape) + 1) % shapes.length],
-      color: colors[(colors.indexOf(newPattern[3].color) + 1) % colors.length],
-    };
-    const wrongOptions = [
-      { shape: correctNext.shape, color: colors[(colors.indexOf(correctNext.color) + 1) % colors.length] },
-      { shape: shapes[(shapes.indexOf(correctNext.shape) + 1) % shapes.length], color: correctNext.color },
-      { shape: shapes[(shapes.indexOf(correctNext.shape) + 1) % shapes.length], color: colors[(colors.indexOf(correctNext.color) + 1) % colors.length] },
-    ];
-    setOptions([correctNext, ...wrongOptions].sort(() => Math.random() - 0.5));
+    const correctOption = [...newPattern, generateNextInPattern(newPattern)];
+    const wrongOptions = Array.from({ length: 3 }, () =>
+      [...newPattern, generateRandomShape()]
+    );
+    setOptions(shuffle([correctOption, ...wrongOptions]));
   };
 
-  const handleOptionClick = (option) => {
-    const isCorrect =
-      option.shape === shapes[(shapes.indexOf(pattern[3].shape) + 1) % shapes.length] &&
-      option.color === colors[(colors.indexOf(pattern[3].color) + 1) % colors.length];
+  const generateNextInPattern = (pattern) => {
+    const lastShape = pattern[pattern.length - 1];
+    return {
+      shape: shapes[(shapes.indexOf(lastShape.shape) + 1) % shapes.length],
+      color: colors[(colors.indexOf(lastShape.color) + 1) % colors.length],
+      fill: fills[(fills.indexOf(lastShape.fill) + 1) % fills.length]
+    };
+  };
 
-    setFeedback(isCorrect ? 'correct' : 'incorrect');
-    setTimeout(() => setFeedback(null), 500);
+  const generateRandomShape = () => ({
+    shape: shapes[Math.floor(Math.random() * shapes.length)],
+    color: colors[Math.floor(Math.random() * colors.length)],
+    fill: fills[Math.floor(Math.random() * fills.length)]
+  });
 
-    if (isCorrect) {
-      setScore(score + 1);
+  const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-    startNewRound();
+    return array;
+  };
+
+  const handleOptionClick = (selectedOption) => {
+    if (JSON.stringify(selectedOption) === JSON.stringify([...pattern, generateNextInPattern(pattern)])) {
+      setScore(score + (powerUpActive ? 2 : 1));
+      if (score + 1 >= level * 5) {
+        setLevel(level + 1);
+        setSnackbarMessage(`Level up! Now at level ${level + 1}`);
+        setShowSnackbar(true);
+      } else {
+        startNewRound();
+      }
+    } else {
+      setTimeLeft(Math.max(0, timeLeft - 5));
+      setSnackbarMessage('Incorrect! -5 seconds');
+      setShowSnackbar(true);
+    }
+    setPowerUpActive(false);
   };
 
   const handleRestart = () => {
     setScore(0);
+    setLevel(1);
     setTimeLeft(60);
     setGameOver(false);
+    setPowerUpActive(false);
+    setPowerUpCooldown(0);
     startNewRound();
   };
 
-  const renderShape = (shape, color, size = 50) => {
-    switch (shape) {
-      case 'circle':
-        return <div style={{ width: size, height: size, borderRadius: '50%', backgroundColor: color }} />;
-      case 'square':
-        return <div style={{ width: size, height: size, backgroundColor: color }} />;
-      case 'triangle':
-        return (
-          <div
-            style={{
-              width: 0,
-              height: 0,
-              borderLeft: `${size / 2}px solid transparent`,
-              borderRight: `${size / 2}px solid transparent`,
-              borderBottom: `${size}px solid ${color}`,
-            }}
-          />
-        );
-      case 'diamond':
-        return (
-          <div
-            style={{
-              width: size,
-              height: size,
-              backgroundColor: color,
-              transform: 'rotate(45deg)',
-            }}
-          />
-        );
-      default:
-        return null;
+  const activatePowerUp = () => {
+    if (powerUpCooldown === 0) {
+      setPowerUpActive(true);
+      setPowerUpCooldown(30);
+      setSnackbarMessage('Power-up activated! Next correct answer worth double points');
+      setShowSnackbar(true);
     }
   };
 
   return (
-    <Box sx={{
-      textAlign: 'center',
-      px: 2,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      maxWidth: 600,
-      margin: 'auto',
-      pt: 2,
-      pb: 2,
-    }}>
-      <Typography variant="h4" sx={{ fontSize: '1.8rem', fontWeight: 800, mb: 2 }}>Pattern Predictor</Typography>
-
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mb: 2,
-        p: 1.5,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-      }}>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Score: {score}</Typography>
-        <Box sx={{ width: '50%', mx: 2 }}>
-          <LinearProgress
-            variant="determinate"
-            value={(timeLeft / 60) * 100}
-            sx={{
-              height: 10,
-              borderRadius: 5,
-              '& .MuiLinearProgress-bar': {
-                borderRadius: 5,
-                background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
-              },
-            }}
-          />
-        </Box>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{timeLeft}s</Typography>
+    <Box sx={{ textAlign: 'center', py: 2 }}>
+      <Typography variant="h4" sx={{ mb: 2 }}>Pattern Predictor</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <Typography>Score: {score}</Typography>
+        <Typography>Level: {level}</Typography>
+        <Typography>Time: {timeLeft}s</Typography>
       </Box>
-
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        Predict the next shape and color in the sequence!
-      </Typography>
-
-      <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        {pattern.map((item, index) => (
-          <Box key={index} sx={{ mx: 1 }}>
-            {renderShape(item.shape, item.color)}
-          </Box>
-        ))}
-        <Box sx={{ mx: 1, width: 50, height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant="h5">?</Typography>
-        </Box>
-      </Box>
-
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        {options.map((option, index) => (
-          <Grid item xs={6} key={index}>
-            <Button
-              onClick={() => handleOptionClick(option)}
-              disabled={gameOver}
-              sx={{
-                width: '100%',
-                height: 80,
-                borderRadius: 2,
-                border: '2px solid #ccc',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                },
-              }}
-            >
-              {renderShape(option.shape, option.color, 40)}
-            </Button>
+      {!gameOver ? (
+        <>
+          <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+            <Typography variant="h6" sx={{ mb: 1 }}>Current Pattern:</Typography>
+            <Grid container justifyContent="center" spacing={1}>
+              {pattern.map((item, index) => (
+                <Grid item key={index}>
+                  <Shape {...item} />
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+          <Typography variant="h6" sx={{ mb: 1 }}>Predict the next shape:</Typography>
+          <Grid container spacing={2} justifyContent="center">
+            {options.map((option, index) => (
+              <Grid item xs={6} sm={3} key={index}>
+                <Button
+                  variant="outlined"
+                  onClick={() => handleOptionClick(option)}
+                  sx={{ p: 1, minHeight: 80 }}
+                >
+                  <Shape {...option[option.length - 1]} />
+                </Button>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-
-      {feedback && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            padding: 2,
-            borderRadius: 2,
-            backgroundColor: feedback === 'correct' ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: '1.5rem',
-          }}
-        >
-          {feedback === 'correct' ? 'Correct!' : 'Try Again!'}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={activatePowerUp}
+            disabled={powerUpCooldown > 0}
+            sx={{ mt: 2 }}
+          >
+            {powerUpCooldown > 0 ? `Power-up (${powerUpCooldown}s)` : 'Activate Power-up'}
+          </Button>
+        </>
+      ) : (
+        <Box>
+          <Typography variant="h5" sx={{ mb: 2 }}>Game Over!</Typography>
+          <Typography variant="h6" sx={{ mb: 2 }}>Final Score: {score}</Typography>
+          <Button variant="contained" onClick={handleRestart}>Play Again</Button>
         </Box>
       )}
-
-      <Button
-        variant="contained"
-        onClick={handleRestart}
-        sx={{
-          fontSize: '1.1rem',
-          py: 1.2,
-          px: 4,
-          borderRadius: 3,
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          width: '100%',
-          mt: 2,
-          background: 'linear-gradient(45deg, #ff6b6b 30%, #feca57 90%)',
-          '&:hover': {
-            background: 'linear-gradient(45deg, #feca57 30%, #ff6b6b 90%)',
-          },
-        }}
-      >
-        {gameOver ? 'PLAY AGAIN' : 'RESTART'}
-      </Button>
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setShowSnackbar(false)}
+        message={snackbarMessage}
+      />
     </Box>
   );
 };

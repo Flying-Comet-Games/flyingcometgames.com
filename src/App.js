@@ -18,6 +18,7 @@ import ShapeSorter from './games/ShapeSorter';
 import PatternPredictor from './games/PatternPredictor';
 import SwampCleanupChallenge from './games/SwampCleanupChallenge';
 import TarnishedOrdeal from './games/TarnishedOrdeal';
+import ColorFlood from './games/ColorFlood';
 
 import theme from './theme';
 
@@ -75,6 +76,8 @@ function App() {
             <Route path="/pattern-predictor" element={<PatternPredictor />} />
             <Route path="/swamp-cleanup-challenge" element={<SwampCleanupChallenge />} />
             <Route path="/tarnished-ordeal" element={<TarnishedOrdeal />} />
+            <Route path="/pattern-predictor" element={<PatternPredictor />} />
+            <Route path="/color-flood" element={<ColorFlood />} />
           </Routes>
         </Container>
       </Router>

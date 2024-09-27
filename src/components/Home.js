@@ -155,6 +155,14 @@ const Home = () => {
         >
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
+              to="/color-flood"
+              title="Color Flood"
+              description="Flood the board with colors strategically!"
+              logoSrc="/assets/game-logos/color-flood-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
               to="/color-matcher"
               title="Color Matcher"
               description="Test your color matching skills!"
