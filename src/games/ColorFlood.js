@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { logEvent } from '../Analytics';
 
 const GRID_SIZE = 10;
 const COLORS = ['primary', 'purple', 'error', 'warning', 'info', 'success'];
@@ -19,6 +20,21 @@ const ColorFlood = () => {
   useEffect(() => {
     startNewGame();
   }, []);
+
+  useEffect(() => {
+    logEvent('Game', 'Start', 'ColorFlood');
+    const startTime = Date.now();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'ColorFlood', sessionTime);
+    };
+  }, []);
+
+    useEffect(() => {
+      if (win) {
+        logEvent('Game', 'Complete', 'ColorFlood');
+      }
+    }, [win]);
 
   const startNewGame = () => {
     const newGrid = Array(GRID_SIZE).fill().map(() => 

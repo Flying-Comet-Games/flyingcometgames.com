@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +9,9 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
+import CookieConsent from 'react-cookie-consent';
+import AppContent from './AppContent';
+import { initGA, logPageView, setUserId } from './Analytics';
 
 import ColorMatcher from './games/ColorMatcher';
 import DigitShift from './games/DigitShift';
@@ -24,49 +27,21 @@ import MemoryMaze from './games/MemoryMaze';
 import theme from './theme';
 
 function App() {
+  useEffect(() => {
+    initGA('G-1SN5WZ4TEC');
+    logPageView();
+
+    // Generate a unique user ID and set it
+    const userId = localStorage.getItem('userId') || Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('userId', userId);
+    setUserId(userId);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router basename={process.env.PUBLIC_URL}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static" elevation={0}>
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
-              <Box
-                component={Link}
-                to="/"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  textDecoration: 'none',
-                  color: 'inherit'
-                }}
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/logo-vertical.svg`}
-                  alt="Flying Comet Games Logo"
-                  style={{ height: '40px', marginRight: '10px' }}
-                />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton
-                  color="inherit"
-                  component={Link}
-                  to="/"
-                  aria-label="Home"
-                >
-                  <HomeIcon />
-                </IconButton>
-                <IconButton
-                  color="inherit"
-                  href="mailto:calli@enhancenothing.com,eden@enhancenothing.com"
-                  aria-label="Contact"
-                >
-                  <EmailIcon />
-                </IconButton>
-              </Box>
-            </Toolbar>
-          </AppBar>
-        </Box>
+        <AppContent />
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -81,6 +56,17 @@ function App() {
             <Route path="/color-flood" element={<ColorFlood />} />
             <Route path="/memory-maze" element={<MemoryMaze />} />
           </Routes>
+
+          <CookieConsent
+            location="bottom"
+            buttonText="Accept"
+            cookieName="ga_cookie_consent"
+            style={{ background: "#2B373B" }}
+            buttonStyle={{ background: theme.palette.primary.main, color: "#ffffff", fontSize: "13px" }}
+            expires={150}
+          >
+            This website uses cookies to enhance the user experience and analyze site traffic.
+          </CookieConsent>
         </Container>
       </Router>
     </ThemeProvider>
