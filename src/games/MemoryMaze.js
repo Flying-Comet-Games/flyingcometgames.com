@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar, LinearProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const GRID_SIZE = 5;
 const PATH_LENGTH = 8;
@@ -23,6 +24,15 @@ const MemoryMaze = () => {
   useEffect(() => {
     initializeMaze();
   }, []);
+
+  useEffect(() => {
+    if (gameState === 'start') {
+      incrementGamesPlayed('MemoryMaze');
+      logEvent('Game', 'Start', 'MemoryMaze');
+    } else if (gameState === 'lost') {
+      logEvent('Game', 'End', 'MemoryMaze', score);
+    }
+  }, [gameState, score]);
 
   const initializeMaze = () => {
     const newMaze = Array(GRID_SIZE).fill().map(() => Array(GRID_SIZE).fill(0));
@@ -57,6 +67,7 @@ const MemoryMaze = () => {
     setGameState('memorize');
     setShowPath(true);
     setMemorizeProgress(0);
+    logEvent('Game', 'RoundStart', 'MemoryMaze', score + 1);
     const intervalId = setInterval(() => {
       setMemorizeProgress((oldProgress) => {
         const newProgress = oldProgress + (100 / (SHOW_PATH_TIME / 100));
@@ -106,6 +117,7 @@ const MemoryMaze = () => {
       setScore(score + 1);
       setSnackbarMessage('Correct! Starting next round...');
       setShowSnackbar(true);
+      logEvent('Game', 'RoundWon', 'MemoryMaze', score + 1);
       setTimeout(() => {
         initializeMaze();
         setPlayerPath([]);
@@ -113,9 +125,11 @@ const MemoryMaze = () => {
       }, 1500);
     } else {
       setAttempts(attempts + 1);
+      logEvent('Game', 'IncorrectAttempt', 'MemoryMaze', attempts + 1);
       if (attempts + 1 >= MAX_ATTEMPTS) {
         setGameState('lost');
         setSnackbarMessage('Game Over! You ran out of attempts.');
+        incrementGamesCompleted('MemoryMaze');
       } else {
         setSnackbarMessage(`Incorrect. ${MAX_ATTEMPTS - attempts - 1} attempts left.`);
         setPlayerPath([]);
@@ -130,6 +144,7 @@ const MemoryMaze = () => {
     initializeMaze();
     setPlayerPath([]);
     setGameState('start');
+    logEvent('Game', 'Restart', 'MemoryMaze');
   };
 
   return (

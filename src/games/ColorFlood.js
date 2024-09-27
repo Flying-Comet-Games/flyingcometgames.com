@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { logEvent } from '../Analytics';
+import { logEvent } from '../analytics';
 
 const GRID_SIZE = 10;
 const COLORS = ['primary', 'purple', 'error', 'warning', 'info', 'success'];
@@ -22,6 +22,7 @@ const ColorFlood = () => {
   }, []);
 
   useEffect(() => {
+    incrementGamesPlayed('ColorFlood');
     logEvent('Game', 'Start', 'ColorFlood');
     const startTime = Date.now();
     return () => {
@@ -30,14 +31,15 @@ const ColorFlood = () => {
     };
   }, []);
 
-    useEffect(() => {
-      if (win) {
-        logEvent('Game', 'Complete', 'ColorFlood');
-      }
-    }, [win]);
+  useEffect(() => {
+    if (win) {
+      incrementGamesCompleted('ColorFlood');
+      logEvent('Game', 'Complete', 'ColorFlood', moves);
+    }
+  }, [win, moves]);
 
   const startNewGame = () => {
-    const newGrid = Array(GRID_SIZE).fill().map(() => 
+    const newGrid = Array(GRID_SIZE).fill().map(() =>
       Array(GRID_SIZE).fill().map(() => COLORS[Math.floor(Math.random() * COLORS.length)])
     );
     setGrid(newGrid);
@@ -57,7 +59,7 @@ const ColorFlood = () => {
     while (stack.length > 0) {
       const [x, y] = stack.pop();
       if (x < 0 || x >= GRID_SIZE || y < 0 || y >= GRID_SIZE || newGrid[x][y] !== originalColor) continue;
-      
+
       newGrid[x][y] = color;
       stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
     }
@@ -112,7 +114,7 @@ const ColorFlood = () => {
       </Box>
 
       <Grid container spacing={0.5} sx={{ width: 300, height: 300, margin: 'auto', mb: 2 }}>
-        {grid.map((row, i) => 
+        {grid.map((row, i) =>
           row.map((cell, j) => (
             <Grid item xs={1.2} key={`${i}-${j}`}>
               <Box 
@@ -131,8 +133,8 @@ const ColorFlood = () => {
       <Grid container spacing={1} justifyContent="center" sx={{ mb: 2 }}>
         {COLORS.map((color) => (
           <Grid item key={color}>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               onClick={() => floodFill(color)}
               disabled={gameOver}
               sx={{

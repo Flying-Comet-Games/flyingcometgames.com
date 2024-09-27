@@ -8,34 +8,35 @@ export const logPageView = () => {
   ReactGA.send({ hitType: "pageview", page: window.location.pathname });
 };
 
-export const logEvent = (category, action, label) => {
+export const logEvent = (category, action, label, value) => {
   ReactGA.event({
     category: category,
     action: action,
     label: label,
+    value: value,
+  });
+};
+
+export const incrementGamesPlayed = (gameName) => {
+  ReactGA.event({
+    category: 'Game',
+    action: 'Played',
+    label: gameName,
+    game_name: gameName,
+    games_played: 1,
+  });
+};
+
+export const incrementGamesCompleted = (gameName) => {
+  ReactGA.event({
+    category: 'Game',
+    action: 'Completed',
+    label: gameName,
+    game_name: gameName,
+    games_completed: 1,
   });
 };
 
 export const setUserId = (userId) => {
   ReactGA.set({ userId: userId });
 };
-
-export const incrementGamesPlayed = (gameName) => {
-    ReactGA.event({
-      category: 'Game',
-      action: 'Played',
-      label: gameName,
-      metric1: 1, // Increment Games Played metric
-      dimension1: gameName, // Set Game Name dimension
-    });
-  };
-
-  export const incrementGamesCompleted = (gameName) => {
-    ReactGA.event({
-      category: 'Game',
-      action: 'Completed',
-      label: gameName,
-      metric2: 1, // Increment Games Completed metric
-      dimension1: gameName, // Set Game Name dimension
-    });
-  };

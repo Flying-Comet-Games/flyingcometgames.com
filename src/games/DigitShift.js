@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import UndoIcon from '@mui/icons-material/Undo';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const DigitShift = () => {
   const theme = useTheme();
@@ -20,6 +21,16 @@ const DigitShift = () => {
   const [isSolved, setIsSolved] = useState(false);
   const [moveHistory, setMoveHistory] = useState([]);
   const [correctTiles, setCorrectTiles] = useState(new Set());
+
+  useEffect(() => {
+    incrementGamesPlayed('DigitShift');
+    logEvent('Game', 'Start', 'DigitShift');
+    const startTime = Date.now();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'DigitShift', sessionTime);
+    };
+  }, []);
 
   const initializeBoard = () => {
     let numbers = Array.from({length: 15}, (_, i) => i + 1);
@@ -48,15 +59,18 @@ const DigitShift = () => {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameOver(true);
+      logEvent('Game', 'TimeUp', 'DigitShift', moves);
     }
-  }, [timeLeft, gameOver]);
+  }, [timeLeft, gameOver, moves]);
 
   useEffect(() => {
     if (isBoardSolved()) {
       setIsSolved(true);
       setGameOver(true);
+      incrementGamesCompleted('DigitShift');
+      logEvent('Game', 'Complete', 'DigitShift', moves);
     }
-  }, [board]);
+  }, [board, moves]);
 
   const isBoardSolved = () => {
     for (let i = 0; i < 15; i++) {
@@ -86,6 +100,7 @@ const DigitShift = () => {
       setMoves(moves + 1);
       setMoveHistory([...moveHistory, { from: index, to: emptyIndex }]);
       updateCorrectTiles(newBoard);
+      logEvent('Game', 'Move', 'DigitShift', moves + 1);
     }
   };
 
@@ -107,6 +122,8 @@ const DigitShift = () => {
     setTimeLeft(300);
     setGameOver(false);
     setIsSolved(false);
+    incrementGamesPlayed('DigitShift');
+    logEvent('Game', 'Restart', 'DigitShift');
   };
 
   const handleUndo = () => {
@@ -118,6 +135,7 @@ const DigitShift = () => {
       setMoves(moves - 1);
       setMoveHistory(moveHistory.slice(0, -1));
       updateCorrectTiles(newBoard);
+      logEvent('Game', 'Undo', 'DigitShift', moveHistory.length);
     }
   };
 
@@ -131,6 +149,7 @@ const DigitShift = () => {
 
     const randomMoveIndex = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     handleTileClick(randomMoveIndex);
+    logEvent('Game', 'Hint', 'DigitShift', moves);
   };
 
   const getTimeColor = () => {
@@ -141,13 +160,13 @@ const DigitShift = () => {
   };
 
   return (
-    <Box sx={{ 
-      textAlign: 'center', 
-      px: 2, 
-      height: '100%', 
-      display: 'flex', 
+    <Box sx={{
+      textAlign: 'center',
+      px: 2,
+      height: '100%',
+      display: 'flex',
       flexDirection: 'column',
-      maxWidth: 600, 
+      maxWidth: 600,
       margin: 'auto',
       pt: 2,
       pb: 2,
@@ -164,10 +183,10 @@ const DigitShift = () => {
         Digit Shift
       </Typography>
 
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         mb: 2,
         p: 1.5,
         bgcolor: 'background.paper',
@@ -176,9 +195,9 @@ const DigitShift = () => {
       }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Moves: {moves}</Typography>
         <Box sx={{ width: '50%', mx: 2 }}>
-          <LinearProgress 
-            variant="determinate" 
-            value={(timeLeft / 300) * 100} 
+          <LinearProgress
+            variant="determinate"
+            value={(timeLeft / 300) * 100}
             sx={{
               height: 10,
               borderRadius: 5,
@@ -192,8 +211,8 @@ const DigitShift = () => {
         <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</Typography>
       </Box>
 
-      <Box sx={{ 
-        display: 'grid', 
+      <Box sx={{
+        display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 1,
         mb: 2,
@@ -247,12 +266,12 @@ const DigitShift = () => {
             {isSolved ? `Congratulations! You solved it in ${moves} moves.` : "Time's up!"}
           </Typography>
         )}
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           onClick={handleRestart}
-          sx={{ 
-            fontSize: '1.1rem', 
-            py: 1.2, 
+          sx={{
+            fontSize: '1.1rem',
+            py: 1.2,
             px: 4,
             borderRadius: 3,
             boxShadow: '0 4px 6px rgba(0,0,0,0.1)',

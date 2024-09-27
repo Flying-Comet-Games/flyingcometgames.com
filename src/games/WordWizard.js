@@ -9,6 +9,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import IconButton from '@mui/material/IconButton';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 // Word list (you can expand this)
 const wordList = [
@@ -28,6 +29,28 @@ const WordWizard = () => {
   const [gameOver, setGameOver] = useState(false);
   const [hint, setHint] = useState('');
 
+  useEffect(() => {
+    incrementGamesPlayed('WordWizard');
+    logEvent('Game', 'Start', 'WordWizard');
+    const startTime = Date.now();
+    selectNewWord();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'WordWizard', sessionTime);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!gameOver && timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      setGameOver(true);
+      incrementGamesCompleted('WordWizard');
+      logEvent('Game', 'End', 'WordWizard', score);
+    }
+  }, [timeLeft, gameOver, score]);
+
   const scrambleWord = (word) => {
     return word.split('').sort(() => Math.random() - 0.5).join('');
   };
@@ -38,20 +61,8 @@ const WordWizard = () => {
     setScrambledWord(scrambleWord(newWord));
     setUserInput('');
     setHint('');
+    logEvent('Game', 'NewWord', 'WordWizard', newWord);
   };
-
-  useEffect(() => {
-    selectNewWord();
-  }, []);
-
-  useEffect(() => {
-    if (!gameOver && timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0) {
-      setGameOver(true);
-    }
-  }, [timeLeft, gameOver]);
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value.toUpperCase());
@@ -62,19 +73,23 @@ const WordWizard = () => {
       setScore(score + 1);
       selectNewWord();
       setTimeLeft(prev => Math.min(prev + 15, 60)); // Add 15 seconds, max 60
+      logEvent('Game', 'CorrectGuess', 'WordWizard', currentWord);
     } else {
       setTimeLeft(prev => Math.max(prev - 5, 0)); // Subtract 5 seconds, min 0
+      logEvent('Game', 'IncorrectGuess', 'WordWizard', currentWord);
     }
   };
 
   const handleShuffle = () => {
     setScrambledWord(scrambleWord(currentWord));
+    logEvent('Game', 'Shuffle', 'WordWizard');
   };
 
   const handleHint = () => {
     if (hint === '') {
       setHint(currentWord[0]);
       setTimeLeft(prev => Math.max(prev - 10, 0)); // Subtract 10 seconds for using hint
+      logEvent('Game', 'HintUsed', 'WordWizard');
     }
   };
 
@@ -83,6 +98,8 @@ const WordWizard = () => {
     setTimeLeft(60);
     setGameOver(false);
     selectNewWord();
+    incrementGamesPlayed('WordWizard');
+    logEvent('Game', 'Restart', 'WordWizard');
   };
 
   return (

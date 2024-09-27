@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, CircularProgress, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const shapes = ['circle', 'square', 'triangle', 'diamond'];
 const colors = ['primary', 'secondary', 'error', 'warning'];
@@ -78,16 +79,31 @@ const PatternPredictor = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
+    incrementGamesPlayed('PatternPredictor');
+    logEvent('Game', 'Start', 'PatternPredictor');
+    const startTime = Date.now();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'PatternPredictor', sessionTime);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!gameOver && timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameOver(true);
+      incrementGamesCompleted('PatternPredictor');
+      logEvent('Game', 'End', 'PatternPredictor', score);
     }
-  }, [timeLeft, gameOver]);
+  }, [timeLeft, gameOver, score]);
 
   useEffect(() => {
     startNewRound();
+    if (level > 1) {
+      logEvent('Game', 'LevelUp', 'PatternPredictor', level);
+    }
   }, [level]);
 
   useEffect(() => {
@@ -132,8 +148,10 @@ const PatternPredictor = () => {
 
   const handleOptionClick = (selectedOption) => {
     if (JSON.stringify(selectedOption) === JSON.stringify([...pattern, generateNextInPattern(pattern)])) {
-      setScore(score + (powerUpActive ? 2 : 1));
-      if (score + 1 >= level * 5) {
+      const pointsEarned = powerUpActive ? 2 : 1;
+      setScore(score + pointsEarned);
+      logEvent('Game', 'CorrectPrediction', 'PatternPredictor', pointsEarned);
+      if (score + pointsEarned >= level * 5) {
         setLevel(level + 1);
         setSnackbarMessage(`Level up! Now at level ${level + 1}`);
         setShowSnackbar(true);
@@ -144,6 +162,7 @@ const PatternPredictor = () => {
       setTimeLeft(Math.max(0, timeLeft - 5));
       setSnackbarMessage('Incorrect! -5 seconds');
       setShowSnackbar(true);
+      logEvent('Game', 'IncorrectPrediction', 'PatternPredictor');
     }
     setPowerUpActive(false);
   };
@@ -156,6 +175,8 @@ const PatternPredictor = () => {
     setPowerUpActive(false);
     setPowerUpCooldown(0);
     startNewRound();
+    incrementGamesPlayed('PatternPredictor');
+    logEvent('Game', 'Restart', 'PatternPredictor');
   };
 
   const activatePowerUp = () => {
@@ -164,6 +185,7 @@ const PatternPredictor = () => {
       setPowerUpCooldown(30);
       setSnackbarMessage('Power-up activated! Next correct answer worth double points');
       setShowSnackbar(true);
+      logEvent('Game', 'PowerUpActivated', 'PatternPredictor');
     }
   };
 

@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const ColorMatcher = () => {
   const theme = useTheme();
@@ -27,12 +28,30 @@ const ColorMatcher = () => {
   const [showPulse, setShowPulse] = useState(false);
   const [isCloseMatch, setIsCloseMatch] = useState(false);
   const [difficulty, setDifficulty] = useState('medium');
+  const [moves, setMoves] = useState(0);
 
   const difficultySettings = {
     easy: { marginOfError: 50, timeLimit: 90, pointsPerMatch: 1 },
     medium: { marginOfError: 30, timeLimit: 60, pointsPerMatch: 2 },
     hard: { marginOfError: 15, timeLimit: 45, pointsPerMatch: 3 },
   };
+
+  useEffect(() => {
+    incrementGamesPlayed('ColorMatcher');
+    logEvent('Game', 'Start', 'ColorMatcher');
+    const startTime = Date.now();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'ColorMatcher', sessionTime);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (gameOver) {
+      incrementGamesCompleted('ColorMatcher');
+      logEvent('Game', 'Complete', 'ColorMatcher', score);
+    }
+  }, [gameOver, score]);
 
   useEffect(() => {
     if (!gameOver && timeLeft > 0) {
@@ -52,6 +71,7 @@ const ColorMatcher = () => {
 
   const handleColorChange = (color, value) => {
     setPlayerColor(prevColor => ({ ...prevColor, [color]: parseInt(value) }));
+    setMoves(prevMoves => prevMoves + 1);
   };
 
   const handleCheckMatch = () => {
@@ -59,14 +79,18 @@ const ColorMatcher = () => {
                  Math.abs(targetColor.g - playerColor.g) +
                  Math.abs(targetColor.b - playerColor.b);
     if (diff <= difficultySettings[difficulty].marginOfError) {
-      setScore(score + difficultySettings[difficulty].pointsPerMatch);
+      setScore(prevScore => prevScore + difficultySettings[difficulty].pointsPerMatch);
       setTargetColor(getRandomColor());
       setShowPulse(true);
       setTimeout(() => setShowPulse(false), 300);
       if (navigator.vibrate) {
         navigator.vibrate(200);
       }
+      logEvent('Game', 'CorrectMatch', 'ColorMatcher', diff);
+    } else {
+      logEvent('Game', 'IncorrectMatch', 'ColorMatcher', diff);
     }
+    setMoves(prevMoves => prevMoves + 1);
   };
 
   const handleRestart = () => {
@@ -75,6 +99,9 @@ const ColorMatcher = () => {
     setGameOver(false);
     setTargetColor(getRandomColor());
     setPlayerColor({ r: 128, g: 128, b: 128 });
+    setMoves(0);
+    incrementGamesPlayed('ColorMatcher');
+    logEvent('Game', 'Restart', 'ColorMatcher');
   };
 
   const handleDifficultyChange = (event) => {
@@ -82,6 +109,7 @@ const ColorMatcher = () => {
     setDifficulty(newDifficulty);
     setTimeLeft(difficultySettings[newDifficulty].timeLimit);
     handleRestart();
+    logEvent('Game', 'DifficultyChange', 'ColorMatcher', newDifficulty);
   };
 
   return (

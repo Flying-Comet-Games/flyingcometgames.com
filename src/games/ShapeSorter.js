@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const shapes = ['circle', 'square', 'triangle', 'pentagon', 'hexagon'];
 const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
@@ -93,12 +94,20 @@ const ShapeSorter = () => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
   const [selectedShapes, setSelectedShapes] = useState([]);
+  const [roundCount, setRoundCount] = useState(0);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
+    incrementGamesPlayed('ShapeSorter');
+    logEvent('Game', 'Start', 'ShapeSorter');
+    const startTime = Date.now();
     startNewRound();
+    return () => {
+      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
+      logEvent('Game', 'SessionTime', 'ShapeSorter', sessionTime);
+    };
   }, []);
 
   useEffect(() => {
@@ -107,18 +116,21 @@ const ShapeSorter = () => {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameOver(true);
+      incrementGamesCompleted('ShapeSorter');
+      logEvent('Game', 'End', 'ShapeSorter', score);
     }
-  }, [timeLeft, gameOver]);
+  }, [timeLeft, gameOver, score]);
 
   const startNewRound = () => {
     const newShapes = generateShapes(16);
     setShapes(newShapes);
     const randomShapeObj = newShapes[Math.floor(Math.random() * newShapes.length)];
-    setTargetShape(randomShapeObj.shape); // Correctly set the shape
-    setTargetColor(randomShapeObj.color); // Correctly set the color
+    setTargetShape(randomShapeObj.shape);
+    setTargetColor(randomShapeObj.color);
     setSelectedShapes([]);
+    setRoundCount(prevCount => prevCount + 1);
+    logEvent('Game', 'RoundStart', 'ShapeSorter', roundCount + 1);
   };
-
 
   const handleShapeClick = (index) => {
     if (gameOver) return;
@@ -148,8 +160,13 @@ const ShapeSorter = () => {
         shapes[index].shape !== targetShape || shapes[index].color !== targetColor
     );
 
-    const score = correctShapes.length - incorrectSelections.length;
-    setScore((prevScore) => Math.max(0, prevScore + score));
+    const roundScore = correctShapes.length - incorrectSelections.length;
+    setScore((prevScore) => Math.max(0, prevScore + roundScore));
+
+    logEvent('Game', 'RoundComplete', 'ShapeSorter', roundScore);
+    logEvent('Game', 'CorrectSelections', 'ShapeSorter', correctShapes.length);
+    logEvent('Game', 'IncorrectSelections', 'ShapeSorter', incorrectSelections.length);
+
     startNewRound();
   };
 
@@ -157,11 +174,14 @@ const ShapeSorter = () => {
     setScore(0);
     setTimeLeft(60);
     setGameOver(false);
+    setRoundCount(0);
     startNewRound();
+    incrementGamesPlayed('ShapeSorter');
+    logEvent('Game', 'Restart', 'ShapeSorter');
   };
 
   const capitalizeFirstLetter = (string) => {
-    if (typeof string !== 'string' || string.length === 0) return ''; // Add a check
+    if (typeof string !== 'string' || string.length === 0) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
