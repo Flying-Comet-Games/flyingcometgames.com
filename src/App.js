@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,7 +11,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
 import CookieConsent from 'react-cookie-consent';
 import AppContent from './AppContent';
-import { initGA, logPageView, setUserId } from './Analytics';
+import { initGA, logPageView, setUserId } from './analytics';
 
 import ColorMatcher from './games/ColorMatcher';
 import DigitShift from './games/DigitShift';
@@ -27,15 +27,34 @@ import MemoryMaze from './games/MemoryMaze';
 import theme from './theme';
 
 function App() {
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+
   useEffect(() => {
+    const consent = localStorage.getItem('ga_cookie_consent');
+    if (consent === 'true') {
+      initializeAnalytics();
+    }
+  }, []);
+
+  const initializeAnalytics = () => {
     initGA('G-1SN5WZ4TEC');
     logPageView();
 
-    // Generate a unique user ID and set it
     const userId = localStorage.getItem('userId') || Math.random().toString(36).substring(2, 15);
     localStorage.setItem('userId', userId);
     setUserId(userId);
-  }, []);
+  };
+
+  const handleAcceptCookie = () => {
+    setCookiesAccepted(true);
+    initializeAnalytics();
+  };
+
+  const handleDeclineCookie = () => {
+    setCookiesAccepted(false);
+    localStorage.removeItem('ga_cookie_consent');
+    localStorage.removeItem('userId');
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -52,20 +71,72 @@ function App() {
             <Route path="/pattern-predictor" element={<PatternPredictor />} />
             <Route path="/swamp-cleanup-challenge" element={<SwampCleanupChallenge />} />
             <Route path="/tarnished-ordeal" element={<TarnishedOrdeal />} />
-            <Route path="/pattern-predictor" element={<PatternPredictor />} />
             <Route path="/color-flood" element={<ColorFlood />} />
             <Route path="/memory-maze" element={<MemoryMaze />} />
           </Routes>
 
           <CookieConsent
             location="bottom"
-            buttonText="Accept"
+            buttonText="Accept All"
+            declineButtonText="Reject All"
             cookieName="ga_cookie_consent"
-            style={{ background: "#2B373B" }}
-            buttonStyle={{ background: theme.palette.primary.main, color: "#ffffff", fontSize: "13px" }}
+            style={{
+              background: "rgba(53, 53, 53, 0.9)",
+              padding: "20px",
+              alignItems: "center",
+              gap: "20px"
+            }}
+            buttonStyle={{
+              background: "#4CAF50",
+              color: "#ffffff",
+              fontSize: "14px",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              fontWeight: "bold",
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+              transition: "all 0.3s ease",
+            }}
+            declineButtonStyle={{
+              background: "transparent",
+              color: "#ffffff",
+              fontSize: "14px",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              border: "1px solid #ffffff",
+              transition: "all 0.3s ease",
+            }}
+            enableDeclineButton
+            onAccept={handleAcceptCookie}
+            onDecline={handleDeclineCookie}
             expires={150}
+            ButtonComponent={({ style, ...props }) => (
+              <button
+                {...props}
+                style={{
+                  ...style,
+                  ":hover": {
+                    background: "#45a049",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  }
+                }}
+              />
+            )}
+            DeclineButtonComponent={({ style, ...props }) => (
+              <button
+                {...props}
+                style={{
+                  ...style,
+                  ":hover": {
+                    background: "rgba(255, 255, 255, 0.1)",
+                  }
+                }}
+              />
+            )}
           >
-            This website uses cookies to enhance the user experience and analyze site traffic.
+            <span style={{ fontSize: "16px", marginRight: "20px" }}>
+              This website uses cookies to enhance your experience and analyze site traffic.
+            </span>
           </CookieConsent>
         </Container>
       </Router>

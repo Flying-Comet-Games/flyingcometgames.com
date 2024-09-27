@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { logEvent } from '../analytics';
+import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const GRID_SIZE = 10;
 const COLORS = ['primary', 'purple', 'error', 'warning', 'info', 'success'];

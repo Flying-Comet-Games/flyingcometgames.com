@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
-import { initGA, logPageView, setUserId } from './Analytics';
+import { initGA, logPageView, setUserId } from './analytics';
 
 const AppContent = () => {
   const location = useLocation();
