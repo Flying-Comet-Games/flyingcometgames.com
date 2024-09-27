@@ -2,10 +2,12 @@ import ReactGA from 'react-ga4';
 
 export const initGA = (measurementId) => {
   ReactGA.initialize(measurementId);
+  logReferrer();
 };
 
 export const logPageView = () => {
   ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  logReferrer();
 };
 
 export const logEvent = (category, action, label, value) => {
@@ -39,4 +41,15 @@ export const incrementGamesCompleted = (gameName) => {
 
 export const setUserId = (userId) => {
   ReactGA.set({ userId: userId });
+};
+
+export const logReferrer = () => {
+  const referrer = document.referrer;
+  if (referrer) {
+    ReactGA.event({
+      category: 'User Acquisition',
+      action: 'Referrer',
+      label: referrer,
+    });
+  }
 };
