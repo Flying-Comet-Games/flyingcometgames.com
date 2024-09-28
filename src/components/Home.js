@@ -155,6 +155,14 @@ const Home = () => {
         >
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
+              to="/avoid-blocks"
+              title="Avoid the Blocks"
+              description="Dodge blocks and survive!"
+              logoSrc="/assets/game-logos/avoid-the-blocks-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
               to="/memory-maze"
               title="Memory Maze"
               description="Remember and recreate the path!"

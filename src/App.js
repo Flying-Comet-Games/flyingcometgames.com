@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import EmailIcon from '@mui/icons-material/Email';
-import HomeIcon from '@mui/icons-material/Home';
 import CookieConsent from 'react-cookie-consent';
 import AppContent from './AppContent';
 import { initGA, logPageView, setUserId } from './analytics';
@@ -23,6 +17,8 @@ import SwampCleanupChallenge from './games/SwampCleanupChallenge';
 import TarnishedOrdeal from './games/TarnishedOrdeal';
 import ColorFlood from './games/ColorFlood';
 import MemoryMaze from './games/MemoryMaze';
+import PackageBalanceGame from './games/PackageBalanceGame';
+import AvoidBlocks from './games/AvoidBlocks';
 
 import theme from './theme';
 
@@ -73,6 +69,8 @@ function App() {
             <Route path="/tarnished-ordeal" element={<TarnishedOrdeal />} />
             <Route path="/color-flood" element={<ColorFlood />} />
             <Route path="/memory-maze" element={<MemoryMaze />} />
+            <Route path="/balancing-act" element={<PackageBalanceGame />} />
+            <Route path="/avoid-blocks" element={<AvoidBlocks />} />
           </Routes>
 
           <CookieConsent
