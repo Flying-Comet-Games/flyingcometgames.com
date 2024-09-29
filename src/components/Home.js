@@ -155,6 +155,14 @@ const Home = () => {
         >
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
+              to="/color-dash"
+              title="Color Dash"
+              description="Match colors and shapes to clear obstacles!"
+              logoSrc="/assets/game-logos/color-dash-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
               to="/cowboy-quest"
               title="Cowboy Quest"
               description="Collect keys, avoid dangers, and find the treasure!"
