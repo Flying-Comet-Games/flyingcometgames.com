@@ -19,8 +19,11 @@ import ColorFlood from './games/ColorFlood';
 import MemoryMaze from './games/MemoryMaze';
 import PackageBalanceGame from './games/PackageBalanceGame';
 import AvoidBlocks from './games/AvoidBlocks';
+import MirrorReflectionPuzzle from './games/MirrorReflectionPuzzle';
 
 import theme from './theme';
+import ShapeShift from './games/ShapeShift';
+import EmojiQuest from './games/EmojiQuest';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -71,6 +74,9 @@ function App() {
             <Route path="/memory-maze" element={<MemoryMaze />} />
             <Route path="/balancing-act" element={<PackageBalanceGame />} />
             <Route path="/avoid-blocks" element={<AvoidBlocks />} />
+            <Route path="/mirror-reflection" element={<MirrorReflectionPuzzle />} />
+            <Route path="/shape-shift" element={<ShapeShift />} />
+            <Route path="/cowboy-quest" element={<EmojiQuest />} />
           </Routes>
 
           <CookieConsent

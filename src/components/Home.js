@@ -155,6 +155,14 @@ const Home = () => {
         >
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
+              to="/cowboy-quest"
+              title="Cowboy Quest"
+              description="Collect keys, avoid dangers, and find the treasure!"
+              logoSrc="/assets/game-logos/cowboy-quest-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
               to="/avoid-blocks"
               title="Avoid the Blocks"
               description="Dodge blocks and survive!"
