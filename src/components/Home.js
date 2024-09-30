@@ -226,6 +226,14 @@ const Home = () => {
           </Grid>
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
+              to="/startup-speedrun-simulator"
+              title="Startup Sim"
+              description="Let's make a unicorn"
+              logoSrc="/assets/game-logos/startup-accelerator-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
               to="/color-dash"
               title="Color Dash"
               description="Match colors and shapes to clear obstacles!"

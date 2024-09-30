@@ -25,6 +25,7 @@ import theme from './theme';
 import ShapeShift from './games/ShapeShift';
 import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
+import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -79,6 +80,7 @@ function App() {
             <Route path="/shape-shift" element={<ShapeShift />} />
             <Route path="/cowboy-quest" element={<EmojiQuest />} />
             <Route path="/color-dash" element={<ColorDash />} />
+            <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />
           </Routes>
 
           <CookieConsent
