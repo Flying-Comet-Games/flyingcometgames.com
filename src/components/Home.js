@@ -122,7 +122,38 @@ const Home = () => {
               mb: 2,
             }}
           >
-            Hi, we're Calli and Eden.
+            Hi, we're{' '}
+            <Link
+              to="https://twitter.com/CalliFuch"
+              color='red'
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: theme.palette.primary.light,
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
+            >
+              Calli
+            </Link>{' '}
+            and{' '}
+            <Link
+              to="https://twitter.com/EntreEden"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: theme.palette.primary.light,
+                textDecoration: 'none',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
+            >
+              Eden
+            </Link>
+            .
           </Typography>
           <Typography
             variant="h5"
@@ -131,12 +162,52 @@ const Home = () => {
             sx={{
               fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
               fontWeight: 500,
-              mb: 2,
+              pb: 2,
+              borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
             Together we're building hybrid-casual games at lightning speed.
           </Typography>
         </Box>
+
+      {/* Product Hunt Banner */}
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mb: 2,
+        }}
+      >
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+            fontWeight: 500,
+            mb: 2,
+            textAlign: 'center',
+          }}
+        >
+          We launched on Product Hunt! <br /> Give us an upvote if you like our games :)
+        </Typography>
+        <a
+          href="https://www.producthunt.com/posts/flying-comet-games?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flying&#0045;comet&#0045;games"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=493053&theme=light"
+            alt="Flying Comet Games - Casual mobile games built at lightning speed | Product Hunt"
+            style={{ width: '250px', height: '54px' }}
+            width="250"
+            height="54"
+          />
+        </a>
+      </Box>
 
         <FeaturedGame
           title="Keep Bufo Alive"

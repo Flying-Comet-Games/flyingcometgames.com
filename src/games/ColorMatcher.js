@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import ShareIcon from '@mui/icons-material/Share';
 import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const ColorMatcher = () => {
@@ -110,6 +111,33 @@ const ColorMatcher = () => {
     setTimeLeft(difficultySettings[newDifficulty].timeLimit);
     handleRestart();
     logEvent('Game', 'DifficultyChange', 'ColorMatcher', newDifficulty);
+  };
+
+  const handleShare = () => {
+    const shareText = `I scored ${score} points in Color Matcher on ${difficulty} difficulty! Can you beat my score? Play now: ${window.location.href}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Color Matcher Score',
+        text: shareText,
+        url: window.location.href,
+      })
+        .then(() => {
+          logEvent('Game', 'Share', 'ColorMatcher');
+          console.log('Successful share');
+        })
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          logEvent('Game', 'Share', 'ColorMatcher');
+          alert('Score copied to clipboard!');
+        })
+        .catch((error) => {
+          console.error('Failed to copy text: ', error);
+          alert('Failed to copy score. Please try again.');
+        });
+    }
   };
 
   return (
@@ -289,6 +317,28 @@ const ColorMatcher = () => {
         >
           RESTART
         </Button>
+        {gameOver && (
+          <Button
+            variant="contained"
+            startIcon={<ShareIcon />}
+            onClick={handleShare}
+            sx={{
+              fontSize: '1.1rem',
+              py: 1.2,
+              px: 4,
+              borderRadius: 3,
+              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+              width: '100%',
+              mt: 2,
+              background: 'linear-gradient(45deg, #339af0 30%, #51cf66 90%)',
+              '&:hover': {
+                background: 'linear-gradient(45deg, #51cf66 30%, #339af0 90%)',
+              },
+            }}
+          >
+            SHARE SCORE
+          </Button>
+        )}
       </Box>
     </Box>
   );

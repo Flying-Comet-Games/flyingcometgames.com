@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useSpring, animated } from 'react-spring';
 import { useInterval } from 'react-use';
+import ShareIcon from '@mui/icons-material/Share';
 
 const GAME_WIDTH = 300;
 const GAME_HEIGHT = 400;
@@ -39,8 +40,8 @@ const AvoidTheBlocks = () => {
   }, [movePlayer]);
 
   const spawnBlock = useCallback(() => {
-    const isSpeedyBlock = Math.random() < 0.2; // 20% chance of being a speedy block
-    const isFreezeBlock = Math.random() < 0.1; // 10% chance of being a freeze block
+    const isSpeedyBlock = Math.random() < 0.2;
+    const isFreezeBlock = Math.random() < 0.1;
 
     const newBlock = {
       x: Math.random() * (GAME_WIDTH - BLOCK_SIZE),
@@ -73,7 +74,6 @@ const AvoidTheBlocks = () => {
         }
       }
 
-      // Reduce speed when a freeze block reaches the bottom (indicating it was avoided)
       updatedBlocks.forEach((block) => {
         if (block.type === 'freeze' && block.y >= GAME_HEIGHT) {
           setSpeed((prevSpeed) => Math.max(INITIAL_SPEED, prevSpeed - 0.5));
@@ -86,7 +86,6 @@ const AvoidTheBlocks = () => {
     setScore((prevScore) => prevScore + 1);
     setSpeed((prevSpeed) => prevSpeed + SPEED_INCREMENT / 60);
 
-    // Occasionally activate immunity
     if (Math.random() < 0.005 && !immunityActive) {
       setImmunityActive(true);
       setTimeout(() => setImmunityActive(false), 3000);
@@ -108,6 +107,29 @@ const AvoidTheBlocks = () => {
     setSpeed(INITIAL_SPEED);
     setBlocks([]);
     setPlayerPosition(GAME_WIDTH / 2 - PLAYER_SIZE / 2);
+  };
+
+  const handleShare = () => {
+    const shareText = `I scored ${score} in Avoid the Blocks! Can you beat my score?`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Avoid the Blocks Score',
+        text: shareText,
+        url: window.location.href,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          alert('Score copied to clipboard!');
+        })
+        .catch((error) => {
+          console.error('Failed to copy text: ', error);
+          alert('Failed to copy score. Please try again.');
+        });
+    }
   };
 
   return (
@@ -162,7 +184,7 @@ const AvoidTheBlocks = () => {
             position: 'absolute',
             width: PLAYER_SIZE,
             height: PLAYER_SIZE,
-            backgroundColor: immunityActive ? '#00ff00' : '#1976d2', // Glows green when immune
+            backgroundColor: immunityActive ? '#00ff00' : '#1976d2',
             bottom: 0,
             borderRadius: immunityActive ? '50%' : '0%',
           }}
@@ -174,11 +196,30 @@ const AvoidTheBlocks = () => {
         <Typography variant="h6">High Score: {highScore}</Typography>
       </Box>
 
-      {!gameStarted || gameOver ? (
-        <Button variant="contained" onClick={startGame} sx={{ mt: 2 }}>
-          {gameOver ? 'Play Again' : 'Start Game'}
-        </Button>
-      ) : null}
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 2 }}>
+        {!gameStarted || gameOver ? (
+          <Button variant="contained" onClick={startGame}>
+            {gameOver ? 'Play Again' : 'Start Game'}
+          </Button>
+        ) : null}
+
+        {gameOver && (
+          <Button
+            variant="contained"
+            startIcon={<ShareIcon />}
+            onClick={handleShare}
+            sx={{
+              backgroundColor: (theme) => theme.palette.primary.main,
+              color: (theme) => theme.palette.primary.contrastText,
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.primary.dark,
+              },
+            }}
+          >
+            Share Score
+          </Button>
+        )}
+      </Box>
 
       {gameStarted && !gameOver && (
         <Box sx={{ mt: 2 }}>

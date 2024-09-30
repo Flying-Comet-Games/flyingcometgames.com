@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import ShareIcon from '@mui/icons-material/Share';
 import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const GRID_SIZE = 10;
-const COLORS = ['primary', 'purple', 'error', 'warning', 'info', 'success'];
+const COLORS = ['#FF6B6B', '#4ECDC4', '#FFA07A', '#9B59B6', '#FFD93D', '#6A0572'];
 const MAX_MOVES = 22;
 
 const ColorFlood = () => {
@@ -81,17 +82,44 @@ const ColorFlood = () => {
   };
 
   const getColor = (colorName) => {
-    if (colorName === 'purple') {
-      return '#9c27b0'; // This is the hex code for purple in Material-UI
-    }
-    return theme.palette[colorName]?.main || theme.palette.grey[500]; // Fallback to grey if color not found
+    return colorName;
   };
 
   const getHoverColor = (colorName) => {
-    if (colorName === 'purple') {
-      return '#7b1fa2'; // Darker shade of purple for hover
+    // This function creates a slightly darker version of the color for hover effects
+    const darkenColor = (color, amount) => {
+      return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) - amount)).toString(16)).substr(-2));
+    };
+    return darkenColor(colorName, 20);
+  };
+
+  const handleShare = () => {
+    const shareText = `I ${win ? 'won' : 'played'} Color Flood in ${moves} moves! Can you beat my score? Play now: ${window.location.href}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Color Flood Score',
+        text: shareText,
+        url: window.location.href,
+      })
+        .then(() => {
+          logEvent('Game', 'Share', 'ColorFlood');
+          console.log('Successful share');
+        })
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          logEvent('Game', 'Share', 'ColorFlood');
+          setSnackbarMessage('Score copied to clipboard!');
+          setShowSnackbar(true);
+        })
+        .catch((error) => {
+          console.error('Failed to copy text: ', error);
+          setSnackbarMessage('Failed to copy score. Please try again.');
+          setShowSnackbar(true);
+        });
     }
-    return theme.palette[colorName]?.dark || theme.palette.grey[700]; // Fallback to dark grey if color not found
   };
 
   return (
@@ -131,28 +159,46 @@ const ColorFlood = () => {
       </Grid>
 
       <Grid container spacing={1} justifyContent="center" sx={{ mb: 2 }}>
-        {COLORS.map((color) => (
-          <Grid item key={color}>
-            <Button
-              variant="contained"
-              onClick={() => floodFill(color)}
-              disabled={gameOver}
-              sx={{
-                minWidth: 40,
-                minHeight: 40,
-                backgroundColor: getColor(color),
-                '&:hover': {
-                  backgroundColor: getHoverColor(color),
-                },
-              }}
-            />
-          </Grid>
-        ))}
+      {COLORS.map((color) => (
+        <Grid item key={color}>
+          <Button
+            variant="contained"
+            onClick={() => floodFill(color)}
+            disabled={gameOver}
+            sx={{
+              minWidth: 40,
+              minHeight: 40,
+              backgroundColor: getColor(color),
+              '&:hover': {
+                backgroundColor: getHoverColor(color),
+              },
+            }}
+          />
+        </Grid>
+      ))}
       </Grid>
 
-      <Button variant="contained" onClick={startNewGame}>
-        {gameOver ? 'Play Again' : 'New Game'}
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Button variant="contained" onClick={startNewGame}>
+          {gameOver ? 'Play Again' : 'New Game'}
+        </Button>
+        {gameOver && (
+          <Button
+            variant="contained"
+            startIcon={<ShareIcon />}
+            onClick={handleShare}
+            sx={{
+              backgroundColor: theme.palette.secondary.main,
+              color: theme.palette.secondary.contrastText,
+              '&:hover': {
+                backgroundColor: theme.palette.secondary.dark,
+              },
+            }}
+          >
+            Share Score
+          </Button>
+        )}
+      </Box>
 
       <Snackbar
         open={showSnackbar}

@@ -49,7 +49,7 @@ const AppContent = () => {
             </IconButton>
             <IconButton
                 color="inherit"
-                href="mailto:calli@enhancenothing.com,eden@enhancenothing.com"
+                href="mailto:calli@flyingcometgames.com,eden@flyingcometgames.com"
                 aria-label="Contact"
             >
                 <EmailIcon />
