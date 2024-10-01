@@ -170,44 +170,6 @@ const Home = () => {
           </Typography>
         </Box>
 
-      {/* Product Hunt Banner */}
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mb: 2,
-        }}
-      >
-        <Typography
-          variant="h5"
-          component="h2"
-          gutterBottom
-          sx={{
-            fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
-            fontWeight: 500,
-            mb: 2,
-            textAlign: 'center',
-          }}
-        >
-          We launched on Product Hunt! <br /> Give us an upvote if you like our games :)
-        </Typography>
-        <a
-          href="https://www.producthunt.com/posts/flying-comet-games?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flying&#0045;comet&#0045;games"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=493053&theme=light"
-            alt="Flying Comet Games - Casual mobile games built at lightning speed | Product Hunt"
-            style={{ width: '250px', height: '54px' }}
-            width="250"
-            height="54"
-          />
-        </a>
-      </Box>
         <Grid
           container
           spacing={2}
@@ -230,6 +192,14 @@ const Home = () => {
               title="Startup Sim"
               description="Let's make a unicorn"
               logoSrc="/assets/game-logos/startup-accelerator-logo.png"
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={4} lg={3}>
+            <GameButton
+              to="/whack-a-mole"
+              title="Whack-a-Mole"
+              description="WHACK!"
+              logoSrc="/assets/game-logos/whack-a-mole-logo.png"
             />
           </Grid>
           <Grid item xs={6} sm={6} md={4} lg={3}>

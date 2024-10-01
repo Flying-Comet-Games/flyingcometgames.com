@@ -26,6 +26,7 @@ import ShapeShift from './games/ShapeShift';
 import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
 import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
+import WhackAMole from './games/WhackAMole';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -81,6 +82,7 @@ function App() {
             <Route path="/cowboy-quest" element={<EmojiQuest />} />
             <Route path="/color-dash" element={<ColorDash />} />
             <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />
+            <Route path="/whack-a-mole" element={<WhackAMole />} />
           </Routes>
 
           <CookieConsent
