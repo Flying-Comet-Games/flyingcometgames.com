@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import { bounceAnimation } from './gameUtils';
+import { Helmet } from 'react-helmet';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import {
+  Box,
+  Breadcrumbs,
+  Paper,
+  Grid,
+  Button,
+  Snackbar,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const GRID_SIZE = 8;
 const MAX_MOVES_BASE = 25;
@@ -17,6 +32,53 @@ const EMOJI_TYPES = {
   LOCK: '🔒',
   SPIKES: '🗡️',
   BRIDGE: '🌉',
+};
+
+const FAQ = () => {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+  return (
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h5" component="h2" gutterBottom>Frequently Asked Questions</Typography>
+
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Typography variant="h6" component="h3">How do I play Cowboy Quest?</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Use the arrow buttons to move your hero through the grid. Collect keys to unlock paths, avoid obstacles like walls and water, and reach the treasure to win the level. Be careful not to run out of moves!
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2bh-content"
+          id="panel2bh-header"
+        >
+          <Typography variant="h6" component="h3">What do the different emojis mean?</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            🤠 - Your hero | 🏆 - Treasure (goal) | 🧱 - Wall (obstacle) | 🌊 - Water (obstacle) | 🔥 - Fire (obstacle) | 🗝️ - Key | 🔒 - Lock
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+
+      {/* Add more FAQ items as needed */}
+
+    </Box>
+  );
 };
 
 const EmojiQuest = () => {
@@ -266,11 +328,43 @@ const EmojiQuest = () => {
     </Box>
   );
 
+  const shareOnTwitter = () => {
+    const tweetText = `I just played Cowbooy Quest and reached level ${level}! Can you beat my score? Play now at ${window.location.href}`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+  };
+
   return (
     <Box sx={{ textAlign: 'center', py: 2 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>Cowboy Quest - Level {level}</Typography>
+      <Helmet>
+        <title>Cowboy Quest - Free Online Puzzle Game | Flying Comet Games</title>
+        <meta name="description" content="Play Cowboy Quest, a challenging puzzle game where you guide a cowboy hero through obstacles to find treasure. Test your strategy skills now!" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "VideoGame",
+            "name": "Cowboy Quest",
+            "description": "Guide the hero to the treasure, avoiding obstacles and enemies in this challenging puzzle game.",
+            "genre": "Puzzle",
+            "gamePlatform": "Web Browser",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Flying Comet Games"
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <Breadcrumbs sx={{ mb: 2 }}>
+        <Link to="/">Home</Link>
+        <Typography>Cowboy Quest</Typography>
+      </Breadcrumbs>
+
+      <Typography variant="h4" component="h1" sx={{ mb: 2 }}>Cowboy Quest - Level {level}</Typography>
 
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+        <Typography variant="body1" paragraph>
+          Cowboy Quest is a challenging puzzle game where you control a cowboy hero navigating through a grid filled with obstacles, enemies, and treasures. Use strategy to collect keys, unlock paths, and reach the ultimate goal while managing your limited moves.
+        </Typography>
         <Typography variant="body2" align="left">
           Guide the hero 🤠 to the treasure 🏆.<br/>
           Avoid obstacles and enemies, collect keys to unlock paths, and plan your moves wisely!
@@ -319,8 +413,11 @@ const EmojiQuest = () => {
         </Grid>
       </Grid>
 
-      <Button variant="contained" onClick={() => setLevel(1)} sx={{ mb: 2 }}>
+      <Button variant="contained" onClick={() => setLevel(1)} sx={{ mb: 2, mr: 2 }}>
         Restart Game
+      </Button>
+      <Button variant="contained" startIcon={<TwitterIcon />} onClick={shareOnTwitter} sx={{ mb: 2 }}>
+        Share on Twitter
       </Button>
 
       <Snackbar
@@ -329,6 +426,15 @@ const EmojiQuest = () => {
         onClose={() => setShowSnackbar(false)}
         message={snackbarMessage}
       />
+
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h5" component="h2" gutterBottom>More Games You Might Enjoy</Typography>
+        <Typography variant="body2">
+          If you enjoy Cowboy Quest, you might also like our other puzzle games like <Link to="/color-flood">Color Flood</Link> and <Link to="/digit-shift">Digit Shift</Link>.
+        </Typography>
+      </Box>
+
+     <FAQ />
     </Box>
   );
 };
