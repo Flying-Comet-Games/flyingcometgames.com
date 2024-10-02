@@ -268,7 +268,7 @@ const EmojiQuest = () => {
 
   return (
     <Box sx={{ textAlign: 'center', py: 2 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>Emoji Quest - Level {level}</Typography>
+      <Typography variant="h4" sx={{ mb: 2 }}>Cowboy Quest - Level {level}</Typography>
 
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="body2" align="left">

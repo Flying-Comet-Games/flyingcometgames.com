@@ -7,83 +7,13 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FeaturedGame from './FeaturedGame';
-
-const GameButton = ({ to, title, description, logoSrc }) => (
-  <Button
-    component={Link}
-    to={to}
-    variant="contained"
-    sx={{
-      width: '100%',
-      height: { xs: '160px', sm: '180px', md: '200px' },
-      padding: { xs: 1, sm: 2 },
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      textAlign: 'center',
-      background: theme => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
-      color: 'white',
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        transform: 'scale(1.03)',
-        boxShadow: theme => `0 4px 8px ${theme.palette.primary.main}66`,
-        filter: 'brightness(1.1)',
-      },
-      overflow: 'hidden',
-    }}
-  >
-    <Box
-      component="img"
-      src={process.env.PUBLIC_URL + logoSrc}
-      alt={`${title} logo`}
-      sx={{
-        width: { xs: '60px', sm: '70px', md: '80px' },
-        height: { xs: '60px', sm: '70px', md: '80px' },
-        objectFit: 'cover',
-        borderRadius: '12px',
-        mb: 1,
-      }}
-    />
-    <Typography
-      variant="subtitle1"
-      component="div"
-      fontWeight="bold"
-      sx={{
-        fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' },
-        lineHeight: 1.2,
-        mb: 0.5,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        display: '-webkit-box',
-        WebkitLineClamp: 1,
-        WebkitBoxOrient: 'vertical',
-        color: 'inherit',
-      }}
-    >
-      {title}
-    </Typography>
-    <Typography
-      variant="body2"
-      sx={{
-        fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
-        lineHeight: 1.2,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        display: '-webkit-box',
-        WebkitLineClamp: 2,
-        WebkitBoxOrient: 'vertical',
-        color: 'inherit',
-      }}
-    >
-      {description}
-    </Typography>
-  </Button>
-);
+import GameButton from './GameButton';
+import CollapsibleSEOContent from './CollapsibleSEOContent';
+import GamesBody from './GamesBody';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
@@ -95,6 +25,11 @@ const Home = () => {
         backgroundColor: theme.palette.background.default,
       }}
     >
+      <Helmet>
+        <title>Online Puzzle Games | Flying Comet Games - NYT Games Alternative</title>
+        <meta name="description" content="Enjoy engaging online puzzle games, word games, and casual games similar to NYT Games. Challenge yourself with our collection of brain teasers and addictive puzzles." />
+      </Helmet>
+
       <Box
         sx={{
           flexGrow: 1,
@@ -113,50 +48,19 @@ const Home = () => {
           }}
         >
           <Typography
-            variant="h4"
+            variant="h1"
             component="h1"
             gutterBottom
             sx={{
-              fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
+              fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
               fontWeight: 700,
               mb: 2,
             }}
           >
-            Hi, we're{' '}
-            <Link
-              to="https://twitter.com/CalliFuch"
-              color='red'
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: theme.palette.primary.light,
-                textDecoration: 'none',
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              Calli
-            </Link>{' '}
-            and{' '}
-            <Link
-              to="https://twitter.com/EntreEden"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: theme.palette.primary.light,
-                textDecoration: 'none',
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              Eden
-            </Link>
-            .
+            Online Puzzle and Word Games | Flying Comet Games
           </Typography>
           <Typography
-            variant="h5"
+            variant="h2"
             component="h2"
             gutterBottom
             sx={{
@@ -166,115 +70,19 @@ const Home = () => {
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Together we're building hybrid-casual games at lightning speed.
+            Challenge your mind with our collection of puzzle games, similar to NYT Games!
           </Typography>
         </Box>
 
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            maxWidth: '100%',
-            justifyContent: 'center',
-          }}
+        <Box>
+          <GamesBody />
+        </Box>
+
+        <Box
+          pt={5}
         >
-          <Grid item xs={12} sm={12} md={8} lg={6}>
-            <FeaturedGame
-              title="Keep Bufo Alive"
-              description="An addictive clicker game where you can unlock new backgrounds, outfits, and more to create the perfect environment for Bufo!"
-              appStoreLink="https://apps.apple.com/us/app/keep-bufo-alive/id6596775642?itscg=30200&itsct=apps_box_artwork"
-              appStoreImageSrc="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/9c/e4/e39ce4cf-7e03-badc-7b2a-9d0bd4277a22/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/540x540bb.jpg"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/startup-speedrun-simulator"
-              title="Startup Sim"
-              description="Let's make a unicorn"
-              logoSrc="/assets/game-logos/startup-accelerator-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/whack-a-mole"
-              title="Whack-a-Mole"
-              description="WHACK!"
-              logoSrc="/assets/game-logos/whack-a-mole-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-dash"
-              title="Color Dash"
-              description="Match colors and shapes to clear obstacles!"
-              logoSrc="/assets/game-logos/color-dash-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/cowboy-quest"
-              title="Cowboy Quest"
-              description="Collect keys, avoid dangers, and find the treasure!"
-              logoSrc="/assets/game-logos/cowboy-quest-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/avoid-blocks"
-              title="Avoid the Blocks"
-              description="Dodge blocks and survive!"
-              logoSrc="/assets/game-logos/avoid-the-blocks-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/memory-maze"
-              title="Memory Maze"
-              description="Remember and recreate the path!"
-              logoSrc="/assets/game-logos/memory-maze-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-flood"
-              title="Color Flood"
-              description="Flood the board with colors strategically!"
-              logoSrc="/assets/game-logos/color-flood-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-matcher"
-              title="Color Matcher"
-              description="Test your color matching skills!"
-              logoSrc="/assets/game-logos/color-matcher-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/digit-shift"
-              title="Digit Shift"
-              description="Shift digits to solve the puzzle!"
-              logoSrc="/assets/game-logos/digit-shift-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/word-wizard"
-              title="Word Wizard"
-              description="Unscramble words against the clock!"
-              logoSrc="/assets/game-logos/word-wizard-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/shape-sorter"
-              title="Shape Sorter"
-              description="Sort shapes by color and type!"
-              logoSrc="/assets/game-logos/shape-sorter-logo.png"
-            />
-          </Grid>
-        </Grid>
+          <CollapsibleSEOContent />
+        </Box>
       </Box>
 
       <Box
@@ -289,7 +97,13 @@ const Home = () => {
         }}
       >
         <Typography variant="body2" color="text.secondary">
-          © 2024 Flying Comet Games. All rights reserved.
+          © 2024 Flying Comet Games. All rights reserved. Enjoy the best online puzzle and casual games.
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          Explore our collection of games, including word puzzles, clicker games, reflex challenges, and color match games, optimized for both mobile and desktop users.
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          Connect with us: <Link to="https://twitter.com/CalliFuch" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Calli</Link> and <Link to="https://twitter.com/EntreEden" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Eden</Link>
         </Typography>
       </Box>
     </Box>
