@@ -37,6 +37,7 @@ const GameButton = ({ to, title, description, logoSrc }) => (
         component="img"
         src={process.env.PUBLIC_URL + logoSrc}
         alt={`${title} free online puzzle game logo`}
+        loading='lazy'
         sx={{
           width: { xs: '60px', sm: '70px', md: '80px' },
           height: { xs: '60px', sm: '70px', md: '80px' },
