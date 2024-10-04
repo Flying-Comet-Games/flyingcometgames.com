@@ -74,9 +74,16 @@ const Home = () => {
           </Typography>
         </Box>
 
-        <Box>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <GamesBody />
         </Box>
+
 
         <Box
           pt={5}

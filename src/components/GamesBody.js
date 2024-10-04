@@ -8,11 +8,12 @@ const GameBody = () => {
         <Grid
           container
           spacing={2}
+          justifyContent="center"
           sx={{
-            maxWidth: '100%',
-            justifyContent: 'center',
+            width: '100%',
           }}
         >
+
           <Grid item xs={12} sm={12} md={8} lg={6}>
             <FeaturedGame
               title="Keep Bufo Alive"
