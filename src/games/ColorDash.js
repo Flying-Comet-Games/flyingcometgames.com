@@ -3,8 +3,11 @@ import { Box, Typography, Button, Snackbar, Paper, Grid, IconButton } from '@mui
 import { useTheme } from '@mui/material/styles';
 import { keyframes } from '@mui/system';
 import ShareIcon from '@mui/icons-material/Share';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import SquareIcon from '@mui/icons-material/Square';
+import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';
 
-const COLORS = ['#F93854', '#3498db', '#f1c40f'];
+const COLORS = ['#FF6F61', '#6C5B7B', '#355C7D'];
 const SHAPES = ['circle', 'square', 'triangle'];
 const INITIAL_SPEED = 4000;
 const OBSTACLE_INTERVAL = 1500;
@@ -120,45 +123,15 @@ const ColorDash = () => {
     switch (shape) {
       case 'circle':
         return (
-          <Box
-            sx={{
-              backgroundColor: color,
-              border: '3px solid #000',
-              width: 50,
-              height: 50,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          />
+          <Brightness5Icon sx={{ fontSize: 50, color }} />
         );
       case 'square':
         return (
-          <Box
-            sx={{
-              backgroundColor: color,
-              border: '3px solid #000',
-              width: 50,
-              height: 50,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          />
+          <SquareIcon sx={{ fontSize: 50, color }} />
         );
       case 'triangle':
         return (
-          <Box
-            sx={{
-              width: 0,
-              height: 0,
-              borderLeft: '25px solid transparent',
-              borderRight: '25px solid transparent',
-              borderBottom: `50px solid ${color}`,
-              position: 'relative',
-            }}
-          />
+          <ChangeHistoryIcon sx={{ fontSize: 50, color }} />
         );
       default:
         return null;
@@ -183,7 +156,7 @@ const ColorDash = () => {
           position: 'relative',
           overflow: 'hidden',
           mb: 2,
-          border: '3px solid #000',
+          borderRadius: '8px',
         }}
       >
         {obstacles.map((obstacle) => (

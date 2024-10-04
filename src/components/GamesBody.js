@@ -13,14 +13,14 @@ const GameBody = () => {
             justifyContent: 'center',
           }}
         >
-          {/* <Grid item xs={12} sm={12} md={8} lg={6}>
+          <Grid item xs={12} sm={12} md={8} lg={6}>
             <FeaturedGame
               title="Keep Bufo Alive"
               description="An addictive clicker game where you can unlock new backgrounds, outfits, and more to create the perfect environment for Bufo!"
               appStoreLink="https://apps.apple.com/us/app/keep-bufo-alive/id6596775642?itscg=30200&itsct=apps_box_artwork"
               appStoreImageSrc="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/9c/e4/e39ce4cf-7e03-badc-7b2a-9d0bd4277a22/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/540x540bb.jpg"
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <GameButton
               to="/startup-speedrun-simulator"

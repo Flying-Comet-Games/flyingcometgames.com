@@ -82,22 +82,13 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
             style={{ height: '40px', width: 'auto' }}
           />
         </Link>
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/google-play.png`}
-          alt="Coming Soon to Google Play"
-          style={{ height: '40px', width: 'auto', marginBottom: '7.5px'}}
-        />
+        <Link to="https://play.google.com/store/apps/details?id=com.enhancenothing.com.android.keepbufoalive">
           <img
-            src={`${process.env.PUBLIC_URL}/assets/coming-soon.png`}
-            alt="Coming Soon Ribbon"
-            style={{
-              position: 'absolute',
-              top: '20px', // Adjust as needed to align the ribbon properly
-              right: '-10px', // Adjust as needed to align the ribbon properly
-              height: '25px', // Adjust size as needed
-              width: 'auto',
-            }}
+            src={`${process.env.PUBLIC_URL}/assets/google-play.png`}
+            alt="Download on the Google Play Store"
+            style={{ height: '40px', width: 'auto' }}
           />
+        </Link>
       </Box>
 
     </Box>
