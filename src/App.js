@@ -27,6 +27,7 @@ import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
 import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
 import WhackAMole from './games/WhackAMole';
+import GardenPuzzleGame from './games/GardenPuzzle';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -83,6 +84,7 @@ function App() {
             <Route path="/color-dash" element={<ColorDash />} />
             <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />
             <Route path="/whack-a-mole" element={<WhackAMole />} />
+            <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
           </Routes>
 
           <CookieConsent
