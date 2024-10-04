@@ -3,17 +3,17 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#F93854',
+      main: '#cca59f',
     },
     secondary: {
-      main: '#F4F1E0',
+      main: '#ebe2d1',
     },
     background: {
-      default: '#F4F1E0',
+      default: '#ebe2d1',
       paper: '#FFFFFF',
     },
     text: {
-      primary: '#F93854',
+      primary: '#000000',
       secondary: '#000000',
     },
   },
@@ -21,21 +21,21 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#F4F1E0',
-          color: '#F93854',
+          backgroundColor: '#ebe2d1',
+          color: '#000000',
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          color: '#F93854',
+          color: '#000000',
           '&:hover': {
-            backgroundColor: 'rgba(249, 56, 84, 0.08)',
+            backgroundColor: '#cca59f',
           },
         },
         contained: {
-          backgroundColor: '#F93854',
+          backgroundColor: '#000000',
           color: '#FFFFFF',
           '&:hover': {
             backgroundColor: '#D62E46',
@@ -46,7 +46,7 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: '#F93854',
+          color: '#000000',
         },
       },
     },

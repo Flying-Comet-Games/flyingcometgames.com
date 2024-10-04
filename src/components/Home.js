@@ -57,7 +57,7 @@ const Home = () => {
               mb: 2,
             }}
           >
-            Online Puzzle and Word Games | Flying Comet Games
+            Online Puzzle & Word Games
           </Typography>
           <Typography
             variant="h2"

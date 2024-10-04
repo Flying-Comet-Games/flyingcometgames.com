@@ -71,25 +71,35 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
           bottom: { xs: 16, sm: 24 },
           left: { xs: 16, sm: 24 },
           display: 'flex',
-          alignItems: 'center', // Align buttons vertically
-          gap: 2,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 2, // Space between buttons
         }}
       >
         <Link to={appStoreLink}>
-          <img
+          <Box
+            component="img"
             src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1726963200"
             alt="Download on the App Store"
-            style={{ height: '40px', width: 'auto' }}
+            sx={{
+              height: '40px',
+              width: 'auto',
+            }}
           />
         </Link>
         <Link to="https://play.google.com/store/apps/details?id=com.enhancenothing.com.android.keepbufoalive">
-          <img
+          <Box
+            component="img"
             src={`${process.env.PUBLIC_URL}/assets/google-play.png`}
             alt="Download on the Google Play Store"
-            style={{ height: '40px', width: 'auto' }}
+            sx={{
+              height: '40px',
+              width: 'auto',
+            }}
           />
         </Link>
       </Box>
+
 
     </Box>
   );
