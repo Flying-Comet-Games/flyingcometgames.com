@@ -11,69 +11,58 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
     <Box
       sx={{
         width: '100%',
-        height: { xs: '200px', sm: '220px', md: '200px' }, // Increased height to accommodate buttons
-        padding: { xs: 2, sm: 3 },
+        padding: { xs: 3, sm: 4 },
         display: 'flex',
         flexDirection: 'column',
-        background: theme.palette.primary.main,
-        color: 'white',
+        background: theme.palette.background.paper,
+        color: theme.palette.text.primary,
         borderRadius: '12px',
         overflow: 'hidden',
-        position: 'relative', // For absolute positioning of buttons
+        boxShadow: theme.shadows[2],
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <Box
           component="img"
           src={appStoreImageSrc}
           alt={`${title} logo`}
           sx={{
-            width: { xs: '60px', sm: '70px', md: '80px' },
-            height: { xs: '60px', sm: '70px', md: '80px' },
+            width: { xs: '60px', sm: '70px' },
+            height: { xs: '60px', sm: '70px' },
             objectFit: 'cover',
             borderRadius: '12px',
             mr: 2,
           }}
         />
-        <Box sx={{ flex: 1 }}>
-          <Typography
-            variant="h6"
-            color="white"
-            component="div"
-            fontWeight="bold"
-            sx={{
-              fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
-              lineHeight: 1.2,
-              mb: 1,
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="white"
-            sx={{
-              fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
-              lineHeight: 1.2,
-              display: '-webkit-box',
-              // WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            }}
-          >
-            {description}
-          </Typography>
-        </Box>
+        <Typography
+          variant="h6"
+          component="div"
+          fontWeight="bold"
+          sx={{
+            fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+            lineHeight: 1.3,
+          }}
+        >
+          {title}
+        </Typography>
       </Box>
+      <Typography
+        variant="body2"
+        sx={{
+          fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+          lineHeight: 1.5,
+          color: theme.palette.text.secondary,
+          mb: 3,
+        }}
+      >
+        {description}
+      </Typography>
       <Box
         sx={{
-          position: 'absolute',
-          bottom: { xs: 16, sm: 24 },
-          left: { xs: 16, sm: 24 },
+          mt: 'auto',
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 2, // Space between buttons
+          justifyContent: 'flex-start',
+          gap: 2,
         }}
       >
         <Link to={appStoreLink}>
@@ -82,7 +71,7 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
             src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1726963200"
             alt="Download on the App Store"
             sx={{
-              height: '40px',
+              height: { xs: '35px', sm: '40px' },
               width: 'auto',
             }}
           />
@@ -93,14 +82,12 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
             src={`${process.env.PUBLIC_URL}/assets/google-play.png`}
             alt="Download on the Google Play Store"
             sx={{
-              height: '40px',
+              height: { xs: '35px', sm: '40px' },
               width: 'auto',
             }}
           />
         </Link>
       </Box>
-
-
     </Box>
   );
 };

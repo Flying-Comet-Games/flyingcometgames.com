@@ -20,7 +20,7 @@ const CollapsibleSEOContent = () => {
         onClick={() => setExpanded(!expanded)}
         sx={{
           textDecoration: 'none',
-          color: 'primary.main',
+          // color: 'primary.main',
           marginBottom: 2,
           marginTop: 2,
           display: 'flex',

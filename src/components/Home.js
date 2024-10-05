@@ -21,7 +21,7 @@ const Home = () => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        overflow: 'auto',
+        overflowX: 'hidden', // Prevent horizontal overflow
         backgroundColor: theme.palette.background.default,
       }}
     >
@@ -38,12 +38,15 @@ const Home = () => {
           alignItems: 'center',
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
+          width: '100%',
+          maxWidth: '100%', // Ensure container does not exceed screen width
+          boxSizing: 'border-box',
         }}
       >
         <Box
           sx={{
             maxWidth: '600px',
-            textAlign: 'center',
+            textAlign: 'left',
             mb: { xs: 3, sm: 4, md: 5 },
           }}
         >
@@ -52,7 +55,7 @@ const Home = () => {
             component="h1"
             gutterBottom
             sx={{
-              fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+              fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem' },
               fontWeight: 700,
               mb: 2,
             }}
@@ -65,7 +68,6 @@ const Home = () => {
             gutterBottom
             sx={{
               fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
-              fontWeight: 500,
               pb: 2,
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
@@ -79,14 +81,20 @@ const Home = () => {
             width: '100%',
             display: 'flex',
             justifyContent: 'center',
+            boxSizing: 'border-box',
+            overflow: 'hidden', // Prevent horizontal overflow from content
           }}
         >
           <GamesBody />
         </Box>
 
-
         <Box
-          pt={5}
+          sx={{
+            width: '100%',
+            pt: 5,
+            maxWidth: '100%', // Avoid overflow
+            boxSizing: 'border-box',
+          }}
         >
           <CollapsibleSEOContent />
         </Box>
@@ -101,6 +109,8 @@ const Home = () => {
           borderTop: '1px solid',
           borderColor: 'divider',
           textAlign: 'center',
+          width: '100%',
+          boxSizing: 'border-box',
         }}
       >
         <Typography variant="body2" color="text.secondary">
