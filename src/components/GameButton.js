@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-const GameButton = ({ to, title, logoSrc }) => (
+const GameButton = ({ to, title, logoSrc, backgroundColor }) => (
     <Button
       component={Link}
       to={to}
@@ -18,8 +18,7 @@ const GameButton = ({ to, title, logoSrc }) => (
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        backgroundColor: theme => theme.palette.primary.main,
-
+        backgroundColor: backgroundColor,
         borderRadius: '16px',
         boxShadow: theme => `0 2px 4px ${theme.palette.grey[400]}`,
         '&:hover': {

@@ -4,6 +4,8 @@ import FeaturedGame from './FeaturedGame';
 import GameButton from './GameButton';
 
 const GameBody = () => {
+    const backgroundColors = ['#9eb4ad', '#cca59f', '#91b2d1', '#cfc79d'];
+
     return (
         <Grid
           container
@@ -21,83 +23,28 @@ const GameBody = () => {
               appStoreImageSrc="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/9c/e4/e39ce4cf-7e03-badc-7b2a-9d0bd4277a22/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/540x540bb.jpg"
             />
           </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/startup-speedrun-simulator"
-              title="Startup Simulator"
-              logoSrc="/assets/game-logos/startup-accelerator-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/whack-a-mole"
-              title="Whack A Mole"
-              logoSrc="/assets/game-logos/whack-a-mole-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-dash"
-              title="Color Dash"
-              logoSrc="/assets/game-logos/color-dash-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/cowboy-quest"
-              title="Cowboy Quest"
-              logoSrc="/assets/game-logos/cowboy-quest-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/avoid-blocks"
-              title="Avoid The Block"
-              logoSrc="/assets/game-logos/avoid-the-blocks-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/memory-maze"
-              title="Memory Maze"
-              logoSrc="/assets/game-logos/memory-maze-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-flood"
-              title="Color Flood"
-              logoSrc="/assets/game-logos/color-flood-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/color-matcher"
-              title="Color Matcher"
-              logoSrc="/assets/game-logos/color-matcher-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/digit-shift"
-              title="Digit Shift"
-              logoSrc="/assets/game-logos/digit-shift-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/word-wizard"
-              title="Word Wizard"
-              logoSrc="/assets/game-logos/word-wizard-logo.png"
-            />
-          </Grid>
-          <Grid item xs={6} sm={6} md={4} lg={3}>
-            <GameButton
-              to="/shape-sorter"
-              title="Shape Sorter"
-              logoSrc="/assets/game-logos/shape-sorter-logo.png"
-            />
-          </Grid>
+          {[
+            { to: "/startup-speedrun-simulator", title: "Startup Simulator", logoSrc: "/assets/game-logos/startup-accelerator-logo.png" },
+            { to: "/whack-a-mole", title: "Whack A Mole", logoSrc: "/assets/game-logos/whack-a-mole-logo.png" },
+            { to: "/color-dash", title: "Color Dash", logoSrc: "/assets/game-logos/color-dash-logo.png" },
+            { to: "/cowboy-quest", title: "Cowboy Quest", logoSrc: "/assets/game-logos/cowboy-quest-logo.png" },
+            { to: "/avoid-blocks", title: "Avoid The Block", logoSrc: "/assets/game-logos/avoid-the-blocks-logo.png" },
+            { to: "/memory-maze", title: "Memory Maze", logoSrc: "/assets/game-logos/memory-maze-logo.png" },
+            { to: "/color-flood", title: "Color Flood", logoSrc: "/assets/game-logos/color-flood-logo.png" },
+            { to: "/color-matcher", title: "Color Matcher", logoSrc: "/assets/game-logos/color-matcher-logo.png" },
+            { to: "/digit-shift", title: "Digit Shift", logoSrc: "/assets/game-logos/digit-shift-logo.png" },
+            { to: "/word-wizard", title: "Word Wizard", logoSrc: "/assets/game-logos/word-wizard-logo.png" },
+            { to: "/shape-sorter", title: "Shape Sorter", logoSrc: "/assets/game-logos/shape-sorter-logo.png" }
+          ].map((game, index) => (
+            <Grid item xs={6} sm={6} md={4} lg={3} key={game.title}>
+              <GameButton
+                to={game.to}
+                title={game.title}
+                logoSrc={game.logoSrc}
+                backgroundColor={backgroundColors[index % backgroundColors.length]}
+              />
+            </Grid>
+          ))}
         </Grid>
     );
 };

@@ -14,7 +14,7 @@ const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) =>
         padding: { xs: 3, sm: 4 },
         display: 'flex',
         flexDirection: 'column',
-        background: theme.palette.background.paper,
+        background: "#9eb4ad",
         color: theme.palette.text.primary,
         borderRadius: '12px',
         overflow: 'hidden',
