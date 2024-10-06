@@ -12,10 +12,10 @@ const GameBody = () => {
           spacing={3}
           justifyContent="center"
           sx={{
-            width: '100%',
+            width: { xs: '100%', sm: '80%', md: '80%', lg: '60%' },
           }}
         >
-          <Grid item xs={12} sm={10} md={8} lg={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'center' }}>
             <FeaturedGame
               title="Keep Bufo Alive"
               description="An addictive clicker game where you can unlock new backgrounds, outfits, and more to create the perfect environment for Bufo!"
