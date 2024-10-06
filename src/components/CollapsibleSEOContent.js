@@ -8,7 +8,16 @@ const CollapsibleSEOContent = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Box sx={{ maxWidth: '800px', textAlign: 'left', margin: '0 auto', paddingBottom: '2rem' }}>
+    <Box
+    sx={
+      {
+        maxWidth: '500px',
+        textAlign: 'left',
+        margin: '0 auto',
+        paddingBottom: '2rem'
+      }
+    }
+    >
       <Typography variant="h2" component="h2" gutterBottom sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
         Online Puzzle Games for All Skill Levels
       </Typography>
