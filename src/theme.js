@@ -10,7 +10,7 @@ const theme = createTheme({
     },
     background: {
       default: '#ebe2d1',
-      paper: '#cca59f',
+      paper: '#ebe2d1',
     },
     text: {
       primary: '#000000',
@@ -35,10 +35,10 @@ const theme = createTheme({
           },
         },
         contained: {
-          backgroundColor: '#db6551',
+          backgroundColor: '#cca59f',
           color: '#000000',
           '&:hover': {
-            backgroundColor: '#D62E46',
+            backgroundColor: '#ebe2d1',
           },
         },
       },

@@ -28,6 +28,7 @@ import ColorDash from './games/ColorDash';
 import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
 import WhackAMole from './games/WhackAMole';
 import GardenPuzzleGame from './games/GardenPuzzle';
+import TwitterStrands from './games/TwitterStrands/TwitterStrands';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -85,6 +86,7 @@ function App() {
             <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />
             <Route path="/whack-a-mole" element={<WhackAMole />} />
             <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
+            <Route path="/twitter-strands" element={<TwitterStrands />} />
           </Routes>
 
           <CookieConsent
