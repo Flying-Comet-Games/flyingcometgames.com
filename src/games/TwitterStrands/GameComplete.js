@@ -15,11 +15,11 @@ https://flyingcometgames.com/twitter-strands
   };
 
   return (
-    <Box sx={{ textAlign: 'center', py: 4, px: 2 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
+    <Box sx={{ textAlign: 'center', py: 3, px: 2 }}>
+      <Typography variant="h5" sx={{ mb: 2, fontSize: '1.2rem' }}> {/* Reduced font size */}
         Well Done!
       </Typography>
-      <Typography variant="h6" sx={{ mb: 2 }}>
+      <Typography variant="h6" sx={{ mb: 2, fontSize: '1rem' }}> {/* Reduced font size */}
         You solved "Line by Line" in {timeTaken}.
       </Typography>
 
@@ -27,7 +27,7 @@ https://flyingcometgames.com/twitter-strands
         variant="contained"
         color="primary"
         onClick={handleShare}
-        sx={{ mb: 4 }}
+        sx={{ mb: 3, fontSize: '0.85rem', padding: '6px 12px' }}
       >
         Share your results on X
       </Button>

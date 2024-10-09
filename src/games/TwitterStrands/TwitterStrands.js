@@ -60,7 +60,7 @@ const TwitterStrands = () => {
   };
 
   return (
-    <Box sx={{ textAlign: 'center', py: 2, maxWidth: 360, margin: 'auto', height: '100vh', overflow: 'hidden' }}>
+    <Box sx={{ textAlign: 'center', py: 2, maxWidth: 360, margin: 'auto', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
       {/* Updated banner with reduced padding and height */}
       <Paper elevation={3} sx={{ p: 0.5, mb: 1, backgroundColor: 'black', color: 'white' }}>
@@ -79,12 +79,15 @@ const TwitterStrands = () => {
         ⏱️ Time Elapsed: {formatTime(elapsedTime)}
       </Typography>
 
-      <Grid themeWords={themeWords} spangram={spangram} onWordFound={handleWordFound} gameOver={gameOver} />
+      <Box sx={{ flexGrow: 1, overflowY: 'auto' }}> {/* Added flexGrow and overflow */}
+        <Grid themeWords={themeWords} spangram={spangram} onWordFound={handleWordFound} gameOver={gameOver} />
+      </Box>
 
       <ProgressTracker foundWords={foundWords.filter(word => word !== spangram)} totalWords={MAX_THEME_WORDS} />
 
       {gameOver && <GameComplete timeTaken={formatTime(elapsedTime)} />}
       {gameOver && <Confetti />}
+
     </Box>
   );
 };
