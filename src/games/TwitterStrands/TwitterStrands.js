@@ -43,18 +43,6 @@ const TwitterStrands = () => {
   }, [gameOver, startTime]);
 
   const startNewGame = async () => {
-    let newThemeWords = [
-      "PARANOID",    // 8 characters
-      "LOVEBUG",     // 7 characters
-      "SUCKER",      // 6 characters
-      "COOL",        // 4 characters
-      "MANDY",       // 5 characters
-      "TONIGHT",     // 7 characters
-      "SOS",         // 3 characters
-      "BURNINUP"     // 8 characters
-    ];
-    setThemeWords(newThemeWords);
-    setSpangram('BIGMAC');
     setFoundWords([]);
     setNonThemeWords([]);
     setGameOver(false);
@@ -65,15 +53,38 @@ const TwitterStrands = () => {
     setIsLoading(true);
     setProgress('');
 
-    let newSpangram = 'BIGMAC';
     try {
-      const newGrid = await GridGenerator({
+      // Fetch theme words from the API
+      const response = await fetch('https://dev.flyingcometgames.com/api/generateThemeWords', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          theme: 'music', // Replace with the desired theme
+        }),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to fetch theme words');
+      }
+
+      const data = await response.json();
+      const newThemeWords = data.themeWords;
+      // const newSpangram = data.spangram || 'BIGMAC'; // Optional: if the API returns the spangram
+
+      // Set theme words and spangram
+      setThemeWords(newThemeWords);
+      // setSpangram(newSpangram);
+
+      // Generate grid based on the fetched theme words
+      const newGrid = await GridGenerator({
         themeWords: newThemeWords,
       });
+
       setGrid(newGrid);
     } catch (error) {
-      console.error("Error generating grid:", error);
+      console.error("Error generating game grid:", error);
       setError("Failed to generate game grid. Please try again.");
       setGrid(null);
     } finally {
