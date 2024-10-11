@@ -133,9 +133,9 @@ const TwitterStrands = () => {
         </Button>
       </Paper>
 
-      <Typography variant="h6" sx={{ mb: 2 }}>
+      {/* <Typography variant="h6" sx={{ mb: 2 }}>
         Time Elapsed: {formatTime(elapsedTime)}
-      </Typography>
+      </Typography> */}
 
       {isLoading ? (
         <Box>

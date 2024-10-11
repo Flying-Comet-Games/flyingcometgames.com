@@ -86,7 +86,7 @@ function App() {
             <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />
             <Route path="/whack-a-mole" element={<WhackAMole />} />
             <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
-            <Route path="/twitter-strands" element={<TwitterStrands />} />
+            <Route path="/my-strands" element={<TwitterStrands />} />
           </Routes>
 
           <CookieConsent
