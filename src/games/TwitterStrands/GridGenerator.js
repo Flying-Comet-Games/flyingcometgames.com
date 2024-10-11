@@ -25,6 +25,7 @@ const GridGenerator = ({ themeWords }) => {
     }
   };
 
+  // Directions array to ensure all possible movements
   const directions = [
     [0, 1], [1, 0], [1, 1], [-1, 1],
     [0, -1], [-1, 0], [-1, -1], [1, -1]
@@ -37,6 +38,16 @@ const GridGenerator = ({ themeWords }) => {
   const hasSufficientSpace = (grid, wordLength) => {
     const freeCells = grid.reduce((acc, row) => acc + row.filter(cell => cell === null).length, 0);
     return freeCells >= wordLength;
+  };
+
+  // Function to check if a word crosses another word
+  const doesPathCross = (grid, path) => {
+    for (let { r, c } of path) {
+      if (grid[r][c] !== null) {
+        return true;  // A cross detected
+      }
+    }
+    return false;  // No cross detected
   };
 
   const placeWordBFS = (grid, word, failedPlacements, wordPaths) => {
@@ -67,15 +78,21 @@ const GridGenerator = ({ themeWords }) => {
       visited.add(key);
 
       if (path.length === word.length) {
-        path.forEach(({ r, c }, index) => {
-          grid[r][c] = word[index];
-        });
-
-        wordPaths.push({ word, path });
-        console.log(`Successfully placed word: ${word}`);
-        return true;
+        // Check if the path crosses any other word
+        if (!doesPathCross(grid, path)) {
+          // If no crossing, place the word
+          path.forEach(({ r, c }, index) => {
+            grid[r][c] = word[index];
+          });
+          wordPaths.push({ word, path });
+          console.log(`Successfully placed word: ${word}`);
+          return true;
+        } else {
+          console.log(`Word path crosses another: ${word}`);
+        }
       }
 
+      shuffleArray(directions);
       for (const [dx, dy] of directions) {
         const nextRow = row + dx;
         const nextCol = col + dy;
