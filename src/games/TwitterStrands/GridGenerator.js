@@ -38,19 +38,33 @@ const GridGenerator = ({ themeWords }) => {
     const freeCells = grid.reduce((acc, row) => acc + row.filter(cell => cell === null).length, 0);
     return freeCells >= wordLength;
   };
-
-  const doesPathCross = (grid, path) => {
+  const doesPathCross = (grid, path, usedCells) => {
     for (let { r, c } of path) {
-      if (grid[r][c] !== null) {
-        return true; // Path intersects another word
+      if (grid[r][c] !== null || usedCells.has(`${r},${c}`)) {
+        return true; // Path intersects or touches another word
+      }
+      // Check adjacent cells to prevent touching paths
+      for (const [dx, dy] of directions) {
+        const adjRow = r + dx;
+        const adjCol = c + dy;
+        if (adjRow >= 0 && adjRow < GRID_ROWS && adjCol >= 0 && adjCol < GRID_COLS) {
+          if (usedCells.has(`${adjRow},${adjCol}`)) {
+            return true; // Path touches another path
+          }
+        }
       }
     }
-    return false; // No crossing
+    return false; // No crossing or touching
   };
 
-  const placeWordBFS = (grid, word, failedPlacements, wordPaths) => {
+  const placeWordBFS = (grid, word, failedPlacements, wordPaths, usedCells) => {
     const queue = new Queue();
-    const visited = new Set();
+    const visited = new Set(); // Initialize visited as a Set
+
+    // Ensure usedCells is initialized properly before use
+    if (!usedCells) {
+      usedCells = new Set();
+    }
 
     shuffleArray(directions);
 
@@ -74,9 +88,10 @@ const GridGenerator = ({ themeWords }) => {
       visited.add(key);
 
       if (path.length === word.length) {
-        if (!doesPathCross(grid, path)) {
+        if (!doesPathCross(grid, path, usedCells)) {
           path.forEach(({ r, c }, index) => {
             grid[r][c] = word[index];
+            usedCells.add(`${r},${c}`); // Ensure usedCells is properly tracked
           });
           wordPaths.push({ word, path });
           return true;
@@ -111,6 +126,13 @@ const GridGenerator = ({ themeWords }) => {
     return lastPlacement;
   };
 
+  // Solvability check function
+  const isGridSolvable = (grid, themeWords) => {
+    // Implement your checking logic here
+    // This could involve redoing BFS or DFS to make sure every word can be found
+    return true; // Placeholder: you can implement the logic to actually validate solvability
+  };
+
   const generateGrid = () => {
     validateInput();
 
@@ -129,7 +151,7 @@ const GridGenerator = ({ themeWords }) => {
       }
     }
 
-    return success ? grid : null;
+    return success && isGridSolvable(grid, themeWords) ? grid : null;
   };
 
   const startTime = Date.now();

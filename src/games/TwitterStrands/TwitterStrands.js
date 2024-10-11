@@ -126,7 +126,7 @@ const TwitterStrands = () => {
 
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">TODAY'S THEME</Typography>
-        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Jo Bros</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Jonas Brother Songs</Typography>
       </Paper>
 
       <Typography variant="h6" sx={{ mb: 2 }}>
