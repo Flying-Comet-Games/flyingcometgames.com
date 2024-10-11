@@ -51,10 +51,10 @@ const Grid = ({ grid, themeWords, spangram, onWordFound, gameOver, giveHint, hin
   const handleSubmitWord = (word) => {
     const currentWord = word.toUpperCase();
 
-    if (themeWords.includes(currentWord)) {
+    if (themeWords.map(w => w.toUpperCase()).includes(currentWord)) {
       setFoundWordPaths([...foundWordPaths, { path: selectedCells, isSpangram: false }]); // Store word path
       onWordFound(currentWord);
-    } else if (currentWord === spangram) {
+    } else if (currentWord === spangram.toUpperCase()) {
       setFoundWordPaths([...foundWordPaths, { path: selectedCells, isSpangram: true }]); // Store spangram path
       onWordFound(spangram);
     }
