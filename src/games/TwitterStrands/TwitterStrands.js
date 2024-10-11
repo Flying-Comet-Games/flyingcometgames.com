@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Link, Button, CircularProgress } from '@mui/material';
+import { Box, Typography, Paper, Link, Button, CircularProgress, TextField } from '@mui/material';
 import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../../analytics';
 import Grid from './Grid';
 import Confetti from './Confetti';
@@ -7,9 +7,8 @@ import ProgressTracker from './ProgressTracker';
 import GameComplete from './GameComplete';
 import GridGenerator from './GridGenerator';
 
-const MAX_THEME_WORDS = 8;
-
 const TwitterStrands = () => {
+  const [theme, setTheme] = useState(''); // Add state for theme input
   const [themeWords, setThemeWords] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
   const [nonThemeWords, setNonThemeWords] = useState([]); // Track non-theme words
@@ -19,30 +18,16 @@ const TwitterStrands = () => {
   const [elapsedTime, setElapsedTime] = useState(0); // Track time in seconds
   const [hintCount, setHintCount] = useState(0); // Track the number of hints used
   const [grid, setGrid] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [progress, setProgress] = useState('');
 
-
-  useEffect(() => {
-    startNewGame();
-    incrementGamesPlayed('Strands');
-    logEvent('Game', 'Start', 'Strands');
-  }, []);
-
-  // Timer effect: updates every second
-  useEffect(() => {
-    let timer;
-    if (!gameOver) {
-      timer = setInterval(() => {
-        const currentTime = Date.now();
-        setElapsedTime(Math.floor((currentTime - startTime) / 1000)); // Calculate elapsed time in seconds
-      }, 1000);
-    }
-    return () => clearInterval(timer); // Clear timer on unmount
-  }, [gameOver, startTime]);
-
   const startNewGame = async () => {
+    if (!theme) {
+      setError('Please enter a theme to start the game.');
+      return;
+    }
+
     setFoundWords([]);
     setNonThemeWords([]);
     setGameOver(false);
@@ -54,14 +39,14 @@ const TwitterStrands = () => {
     setProgress('');
 
     try {
-      // Fetch theme words from the API
+      // Fetch theme words from the API with the selected theme
       const response = await fetch('https://dev.flyingcometgames.com/api/generateThemeWords', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          theme: 'music', // Replace with the desired theme
+          theme: theme, // Use the input theme
         }),
       });
 
@@ -71,13 +56,9 @@ const TwitterStrands = () => {
 
       const data = await response.json();
       const newThemeWords = data.themeWords;
-      // const newSpangram = data.spangram || 'BIGMAC'; // Optional: if the API returns the spangram
 
-      // Set theme words and spangram
+      // Set theme words and generate grid based on the fetched theme words
       setThemeWords(newThemeWords);
-      // setSpangram(newSpangram);
-
-      // Generate grid based on the fetched theme words
       const newGrid = await GridGenerator({
         themeWords: newThemeWords,
       });
@@ -96,7 +77,7 @@ const TwitterStrands = () => {
     if (themeWords.includes(word) || word === spangram) {
       setFoundWords([...foundWords, word]);
 
-      if (foundWords.filter(w => w !== spangram).length + 1 === MAX_THEME_WORDS) {
+      if (foundWords.filter(w => w !== spangram).length + 1 === themeWords.length) {
         setGameOver(true);
         incrementGamesCompleted('Strands');
       }
@@ -111,7 +92,6 @@ const TwitterStrands = () => {
   };
 
   const giveHint = () => {
-    // Pick a random remaining theme word and reveal a random letter
     const remainingWords = themeWords.filter(word => !foundWords.includes(word));
     if (remainingWords.length > 0) {
       const randomWord = remainingWords[Math.floor(Math.random() * remainingWords.length)];
@@ -136,8 +116,18 @@ const TwitterStrands = () => {
       </Paper>
 
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h6">TODAY'S THEME</Typography>
-        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Jonas Brother Songs</Typography>
+        <Typography variant="h6">Enter Your Theme</Typography>
+        <TextField
+          label="Theme"
+          value={theme}
+          onChange={(e) => setTheme(e.target.value)}
+          variant="outlined"
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <Button variant="contained" color="primary" onClick={startNewGame} disabled={isLoading}>
+          Start Game
+        </Button>
       </Paper>
 
       <Typography variant="h6" sx={{ mb: 2 }}>
@@ -163,12 +153,11 @@ const TwitterStrands = () => {
         />
       )}
 
-      <ProgressTracker foundWords={foundWords.filter(word => word !== spangram)} totalWords={MAX_THEME_WORDS} />
+      <ProgressTracker foundWords={foundWords.filter(word => word !== spangram)} totalWords={themeWords.length} />
 
       {gameOver && <GameComplete timeTaken={formatTime(elapsedTime)} />}
       {gameOver && <Confetti />}
 
-      {/* Hint Button */}
       {!gameOver && (
         <Button
           variant="outlined"
@@ -180,7 +169,6 @@ const TwitterStrands = () => {
         </Button>
       )}
 
-      {/* Reset button */}
       <Button
         variant="outlined"
         color="secondary"
