@@ -2,7 +2,7 @@ import Queue from 'queue-fifo';
 
 const GRID_ROWS = 8;
 const GRID_COLS = 6;
-const MAX_ATTEMPTS = 3000;
+const MAX_ATTEMPTS = 10000;
 const TIME_LIMIT = 15000; // 15 seconds
 
 const GridGenerator = ({ themeWords }) => {
@@ -25,7 +25,6 @@ const GridGenerator = ({ themeWords }) => {
     }
   };
 
-  // Directions array to ensure all possible movements
   const directions = [
     [0, 1], [1, 0], [1, 1], [-1, 1],
     [0, -1], [-1, 0], [-1, -1], [1, -1]
@@ -40,14 +39,13 @@ const GridGenerator = ({ themeWords }) => {
     return freeCells >= wordLength;
   };
 
-  // Function to check if a word crosses another word
   const doesPathCross = (grid, path) => {
     for (let { r, c } of path) {
       if (grid[r][c] !== null) {
-        return true;  // A cross detected
+        return true; // Path intersects another word
       }
     }
-    return false;  // No cross detected
+    return false; // No crossing
   };
 
   const placeWordBFS = (grid, word, failedPlacements, wordPaths) => {
@@ -55,10 +53,8 @@ const GridGenerator = ({ themeWords }) => {
     const visited = new Set();
 
     shuffleArray(directions);
-    console.log(`Attempting to place word: ${word}`);
 
     if (!hasSufficientSpace(grid, word.length)) {
-      console.log(`Not enough space to place word: ${word}`);
       return false;
     }
 
@@ -78,17 +74,12 @@ const GridGenerator = ({ themeWords }) => {
       visited.add(key);
 
       if (path.length === word.length) {
-        // Check if the path crosses any other word
         if (!doesPathCross(grid, path)) {
-          // If no crossing, place the word
           path.forEach(({ r, c }, index) => {
             grid[r][c] = word[index];
           });
           wordPaths.push({ word, path });
-          console.log(`Successfully placed word: ${word}`);
           return true;
-        } else {
-          console.log(`Word path crosses another: ${word}`);
         }
       }
 
@@ -107,14 +98,12 @@ const GridGenerator = ({ themeWords }) => {
       }
     }
 
-    console.log(`Failed to place word: ${word}`);
     return false;
   };
 
   const backtrack = (grid, wordPaths) => {
     const lastPlacement = wordPaths.pop();
     if (lastPlacement) {
-      console.log(`Backtracking on word: ${lastPlacement.word}`);
       lastPlacement.path.forEach(({ r, c }) => {
         grid[r][c] = null;
       });
@@ -148,15 +137,12 @@ const GridGenerator = ({ themeWords }) => {
 
   while (Date.now() - startTime < TIME_LIMIT && attempts < MAX_ATTEMPTS) {
     attempts++;
-    console.log(`Grid generation attempt: ${attempts}`);
     const grid = generateGrid();
     if (grid) {
-      console.log(`Grid successfully generated on attempt ${attempts}`);
       return grid;
     }
   }
 
-  console.error('Failed to generate grid within time/attempt limit');
   throw new Error('Failed to generate grid within time/attempt limit');
 };
 
