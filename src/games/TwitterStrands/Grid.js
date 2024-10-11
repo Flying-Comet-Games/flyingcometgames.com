@@ -1,29 +1,51 @@
-import React, { useState, useRef } from 'react';
-import { Box, Button } from '@mui/material';
+import React, { useState, useRef, useEffect } from 'react';
+import { Box, Button, CircularProgress } from '@mui/material';
 import WordSubmit from './WordSubmit';
 
 const GRID_ROWS = 8;
 const GRID_COLS = 6;
 
-const Grid = ({ themeWords, spangram, onWordFound, gameOver }) => {
-  const [grid, setGrid] = useState([
-    ['L', 'I', 'U', 'B', 'H', 'C'],
-    ['D', 'R', 'O', 'T', 'I', 'T'],
-    ['P', 'N', 'I', 'O', 'T', 'P'],
-    ['G', 'K', 'F', 'D', 'Y', 'E'],
-    ['E', 'C', 'O', 'U', 'O', 'P'],
-    ['T', 'C', 'A', 'N', 'R', 'C'],
-    ['H', 'H', 'D', 'E', 'I', 'N'],
-    ['E', 'T', 'A', 'V', 'O', 'N']
-  ]);
+const Grid = ({ grid, themeWords, spangram, onWordFound, gameOver, giveHint, hintCount }) => {
+  // const [grid, setGrid] = useState([
+  //   ["B", "I", "G", "M", "A", "C"],
+  //   ["S", "H", "A", "P", "P", "Y"],
+  //   ["F", "R", "I", "E", "S", "L"],
+  //   ["N", "U", "G", "G", "E", "T"],
+  //   ["M", "E", "A", "L", "S", "O"],
+  //   ["S", "O", "D", "A", "K", "F"],
+  //   ["H", "A", "P", "P", "Y", "M"],
+  //   ["F", "R", "I", "E", "S", "L"]
+  // ]);
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWordPaths, setFoundWordPaths] = useState([]); // Store paths for found words
+  const [hintWord, setHintWord] = useState(null); // Track the word to highlight when hint is used
+
   const buttonRefs = useRef([]);
   const gridContainerRef = useRef(null);
 
+  // Default to 6x6 grid if grid is undefined
+  const GRID_ROWS = grid?.length || 8;
+  const GRID_COLS = grid?.[0]?.length || 6;
+
+  // UseEffect to trigger a hint
+  useEffect(() => {
+    if (hintCount > 0) {
+      const hint = giveHint();
+      if (hint) {
+        setHintWord(hint); // Highlight the entire word when hint is provided
+      }
+    }
+  }, [hintCount, giveHint]);
+
   const handleLetterClick = (letter, row, col) => {
-    if (selectedCells.some(cell => cell.row === row && cell.col === col)) return;
-    setSelectedCells([...selectedCells, { letter, row, col }]);
+    const isSelected = selectedCells.some(cell => cell.row === row && cell.col === col);
+
+    // If the letter is already selected, unselect it
+    if (isSelected) {
+      setSelectedCells(selectedCells.filter(cell => !(cell.row === row && cell.col === col)));
+    } else {
+      setSelectedCells([...selectedCells, { letter, row, col }]);
+    }
   };
 
   const handleSubmitWord = (word) => {
@@ -70,6 +92,14 @@ const Grid = ({ themeWords, spangram, onWordFound, gameOver }) => {
 
   const getCurrentWord = () => selectedCells.map(cell => cell.letter).join('');
 
+  if (!grid) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box ref={gridContainerRef} sx={{ position: 'relative', maxWidth: 360, margin: 'auto' }}>
       <Box
@@ -96,13 +126,15 @@ const Grid = ({ themeWords, spangram, onWordFound, gameOver }) => {
                 borderRadius: '50%',
                 fontWeight: 'bold',
                 padding: 0,
-                backgroundColor: isSpangram(rowIndex, colIndex)
-                  ? '#FFD700' // Yellow for spangram
-                  : isCellInFoundWord(rowIndex, colIndex)
-                    ? '#ADD8E6' // Light blue for completed words
-                    : selectedCells.some(c => c.row === rowIndex && c.col === colIndex)
-                      ? 'lightgrey' // Grey for selected cells
-                      : 'white',
+                backgroundColor: hintWord?.includes(cell)
+                  ? '#FFFF99' // Highlight the word revealed by hint in yellow
+                  : isSpangram(rowIndex, colIndex)
+                    ? '#FFD700' // Yellow for spangram
+                    : isCellInFoundWord(rowIndex, colIndex)
+                      ? '#ADD8E6' // Light blue for completed words
+                      : selectedCells.some(c => c.row === rowIndex && c.col === colIndex)
+                        ? 'lightgrey' // Grey for selected cells
+                        : 'white', // Default white for unselected
                 color: 'black', // Keep letters visible
                 '&:hover': {
                   backgroundColor: 'lightgray',
@@ -157,8 +189,8 @@ const Grid = ({ themeWords, spangram, onWordFound, gameOver }) => {
           })}
       </svg>
 
-      {/* Show Submit button only if the game is not over */}
-      {!gameOver && <WordSubmit onSubmit={handleSubmitWord} currentWord={getCurrentWord()} />}
+      {/* Pass the current word to WordSubmit */}
+      <WordSubmit onSubmit={handleSubmitWord} currentWord={getCurrentWord()} />
     </Box>
   );
 };
