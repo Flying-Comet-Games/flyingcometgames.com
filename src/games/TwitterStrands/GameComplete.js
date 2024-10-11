@@ -8,7 +8,7 @@ I solved "Line by Line" in ${timeTaken} minutes!
 
 Check out this project made at the @fdotinc Horizon SF hackathon
 
-https://flyingcometgames.com/twitter-strands
+https://flyingcometgames.com/my-strands
     `;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
     window.open(twitterUrl, '_blank');

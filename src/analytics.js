@@ -15,7 +15,6 @@ export const logEvent = (category, action, label, value) => {
     category: category,
     action: action,
     label: label,
-    value: value,
   });
 };
 
