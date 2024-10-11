@@ -110,13 +110,24 @@ const TwitterStrands = () => {
   };
 
   return (
-    <Box sx={{ textAlign: 'center', py: 2, maxWidth: 360, margin: 'auto', height: '100vh', overflow: 'hidden' }}>
+    <Box sx={{ textAlign: 'center', py: 2, maxWidth: 360, margin: 'auto', height: '100vh'}}>
 
       <Paper elevation={3} sx={{ p: 0.5, mb: 1, backgroundColor: 'black', color: 'white' }}>
         <Typography color="white" variant="subtitle2" sx={{ fontSize: '0.75rem' }}>
           Created with ❤️‍🔥 at the <strong>Horizon SF Hackathon</strong> hosted by <Link href="https://f.inc/" target="_blank" rel="noopener noreferrer" color="inherit">Founders, Inc.</Link>
         </Typography>
       </Paper>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2 }}>
+      <img
+        src={`${process.env.PUBLIC_URL}/assets/game-logos/my-strands-logo.svg`}
+        alt="My Strands Logo"
+        style={{ width: '50px', height: '50px', marginRight: '10px' }} // Smaller size and margin for spacing
+        />
+      <Typography variant="h4" sx={{ mt: 2, fontWeight: 'bold' }}>
+        My Strands
+      </Typography>
+    </Box>
 
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Enter Your Theme</Typography>
