@@ -28,6 +28,9 @@ const TwitterStrands = () => {
       return;
     }
 
+    // Track "Start Game" event
+    logEvent('Game', 'Start', 'Twitter Strands Start Game', theme);
+
     setFoundWords([]);
     setNonThemeWords([]);
     setGameOver(false);
@@ -157,26 +160,6 @@ const TwitterStrands = () => {
 
       {gameOver && <GameComplete timeTaken={formatTime(elapsedTime)} />}
       {gameOver && <Confetti />}
-
-      {!gameOver && (
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={giveHint}
-          sx={{ mt: 2 }}
-        >
-          Get a Hint
-        </Button>
-      )}
-
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={startNewGame}
-        sx={{ mt: 2 }}
-      >
-        Reset Game
-      </Button>
 
     </Box>
   );

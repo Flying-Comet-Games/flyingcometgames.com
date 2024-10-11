@@ -2,7 +2,7 @@ import Queue from 'queue-fifo';
 
 const GRID_ROWS = 8;
 const GRID_COLS = 6;
-const MAX_ATTEMPTS = 100000;
+const MAX_ATTEMPTS = 1000000;
 const TIME_LIMIT = 15000; // 15 seconds
 
 const GridGenerator = ({ themeWords }) => {
