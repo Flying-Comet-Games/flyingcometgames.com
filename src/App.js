@@ -29,6 +29,7 @@ import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
 import WhackAMole from './games/WhackAMole';
 import GardenPuzzleGame from './games/GardenPuzzle';
 import TwitterStrands from './games/TwitterStrands/TwitterStrands';
+import AccountingWordle from './games/AccountingWordle/AccountingWordle';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -87,6 +88,7 @@ function App() {
             <Route path="/whack-a-mole" element={<WhackAMole />} />
             <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
             <Route path="/my-strands" element={<TwitterStrands />} />
+            <Route path="/accounting-wordle" element={<AccountingWordle />} />
           </Routes>
 
           <CookieConsent
