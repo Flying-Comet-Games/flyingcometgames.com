@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Snackbar, Paper, Grid, IconButton } from '@mui/material';
+import { Box, Typography, Button, Snackbar, Paper, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { keyframes } from '@mui/system';
 import ShareIcon from '@mui/icons-material/Share';

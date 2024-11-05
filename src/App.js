@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -12,17 +12,11 @@ import DigitShift from './games/DigitShift';
 import WordWizard from './games/WordWizard';
 import Home from './components/Home';
 import ShapeSorter from './games/ShapeSorter';
-import PatternPredictor from './games/PatternPredictor';
-import SwampCleanupChallenge from './games/SwampCleanupChallenge';
-import TarnishedOrdeal from './games/TarnishedOrdeal';
 import ColorFlood from './games/ColorFlood';
 import MemoryMaze from './games/MemoryMaze';
-import PackageBalanceGame from './games/PackageBalanceGame';
 import AvoidBlocks from './games/AvoidBlocks';
-import MirrorReflectionPuzzle from './games/MirrorReflectionPuzzle';
 
 import theme from './theme';
-import ShapeShift from './games/ShapeShift';
 import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
 import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
@@ -73,15 +67,9 @@ function App() {
             <Route path="/digit-shift" element={<DigitShift />} />
             <Route path="/word-wizard" element={<WordWizard />} />
             <Route path="/shape-sorter" element={<ShapeSorter />} />
-            <Route path="/pattern-predictor" element={<PatternPredictor />} />
-            <Route path="/swamp-cleanup-challenge" element={<SwampCleanupChallenge />} />
-            <Route path="/tarnished-ordeal" element={<TarnishedOrdeal />} />
             <Route path="/color-flood" element={<ColorFlood />} />
             <Route path="/memory-maze" element={<MemoryMaze />} />
-            <Route path="/balancing-act" element={<PackageBalanceGame />} />
             <Route path="/avoid-blocks" element={<AvoidBlocks />} />
-            <Route path="/mirror-reflection" element={<MirrorReflectionPuzzle />} />
-            <Route path="/shape-shift" element={<ShapeShift />} />
             <Route path="/cowboy-quest" element={<EmojiQuest />} />
             <Route path="/color-dash" element={<ColorDash />} />
             <Route path="/startup-speedrun-simulator" element={<StartupSpeedrunSimulator />} />

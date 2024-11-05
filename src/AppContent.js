@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, Routes, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
-import CookieConsent from 'react-cookie-consent';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
-import { initGA, logPageView, setUserId } from './analytics';
+import { logPageView } from './analytics';
 
 const AppContent = () => {
   const location = useLocation();

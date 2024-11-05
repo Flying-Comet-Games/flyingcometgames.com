@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Paper, Link, Button, CircularProgress, TextField } from '@mui/material';
-import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../../analytics';
+import { logEvent, incrementGamesCompleted } from '../../analytics';
 import Grid from './Grid';
 import Confetti from './Confetti';
 import ProgressTracker from './ProgressTracker';
