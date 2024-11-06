@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -232,7 +232,7 @@ const ShapeSorter = () => {
 
       <Grid container spacing={1} sx={{ mb: 2 }}>
         {shapes.map((shape, index) => (
-          <Grid item xs={3} key={index}>
+          <Grid size={{ xs: 3 }} key={index}>
             <ShapeComponent
               shape={shape.shape}
               color={shape.color}

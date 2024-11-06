@@ -24,6 +24,7 @@ import WhackAMole from './games/WhackAMole';
 import GardenPuzzleGame from './games/GardenPuzzle';
 import TwitterStrands from './games/TwitterStrands/TwitterStrands';
 import AccountingWordle from './games/AccountingWordle/AccountingWordle';
+import WordyVerse from './games/WordyVerse.js/WordyVerse';
 
 function App() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -77,6 +78,7 @@ function App() {
             <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
             <Route path="/my-strands" element={<TwitterStrands />} />
             <Route path="/accounting-wordle" element={<AccountingWordle />} />
+            <Route path="/wordy-verse" element={<WordyVerse />} />
           </Routes>
 
           <CookieConsent

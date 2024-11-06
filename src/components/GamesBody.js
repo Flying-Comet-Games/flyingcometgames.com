@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import FeaturedGame from './FeaturedGame';
 import GameButton from './GameButton';
 
@@ -15,7 +15,7 @@ const GameBody = () => {
             width: { xs: '100%', sm: '80%', md: '80%', lg: '60%' },
           }}
         >
-          <Grid item xs={12} sm={12} md={12} lg={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid>
             <FeaturedGame
               title="Keep Bufo Alive"
               description="An addictive clicker game where you can unlock new backgrounds, outfits, and more to create the perfect environment for Bufo!"
@@ -23,6 +23,7 @@ const GameBody = () => {
               appStoreImageSrc="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e3/9c/e4/e39ce4cf-7e03-badc-7b2a-9d0bd4277a22/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/540x540bb.jpg"
             />
           </Grid>
+
           {[
             { to: "/my-strands", title: "My Strands", logoSrc: "/assets/game-logos/my-strands-logo.png" },
             { to: "/startup-speedrun-simulator", title: "Startup Simulator", logoSrc: "/assets/game-logos/startup-accelerator-logo.png" },
@@ -37,7 +38,7 @@ const GameBody = () => {
             { to: "/word-wizard", title: "Word Wizard", logoSrc: "/assets/game-logos/word-wizard-logo.png" },
             { to: "/shape-sorter", title: "Shape Sorter", logoSrc: "/assets/game-logos/shape-sorter-logo.png" }
           ].map((game, index) => (
-            <Grid item xs={6} sm={6} md={4} lg={3} key={game.title}>
+            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={game.title}>
               <GameButton
                 to={game.to}
                 title={game.title}

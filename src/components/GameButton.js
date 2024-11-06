@@ -18,6 +18,7 @@ const GameButton = ({ to, title, logoSrc, backgroundColor }) => (
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
+        marginBottom: '4px',
         backgroundColor: backgroundColor,
         borderRadius: '16px',
         boxShadow: theme => `0 2px 4px ${theme.palette.grey[400]}`,

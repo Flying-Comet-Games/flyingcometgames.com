@@ -2,16 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import FeaturedGame from './FeaturedGame';
-import GameButton from './GameButton';
-import CollapsibleSEOContent from './CollapsibleSEOContent';
-import GamesBody from './GamesBody';
 import { Helmet } from 'react-helmet';
+import TopicsBody from './TopicsBody';
 
-const Home = () => {
+const WordyVerse = () => {
   const theme = useTheme();
 
   return (
@@ -25,7 +20,7 @@ const Home = () => {
       }}
     >
       <Helmet>
-        <title>Online Puzzle Games | Flying Comet Games - NYT Games Alternative</title>
+        <title>Wordy Verse</title>
         <meta name="description" content="Enjoy engaging online puzzle games, word games, and casual games similar to NYT Games. Challenge yourself with our collection of brain teasers and addictive puzzles." />
       </Helmet>
 
@@ -38,7 +33,7 @@ const Home = () => {
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
           width: '100%',
-          maxWidth: '100%', // Ensure container does not exceed screen width
+          maxWidth: '100%',
           boxSizing: 'border-box',
         }}
       >
@@ -59,7 +54,7 @@ const Home = () => {
               mb: 2,
             }}
           >
-            Online Puzzle & Word Games
+            Wordy Verse
           </Typography>
           <Typography
             variant="h2"
@@ -71,7 +66,7 @@ const Home = () => {
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Challenge your mind with our collection of puzzle games, similar to NYT Games!
+            Puzzles from your favorite wordy verse &#127757;
           </Typography>
         </Box>
 
@@ -84,18 +79,7 @@ const Home = () => {
             overflow: 'hidden', // Prevent horizontal overflow from content
           }}
         >
-          <GamesBody />
-        </Box>
-
-        <Box
-          sx={{
-            width: '100%',
-            pt: 5,
-            maxWidth: '100%', // Avoid overflow
-            boxSizing: 'border-box',
-          }}
-        >
-          <CollapsibleSEOContent />
+          <TopicsBody />
         </Box>
       </Box>
 
@@ -113,17 +97,11 @@ const Home = () => {
         }}
       >
         <Typography variant="body2" color="text.secondary">
-          © 2024 Flying Comet Games. All rights reserved. Enjoy the best online puzzle and casual games.
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Explore our collection of games, including word puzzles, clicker games, reflex challenges, and color match games, optimized for both mobile and desktop users.
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Connect with us: <Link to="https://twitter.com/CalliFuch" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Calli</Link> and <Link to="https://twitter.com/EntreEden" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Eden</Link>
+          © 2024 Flying Comet Games. All rights reserved.
         </Typography>
       </Box>
     </Box>
   );
 };
 
-export default Home;
+export default WordyVerse;
