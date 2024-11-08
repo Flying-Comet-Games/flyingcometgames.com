@@ -46,7 +46,8 @@ export default function AccountingWordle() {
   useEffect(() => {
     const latestWordData = findLatestAvailableDate();
     if (latestWordData) {
-      setCurrentDate(new Date(latestWordData.date));
+      const ptDate = new Date(latestWordData.date + 'T00:00:00-08:00');
+      setCurrentDate(ptDate);
       setWordData(latestWordData);
     }
   }, []);
@@ -181,10 +182,13 @@ export default function AccountingWordle() {
     newDate.setDate(newDate.getDate() + increment);
 
     const newWordData = getWordForDate(newDate);
-    if (newWordData && newWordData.date === formatDateString(newDate)) {
-      setCurrentDate(newDate);
+    if (newWordData && newWordData.date) {
+      // Create new date object from the date string, forcing PT interpretation
+      const ptDate = new Date(newWordData.date + 'T00:00:00-08:00');
+      setCurrentDate(ptDate);
     }
   };
+
   const handleKeyPress = (e) => {
     if (!wordData) return;
 

@@ -186,7 +186,7 @@ export const ACCOUNTING_WORDS = [
       characterCount: 8
     }
   ];
-  
+
   export const getWordForDate = (date) => {
     if (!date || !ACCOUNTING_WORDS || !Array.isArray(ACCOUNTING_WORDS)) {
       return null;
@@ -208,8 +208,13 @@ export const ACCOUNTING_WORDS = [
       return null;
     }
 
-    // Sort dates in descending order and take the first one
-    return ACCOUNTING_WORDS
-      .map(entry => ({ date: new Date(entry.date), original: entry }))
-      .sort((a, b) => b.date - a.date)[0]?.original;
+    // Create dates in PT timezone for consistent comparison
+    const sortedEntries = ACCOUNTING_WORDS
+      .map(entry => ({
+        date: new Date(entry.date + 'T00:00:00-08:00'), // Force PT timezone
+        original: entry
+      }))
+      .sort((a, b) => b.date - a.date);
+
+    return sortedEntries[0]?.original;
   };
