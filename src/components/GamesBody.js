@@ -25,6 +25,7 @@ const GameBody = () => {
           </Grid>
 
           {[
+            { to: "/wordy-verse", title: "Wordy-verse", logoSrc: "/assets/game-logos/wordy-verse-logo.png" },
             { to: "/my-strands", title: "My Strands", logoSrc: "/assets/game-logos/my-strands-logo.png" },
             { to: "/startup-speedrun-simulator", title: "Startup Simulator", logoSrc: "/assets/game-logos/startup-accelerator-logo.png" },
             { to: "/whack-a-mole", title: "Whack A Mole", logoSrc: "/assets/game-logos/whack-a-mole-logo.png" },

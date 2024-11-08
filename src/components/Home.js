@@ -20,7 +20,7 @@ const Home = () => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        overflowX: 'hidden', // Prevent horizontal overflow
+        overflowX: 'hidden',
         backgroundColor: theme.palette.background.default,
       }}
     >

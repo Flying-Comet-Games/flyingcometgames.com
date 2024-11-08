@@ -42,7 +42,7 @@ const WordyVerseToolbar = () => {
   const menuItems = [
     { text: 'Topics', icon: <SportsEsportsIcon />, path: '/wordy-verse' },
     // { text: 'Groups', icon: <GroupIcon />, path: '/groups' },
-    { text: 'Leaderboards', icon: <EmojiEventsIcon />, path: '/leaderboards' },
+    // { text: 'Leaderboards', icon: <EmojiEventsIcon />, path: '/leaderboards' },
     // { text: 'Collect', icon: <CheckBoxIcon />, path: '/collect' },
   ];
 
@@ -108,7 +108,7 @@ const WordyVerseToolbar = () => {
         <Divider />
         <ListItem
           button
-          onClick={() => {/* Add sign out logic */}}
+          onClick={() => {}}
           sx={{
             py: 2,
             '&:hover': {
@@ -124,7 +124,7 @@ const WordyVerseToolbar = () => {
   );
 
   return (
-    <Box sx={{backgroundColor: "#e0dfd9"}}>
+    <Box>
       <AppBar position="static" elevation={0}>
         <Toolbar sx={{ backgroundColor: "#e0dfd9", justifyContent: 'space-between' }}>
           <Box
@@ -144,14 +144,14 @@ const WordyVerseToolbar = () => {
             />
           </Box>
 
-          <IconButton
+          {/* <IconButton
             color="inherit"
             edge="start"
             onClick={toggleDrawer(true)}
             sx={{ ml: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
 

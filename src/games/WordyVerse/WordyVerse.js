@@ -29,8 +29,6 @@ const WordyVerse = () => {
         />
       </Helmet>
 
-      <WordyVerseToolbar/>
-
       <Box
         sx={{
           flexGrow: 1,
@@ -65,7 +63,7 @@ const WordyVerse = () => {
           </Typography>
         </Box>
 
-        <Box
+        {/* <Box
           sx={{
             width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
             display: "flex",
@@ -96,7 +94,7 @@ const WordyVerse = () => {
           >
             Log In
           </Button>
-        </Box>
+        </Box> */}
 
         <Box
           sx={{

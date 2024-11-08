@@ -24,6 +24,7 @@ import GardenPuzzleGame from './games/GardenPuzzle';
 import TwitterStrands from './games/TwitterStrands/TwitterStrands';
 import AccountingWordle from './games/AccountingWordle/AccountingWordle';
 import WordyVerse from './games/WordyVerse/WordyVerse';
+import WordyVerseToolbar from './games/WordyVerse/Toolbar';
 
 const getTheme = (pathname) => {
   if (pathname.startsWith('/wordy-verse')) {
@@ -39,7 +40,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
   return (
     <>
       <ThemeProvider theme={getTheme(location.pathname)}>
-        {location.pathname.startsWith('/wordy-verse') ? null : <AppContent />}
+        {location.pathname.startsWith('/wordy-verse') ? <WordyVerseToolbar /> : <AppContent />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/color-matcher" element={<ColorMatcher />} />

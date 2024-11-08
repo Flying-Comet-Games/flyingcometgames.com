@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Lightbulb, Share2 } from 'lucide-react';
 import { getWordForDate } from './Data';
 import { keyframes } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
+import WordyVerseToolbar from '../WordyVerse/Toolbar';
 
 const shakeTiles = keyframes`
   0%, 100% { transform: translateX(0); }

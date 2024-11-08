@@ -19,11 +19,6 @@ const TopicsBody = () => {
         >
           {[
             { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
-            { to: wordyVerseBase + "/accounting-wordle", title: "HOUSEPLANTS", logoSrc: "/assets/wordy-topics/houseplants.png" },
-            { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
-            { to: wordyVerseBase + "/accounting-wordle", title: "HOUSEPLANTS", logoSrc: "/assets/wordy-topics/houseplants.png" },
-            { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
-            { to: wordyVerseBase + "/accounting-wordle", title: "HOUSEPLANTS", logoSrc: "/assets/wordy-topics/houseplants.png" },
           ].map((game, index) => (
             <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={game.title}>
               <GameButton
