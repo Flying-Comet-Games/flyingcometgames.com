@@ -277,7 +277,8 @@ export default function AccountingWordle() {
       p: 2,
       minHeight: '100vh',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      backgroundColor: 'background.default',
     }}>
       <Box sx={{
         display: 'flex',
@@ -286,7 +287,7 @@ export default function AccountingWordle() {
         mb: 4
       }}>
         <img
-          src={`${process.env.PUBLIC_URL}/assets/game-logos/accounting-wordle-icon.png`}
+          src={`${process.env.PUBLIC_URL}/assets/wordy-topics/accounting-wordle-icon.png`}
           alt="Accounting Wordle Logo"
           style={{ width: '64px', height: '54px', marginBottom: '1rem' }}
         />

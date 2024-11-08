@@ -6,6 +6,7 @@ import PersonIcon from "@mui/icons-material/Person"; // Added PersonIcon import
 import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet";
 import TopicsBody from "./TopicsBody";
+import WordyVerseToolbar from "./Toolbar";
 
 const WordyVerse = () => {
   const theme = useTheme();
@@ -17,7 +18,7 @@ const WordyVerse = () => {
         flexDirection: "column",
         minHeight: "100vh",
         overflowX: "hidden",
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: 'background.default',
       }}
     >
       <Helmet>
@@ -27,6 +28,8 @@ const WordyVerse = () => {
           content="Enjoy engaging online puzzle games, word games, and casual games similar to NYT Games. Challenge yourself with our collection of brain teasers and addictive puzzles."
         />
       </Helmet>
+
+      <WordyVerseToolbar/>
 
       <Box
         sx={{
@@ -49,18 +52,6 @@ const WordyVerse = () => {
           }}
         >
           <Typography
-            variant="h1"
-            component="h1"
-            gutterBottom
-            sx={{
-              fontSize: { xs: "2.5rem", sm: "3rem", md: "3.5rem" },
-              fontWeight: 700,
-              mb: 2,
-            }}
-          >
-            Wordy-verse
-          </Typography>
-          <Typography
             variant="h2"
             component="h2"
             gutterBottom
@@ -70,28 +61,40 @@ const WordyVerse = () => {
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Puzzles from your favorite wordy verse &#127757;
+            Ultra-niche word puzzles for super fans, inside jokes, and subject matter experts.
           </Typography>
         </Box>
 
         <Box
           sx={{
-            width: "100%",
+            width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
             display: "flex",
             justifyContent: "center",
             boxSizing: "border-box",
-            overflow: "hidden",
             mb: 2,
           }}
         >
           <Button
-            variant="outlined"
+            variant="contained"
             startIcon={<PersonIcon />}
             sx={{
               width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
+              marginRight: "10px"
             }}
           >
-            CREATE FREE ACCOUNT
+            Create a free account!
+          </Button>
+
+          <Button
+            variant="contained"
+            color="secondary"
+            backgroundColor="secondary"
+            startIcon={<PersonIcon />}
+            sx={{
+              width: { xs: "40%", sm: "80%", md: "80%", lg: "40%" },
+            }}
+          >
+            Log In
           </Button>
         </Box>
 

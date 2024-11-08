@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
 import CookieConsent from 'react-cookie-consent';
 import AppContent from './AppContent';
 import { initGA, logPageView, setUserId } from './analytics';
@@ -16,6 +15,7 @@ import ColorFlood from './games/ColorFlood';
 import MemoryMaze from './games/MemoryMaze';
 import AvoidBlocks from './games/AvoidBlocks';
 import theme from './theme';
+import wordyVerseTheme from './wordyVerseTheme'
 import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
 import StartupSpeedrunSimulator from './games/StartupSpeedrunSimulator';
@@ -23,7 +23,14 @@ import WhackAMole from './games/WhackAMole';
 import GardenPuzzleGame from './games/GardenPuzzle';
 import TwitterStrands from './games/TwitterStrands/TwitterStrands';
 import AccountingWordle from './games/AccountingWordle/AccountingWordle';
-import WordyVerse from './games/WordyVerse.js/WordyVerse';
+import WordyVerse from './games/WordyVerse/WordyVerse';
+
+const getTheme = (pathname) => {
+  if (pathname.startsWith('/wordy-verse')) {
+    return wordyVerseTheme;
+  }
+  return theme;
+};
 
 // Create a separate component for the router content
 function AppRouter({ onAcceptCookie, onDeclineCookie }) {
@@ -31,8 +38,8 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
 
   return (
     <>
-      {location.pathname === '/wordy-verse' ? <WordyVerse /> : <AppContent />}
-      <Container>
+      <ThemeProvider theme={getTheme(location.pathname)}>
+        {location.pathname.startsWith('/wordy-verse') ? null : <AppContent />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/color-matcher" element={<ColorMatcher />} />
@@ -48,7 +55,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/whack-a-mole" element={<WhackAMole />} />
           <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
           <Route path="/my-strands" element={<TwitterStrands />} />
-          <Route path="/accounting-wordle" element={<AccountingWordle />} />
+          <Route path="/wordy-verse/accounting-wordle" element={<AccountingWordle />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
         </Routes>
 
@@ -115,7 +122,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
             This website uses cookies to enhance your experience and analyze site traffic.
           </span>
         </CookieConsent>
-      </Container>
+      </ThemeProvider>
     </>
   );
 }
@@ -151,15 +158,13 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Router basename={process.env.PUBLIC_URL}>
       <CssBaseline />
-      <Router basename={process.env.PUBLIC_URL}>
-        <AppRouter
-          onAcceptCookie={handleAcceptCookie}
-          onDeclineCookie={handleDeclineCookie}
-        />
-      </Router>
-    </ThemeProvider>
+      <AppRouter
+        onAcceptCookie={handleAcceptCookie}
+        onDeclineCookie={handleDeclineCookie}
+      />
+    </Router>
   );
 }
 
