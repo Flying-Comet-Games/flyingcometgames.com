@@ -12,12 +12,6 @@ export const ACCOUNTING_WORDS = [
       characterCount: 6
     },
     {
-      date: '2024-11-02',
-      theme: 'Acronym',
-      word: 'COGS',
-      characterCount: 4
-    },
-    {
       date: '2024-11-03',
       theme: 'Excel',
       word: 'VLOOKUP',
@@ -194,6 +188,10 @@ export const ACCOUNTING_WORDS = [
   ];
   
   export const getWordForDate = (date) => {
+    if (!date || !ACCOUNTING_WORDS || !Array.isArray(ACCOUNTING_WORDS)) {
+      return null;
+    }
+
     // Convert to PT/Los Angeles timezone
     const ptDate = new Date(date.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
 
@@ -202,5 +200,16 @@ export const ACCOUNTING_WORDS = [
       String(ptDate.getMonth() + 1).padStart(2, '0') + '-' +
       String(ptDate.getDate()).padStart(2, '0');
 
-    return ACCOUNTING_WORDS.find(entry => entry.date === dateString) || ACCOUNTING_WORDS[0];
+    return ACCOUNTING_WORDS.find(entry => entry.date === dateString);
+  };
+
+  export const findLatestAvailableDate = () => {
+    if (!ACCOUNTING_WORDS || !Array.isArray(ACCOUNTING_WORDS)) {
+      return null;
+    }
+
+    // Sort dates in descending order and take the first one
+    return ACCOUNTING_WORDS
+      .map(entry => ({ date: new Date(entry.date), original: entry }))
+      .sort((a, b) => b.date - a.date)[0]?.original;
   };
