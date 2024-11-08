@@ -352,11 +352,11 @@ export default function AccountingWordle() {
 <Box
   sx={{
     display: "flex",
-    flexDirection: "row", // Changed from column to row
-    alignItems: "center", // Centers items vertically
-    justifyContent: "center", // Centers the entire header horizontally
-    gap: 2, // Adds space between logo and text
-    mb: 4
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+    mb: 2
   }}
 >
   <img
@@ -365,17 +365,24 @@ export default function AccountingWordle() {
     style={{
       width: "64px",
       height: "54px"
-      // Removed marginBottom since we're using gap
     }}
   />
-  <Typography variant="h4" sx={{ fontWeight: "bold", color: "black" }}>
-    ACCOUNTING
-  </Typography>
+  <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+    <Typography variant="h4" sx={{ fontWeight: "bold", color: "black", lineHeight: 1 }}>
+      ACCOUNTING
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{
+        color: "text.secondary",
+        textAlign: "center" // Ensures left alignment with "ACCOUNTING"
+      }}
+    >
+      Words may include common slang, Excel <br/>formulas or abbreviations.
+    </Typography>
+  </Box>
 </Box>
 
-      <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-        Words may include common slang, Excel formulas or abbreviations.
-      </Typography>
 
       <Box
         sx={{
