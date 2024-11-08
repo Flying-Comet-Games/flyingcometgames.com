@@ -349,23 +349,29 @@ export default function AccountingWordle() {
         backgroundColor: "background.default",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          mb: 4,
-        }}
-      >
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/wordy-topics/accounting-wordle-icon.png`}
-          alt="Accounting Wordle Logo"
-          style={{ width: "64px", height: "54px", marginBottom: "1rem" }}
-        />
-        <Typography variant="h4" sx={{ fontWeight: "bold", color: "black" }}>
-          ACCOUNTING WORDLE
-        </Typography>
-      </Box>
+<Box
+  sx={{
+    display: "flex",
+    flexDirection: "row", // Changed from column to row
+    alignItems: "center", // Centers items vertically
+    justifyContent: "center", // Centers the entire header horizontally
+    gap: 2, // Adds space between logo and text
+    mb: 4
+  }}
+>
+  <img
+    src={`${process.env.PUBLIC_URL}/assets/wordy-topics/accounting-wordle-icon.png`}
+    alt="Accounting Wordle Logo"
+    style={{
+      width: "64px",
+      height: "54px"
+      // Removed marginBottom since we're using gap
+    }}
+  />
+  <Typography variant="h4" sx={{ fontWeight: "bold", color: "black" }}>
+    ACCOUNTING
+  </Typography>
+</Box>
 
       <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
         Words may include common slang, Excel formulas or abbreviations.
