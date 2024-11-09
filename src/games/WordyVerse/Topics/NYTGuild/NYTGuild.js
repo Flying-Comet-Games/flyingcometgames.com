@@ -384,8 +384,8 @@ export default function NYTGuild() {
           textAlign: "center", // Ensures left alignment with "ACCOUNTING"
         }}
       >
-        Play games made by the NYT Guild workers on strike <Link to="/">here</Link>.
-        Donate to the strike <Link to="/">here.</Link>
+        Play games made by the NYT Guild workers on strike <Link to="https://nytimesguild.org/tech/guild-builds/">here</Link>.
+        Donate to the strike <Link to="https://www.gofundme.com/f/nyt-tech-strike-fund">here.</Link>
       </Typography>
 
       <Box
