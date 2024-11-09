@@ -24,7 +24,7 @@ import GardenPuzzleGame from './games/GardenPuzzle';
 import TwitterStrands from './games/TwitterStrands/TwitterStrands';
 import WordyVerse from './games/WordyVerse/WordyVerse';
 import WordyVerseToolbar from './games/WordyVerse/Toolbar';
-import AccountingWordle from './games/WordyVerse/Topics/AccountingWordle/AccountingWordle';
+import AccountingWordy from './games/WordyVerse/Topics/AccountingWordle/AccountingWordle';
 import NYTGuild from './games/WordyVerse/Topics/NYTGuild/NYTGuild';
 
 const getTheme = (pathname) => {
@@ -57,7 +57,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/whack-a-mole" element={<WhackAMole />} />
           <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
           <Route path="/my-strands" element={<TwitterStrands />} />
-          <Route path="/wordy-verse/accounting-wordle" element={<AccountingWordle />} />
+          <Route path="/wordy-verse/accounting-wordle" element={<AccountingWordy />} />
           <Route path="/wordy-verse/nyt-guild-support" element={<NYTGuild />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
         </Routes>
