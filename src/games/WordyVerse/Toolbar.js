@@ -124,7 +124,7 @@ const WordyVerseToolbar = () => {
   );
 
   return (
-    <Box>
+    <Box sx={{ borderBottom: '1px solid black'}}>
       <AppBar position="static" elevation={0}>
         <Toolbar sx={{ backgroundColor: "#e0dfd9", justifyContent: 'space-between' }}>
           <Box

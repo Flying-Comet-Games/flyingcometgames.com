@@ -13,15 +13,15 @@ const TopicsBody = () => {
           container
           spacing={3}
           justifyContent="center"
-          sx={{
-            width: { xs: '100%', sm: '80%', md: '80%', lg: '60%' },
-          }}
+          width="100%"
         >
           {[
             { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
             { to: wordyVerseBase + "/nyt-guild-support", title: "NYT Guild", logoSrc: "/assets/wordy-topics/nyt-guild.svg" },
+            { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
+            { to: wordyVerseBase + "/nyt-guild-support", title: "NYT Guild", logoSrc: "/assets/wordy-topics/nyt-guild.svg" },
           ].map((game, index) => (
-            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={game.title}>
+            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 4 }} key={game.title}>
               <GameButton
                 to={game.to}
                 title={game.title}

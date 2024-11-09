@@ -5,6 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import CookieConsent from 'react-cookie-consent';
 import AppContent from './AppContent';
 import { initGA, logPageView, setUserId } from './analytics';
+import { StytchProvider } from '@stytch/react';
+import { StytchUIClient } from '@stytch/vanilla-js';
 
 import ColorMatcher from './games/ColorMatcher';
 import DigitShift from './games/DigitShift';
@@ -13,8 +15,8 @@ import Home from './components/Home';
 import ShapeSorter from './games/ShapeSorter';
 import ColorFlood from './games/ColorFlood';
 import MemoryMaze from './games/MemoryMaze';
-import AvoidBlocks from './games/AvoidBlocks';
 import theme from './theme';
+import AvoidBlocks from './games/AvoidBlocks';
 import wordyVerseTheme from './wordyVerseTheme'
 import EmojiQuest from './games/EmojiQuest';
 import ColorDash from './games/ColorDash';
@@ -26,6 +28,7 @@ import WordyVerse from './games/WordyVerse/WordyVerse';
 import WordyVerseToolbar from './games/WordyVerse/Toolbar';
 import AccountingWordy from './games/WordyVerse/Topics/AccountingWordle/AccountingWordle';
 import NYTGuild from './games/WordyVerse/Topics/NYTGuild/NYTGuild';
+import Auth from './Auth';
 
 const getTheme = (pathname) => {
   if (pathname.startsWith('/wordy-verse')) {
@@ -60,6 +63,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/accounting-wordle" element={<AccountingWordy />} />
           <Route path="/wordy-verse/nyt-guild-support" element={<NYTGuild />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
+          <Route path="/wordy-verse/auth" element={<Auth />} />
         </Routes>
 
         <CookieConsent

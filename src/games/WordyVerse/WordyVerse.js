@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet";
 import TopicsBody from "./TopicsBody";
 import WordyVerseToolbar from "./Toolbar";
+import LoginButtons from "./Login";
 
 const WordyVerse = () => {
   const theme = useTheme();
@@ -37,8 +38,9 @@ const WordyVerse = () => {
           alignItems: "center",
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
-          width: "100%",
-          maxWidth: "100%",
+          // width: "100%",
+          maxWidth: "1024px",
+          mx: 'auto',
           boxSizing: "border-box",
         }}
       >
@@ -63,38 +65,7 @@ const WordyVerse = () => {
           </Typography>
         </Box>
 
-        {/* <Box
-          sx={{
-            width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
-            display: "flex",
-            justifyContent: "center",
-            boxSizing: "border-box",
-            mb: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            startIcon={<PersonIcon />}
-            sx={{
-              width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
-              marginRight: "10px"
-            }}
-          >
-            Create a free account!
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            backgroundColor="secondary"
-            startIcon={<PersonIcon />}
-            sx={{
-              width: { xs: "40%", sm: "80%", md: "80%", lg: "40%" },
-            }}
-          >
-            Log In
-          </Button>
-        </Box> */}
+        <LoginButtons />
 
         <Box
           sx={{
