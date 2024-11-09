@@ -5,7 +5,7 @@ import BaseWordyGame from '../../Utilities/BaseWordyGame';
 const NYTGuildWordy = () => {
   const subtitleContent = (
     <Typography variant="body2" sx={{ color: "text.secondary" }}>
-      Play games made by the NYT Guild workers on strike <br/>{" "}
+      Play games made by the NYT Guild workers on strike{" "}
       <a
         href="https://nytimesguild.org/tech/guild-builds/"
         target="_blank"
