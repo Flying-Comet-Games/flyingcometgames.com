@@ -19,6 +19,7 @@ const TopicsBody = () => {
         >
           {[
             { to: wordyVerseBase + "/accounting-wordle", title: "ACCOUNTING", logoSrc: "/assets/wordy-topics/accounting-wordle-icon.png" },
+            { to: wordyVerseBase + "/nyt-guild-support", title: "NYT Guild", logoSrc: "/assets/wordy-topics/nyt-guild.svg" },
           ].map((game, index) => (
             <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={game.title}>
               <GameButton
