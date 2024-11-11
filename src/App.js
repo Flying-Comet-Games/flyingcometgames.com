@@ -29,6 +29,10 @@ import WordyVerseToolbar from './games/WordyVerse/Toolbar';
 import AccountingWordy from './games/WordyVerse/Topics/AccountingWordle/AccountingWordle';
 import NYTGuild from './games/WordyVerse/Topics/NYTGuild/NYTGuild';
 import Auth from './Auth';
+import BobaWordy from './games/WordyVerse/Topics/Boba/Boba';
+import GymnasticsWordy from './games/WordyVerse/Topics/Gymnastics/Gymnastics';
+import SeattleWordy from './games/WordyVerse/Topics/Seattle/Seattle';
+import YogaWordy from './games/WordyVerse/Topics/Yoga/Yoga';
 
 const getTheme = (pathname) => {
   if (pathname.startsWith('/wordy-verse')) {
@@ -62,8 +66,12 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/my-strands" element={<TwitterStrands />} />
           <Route path="/wordy-verse/accounting-wordle" element={<AccountingWordy />} />
           <Route path="/wordy-verse/nyt-guild-support" element={<NYTGuild />} />
+          <Route path="/wordy-verse/boba-tea" element={<BobaWordy />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
           <Route path="/wordy-verse/auth" element={<Auth />} />
+          <Route path="/wordy-verse/gymnastics" element={<GymnasticsWordy />} />
+          <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
+          <Route path="/wordy-verse/yoga" element={<YogaWordy />} />
         </Routes>
 
         <CookieConsent
