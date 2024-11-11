@@ -34,6 +34,7 @@ import GymnasticsWordy from './games/WordyVerse/Topics/Gymnastics/Gymnastics';
 import SeattleWordy from './games/WordyVerse/Topics/Seattle/Seattle';
 import YogaWordy from './games/WordyVerse/Topics/Yoga/Yoga';
 import YCombinatorWordy from './games/WordyVerse/Topics/YC/YC';
+import AmericanDadWordy from './games/WordyVerse/Topics/AmericanDad/AmericanDad';
 
 const getTheme = (pathname) => {
   if (pathname.startsWith('/wordy-verse')) {
@@ -74,6 +75,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
           <Route path="/wordy-verse/yoga" element={<YogaWordy />} />
           <Route path="/wordy-verse/yc" element={<YCombinatorWordy />} />
+          <Route path="/wordy-verse/american-dad" element={<AmericanDadWordy />} />
         </Routes>
 
         <CookieConsent
