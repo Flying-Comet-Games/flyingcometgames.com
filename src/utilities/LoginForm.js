@@ -10,6 +10,13 @@ This component accepts style, config, and callbacks props. To learn more about p
 https://stytch.com/docs/sdks/javascript-sdk#ui-configs
 */
 const Login = () => {
+
+  const callbacks = {
+    onEvent: (message) => console.log(message),
+    onSuccess: (message) => console.log(message),
+    onError: (message) => console.log(message),
+  };
+
   const styles = {
     hideHeaderText: true,
     container: {
@@ -26,14 +33,14 @@ const Login = () => {
   const config = {
     products: [Products.emailMagicLinks],
     emailMagicLinksOptions: {
-      loginRedirectURL: "http://localhost:3000/authenticate",
+      loginRedirectURL: `${origin}/authenticate`,
       loginExpirationMinutes: 60,
-      signupRedirectURL: "http://localhost:3000/authenticate",
+      signupRedirectURL: `${origin}/authenticate`,
       signupExpirationMinutes: 60,
     },
   };
 
-  return <StytchLogin config={config} styles={styles} />;
+  return <StytchLogin config={config} styles={styles} callbacks={callbacks} />;
 };
 
 export default Login;

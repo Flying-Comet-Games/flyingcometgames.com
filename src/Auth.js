@@ -104,39 +104,6 @@ const Auth = () => {
 
           <Login />
 
-          {/* <Box
-            component="form"
-            onSubmit={handleEmailSubmit}
-            sx={{
-              mx: "auto",
-              width: "100%",
-              maxWidth: 360,
-              mb: 2,
-              backgroundColor: "white",
-              borderRadius: 2,
-              p: 2,
-            }}
-          >
-            <TextField
-              fullWidth
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              variant="outlined"
-              sx={{ mb: 2 }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              type="submit"
-              startIcon={<Mail />}
-              sx={{
-                py: 1.5,
-              }}
-            >
-              SIGN IN WITH EMAIL
-            </Button>
-          </Box> */}
         </Box>
 
         <Box
