@@ -37,6 +37,9 @@ import YCombinatorWordy from './games/WordyVerse/Topics/YC/YC';
 import AmericanDadWordy from './games/WordyVerse/Topics/AmericanDad/AmericanDad';
 import SurvivorWordy from './games/WordyVerse/Topics/Survivor/Survivor';
 import AuthenticatePage from './AuthenticatePage';
+import FriendsWordy from './games/WordyVerse/Topics/Friends/Friends';
+import AnimalCrossingWordy from './games/WordyVerse/Topics/AnimalCrossing/AnimalCrossing';
+import OccupationalTherapyWordy from './games/WordyVerse/Topics/OccupationalTherapy/OT';
 
 const getTheme = (pathname) => {
   if (pathname.startsWith('/wordy-verse')) {
@@ -80,6 +83,9 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/american-dad" element={<AmericanDadWordy />} />
           <Route path="/wordy-verse/survivor" element={<SurvivorWordy />} />
           <Route path="/authenticate" element={<AuthenticatePage />} />
+          <Route path="/wordy-verse/friends" element={<FriendsWordy />} />
+          <Route path="/wordy-verse/animal-crossing" element={<AnimalCrossingWordy />} />
+          <Route path="/wordy-verse/occupational-therapy" element={<OccupationalTherapyWordy />} />
         </Routes>
 
         <CookieConsent

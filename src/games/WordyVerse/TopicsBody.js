@@ -23,6 +23,9 @@ const TopicsBody = () => {
             { to: wordyVerseBase + "/yc", title: "Y Combinator", logoSrc: "/assets/wordy-topics/yc.svg" },
             { to: wordyVerseBase + "/american-dad", title: "AMERICAN DAD", logoSrc: "/assets/wordy-topics/american-dad.svg" },
             { to: wordyVerseBase + "/survivor", title: "SURVIVOR", logoSrc: "/assets/wordy-topics/survivor.svg" },
+            { to: wordyVerseBase + "/friends", title: "FRIENDS", logoSrc: "/assets/wordy-topics/friends.svg" },
+            { to: wordyVerseBase + "/animal-crossing", title: "ANIMAL CROSSING", logoSrc: "/assets/wordy-topics/animal-crossing.svg" },
+            { to: wordyVerseBase + "/occupational-therapy", title: "OT/PT", logoSrc: "/assets/wordy-topics/occupational-therapy.svg" },
           ].map((game, index) => (
             <Grid size={{ xs: 6, sm: 6, md: 4, lg: 4 }} key={game.title}>
               <GameButton
