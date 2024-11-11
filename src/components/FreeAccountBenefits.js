@@ -34,7 +34,7 @@ const FreeAccountBenefitsList = () => {
   ];
 
   return (
-    <Box sx={{ mb: 4, width: '100%', maxWidth: 360 }}>
+    <Box sx={{ mx: "auto", mb: 4, width: '100%', maxWidth: 360 }}>
       {benefits.map((benefit, index) => (
         <BenefitItem 
           key={index}

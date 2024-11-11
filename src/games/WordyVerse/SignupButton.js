@@ -2,13 +2,18 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import { User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useStytchUser } from "@stytch/react";
 
 const SignupButton = ({ containerStyles = {}, buttonStyles = {} }) => {
   const navigate = useNavigate();
+  const { user } = useStytchUser();
 
   const handleSignUpClick = () => {
-    navigate("/auth");
+    navigate("/wordy-verse/auth");
   };
+
+  // Don't render the button if user is already logged in
+  if (user) return null;
 
   return (
     <Box

@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet";
 import TopicsBody from "./TopicsBody";
 import WordyVerseToolbar from "./Toolbar";
-import LoginButtons from "./Login";
+import LoginButtons from "./SignupButton";
 
 const WordyVerse = () => {
   const theme = useTheme();
@@ -38,7 +38,6 @@ const WordyVerse = () => {
           alignItems: "center",
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
-          // width: "100%",
           maxWidth: "1024px",
           mx: 'auto',
           boxSizing: "border-box",
@@ -65,7 +64,7 @@ const WordyVerse = () => {
           </Typography>
         </Box>
 
-        <LoginButtons />
+        {/* <LoginButtons /> */}
 
         <Box
           sx={{

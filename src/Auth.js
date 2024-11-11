@@ -1,39 +1,43 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { Mail, Facebook, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logEvent } from "./analytics";
 import FreeAccountBenefitsList from "./components/FreeAccountBenefits";
+import { useStytch } from "@stytch/react";
+import Login from "./utilities/LoginForm";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const stytch = useStytch();
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    // Add your email authentication logic here
-    logEvent("Auth", "SignInAttempt", "email");
-  };
+    try {
+      // Send magic link email
+      await stytch.magicLinks.email.loginOrSignup({
+        email: email,
+        login_magic_link_url: `${window.location.origin}/authenticate`,
+        signup_magic_link_url: `${window.location.origin}/authenticate`,
+      });
 
-  const handleNavigateHome = () => {
-    navigate("/");
+      // Log the attempt
+      logEvent("Auth", "SignInAttempt", "email");
+
+      // Show success message or redirect to check-email page
+      // You might want to navigate to a "check your email" page
+      navigate("/wordy-verse/check-email");
+    } catch (error) {
+      console.error("Authentication error:", error);
+      // Handle error appropriately
+    }
   };
 
   return (
     <Box
       sx={{
-        // minHeight: "100vh",
-        // width: "100%",
-        // maxWidth: "100vh",
-        // overflowX: "hidden",
-        // backgroundColor: "background.default",
-        // display: "flex",
-        // flexDirection: "column",
-        // alignItems: "center",
-        // pt: 4,
-        // px: 2,
-        // m: "auto",
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
@@ -58,12 +62,11 @@ const Auth = () => {
       >
         <Box
           sx={{
-            width: "95%",
             p: 4,
+            border: "1px solid black",
             backgroundColor: "white",
           }}
         >
-          {/* Title */}
           <Typography
             variant="h4"
             component="h1"
@@ -86,11 +89,9 @@ const Auth = () => {
             Get access to all Flying Comet Games.
           </Typography>
 
-          {/* Benefits List */}
           <FreeAccountBenefitsList />
 
-          {/* Magic Code Message */}
-          {/* <Typography
+          <Typography
             sx={{
               mb: 3,
               textAlign: "center",
@@ -98,14 +99,16 @@ const Auth = () => {
               maxWidth: 360,
             }}
           >
-            No password needed! We'll send a ✨magic✨ code to your e-mail.
-          </Typography> */}
+            We'll send you a <br/> ✨ magic ✨ link to sign in
+          </Typography>
 
-          {/* Email Form */}
-          <Box
+          <Login />
+
+          {/* <Box
             component="form"
             onSubmit={handleEmailSubmit}
             sx={{
+              mx: "auto",
               width: "100%",
               maxWidth: 360,
               mb: 2,
@@ -133,10 +136,9 @@ const Auth = () => {
             >
               SIGN IN WITH EMAIL
             </Button>
-          </Box>
+          </Box> */}
         </Box>
 
-        {/* Footer */}
         <Box
           sx={{
             width: "100%",
@@ -145,7 +147,7 @@ const Auth = () => {
             textAlign: "center",
           }}
         >
-          <Typography sx={{ mb: 1 }}>
+          <Typography sx={{ mb: 1, fontWeight: "bold" }}>
             Made with ❤️ by{" "}
             <Link
               to="https://flyingcometgames.com"
