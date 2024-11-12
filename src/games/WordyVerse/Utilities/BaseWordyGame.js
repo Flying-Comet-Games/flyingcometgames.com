@@ -202,10 +202,19 @@ const BaseWordyGame = ({
 
     navigator.clipboard
       .writeText(shareString)
-      .then(() => setShowShareToast(true))
+      .then(() => {
+        setShowShareToast(true);
+        // Log the share event with game details
+        logEvent('Game', 'Share', title, {
+          game_name: title,
+          won: won,
+          attempts: attemptCount,
+          word: wordData.word,
+          date: dateStr
+        });
+      })
       .catch((err) => console.error("Failed to copy:", err));
   };
-
   const changeDate = (increment) => {
     if (!currentDate) return;
 
