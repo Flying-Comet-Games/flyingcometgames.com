@@ -196,12 +196,7 @@ const BaseWordyGame = ({
       }}
     >
 
-      <Box
-        sx={{
-          // opacity: isDateLocked(wordData.date) ? 0.3 : 1,
-          // pointerEvents: isDateLocked(wordData.date) ? "none" : "auto",
-        }}
-      >
+      <Box>
         <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
 
         <GameControls
