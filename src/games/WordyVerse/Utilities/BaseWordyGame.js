@@ -103,7 +103,7 @@ const BaseWordyGame = ({
       setGuesses(newGuesses);
       const dateStr = currentDate.toLocaleDateString("en-US");
 
-      if (newGuesses.length == 1)
+      if (newGuesses.length === 1)
       {
         logGameStarted(title, {
           won: true,
