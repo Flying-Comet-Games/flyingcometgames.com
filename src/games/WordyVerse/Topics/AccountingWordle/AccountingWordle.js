@@ -1,4 +1,4 @@
-import BaseWordyGame from '../../Utilities/BaseWordyGame';
+import BaseWordyGame from '../../Components/BaseWordyGame';
 import { getWordForDate, findLatestAvailableDate } from './Data';
 
 const AccountingWordy = () => {

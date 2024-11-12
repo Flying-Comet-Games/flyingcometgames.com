@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { getWordForDate, findLatestAvailableDate } from './Data';
-import BaseWordyGame from '../../Utilities/BaseWordyGame';
+import BaseWordyGame from '../../Components/BaseWordyGame';
 
 const NYTGuildWordy = () => {
   const subtitleContent = (

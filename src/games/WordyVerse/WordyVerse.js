@@ -4,9 +4,24 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet";
 import TopicsBody from "./TopicsBody";
+import { useStytchUser } from "@stytch/react";
+import LoginButtons from "./SignupButton";
 
 const WordyVerse = () => {
   const theme = useTheme();
+  const { user } = useStytchUser();
+
+  // Function to check if a game should be locked
+  const isGameLocked = (gameDate) => {
+    if (user) return false; // Always unlocked for logged-in users
+
+    const currentDate = new Date();
+    const gameDateTime = new Date(gameDate);
+    const differenceInTime = currentDate.getTime() - gameDateTime.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+    return differenceInDays > 7;
+  };
 
   return (
     <Box
@@ -60,7 +75,7 @@ const WordyVerse = () => {
           </Typography>
         </Box>
 
-        {/* <LoginButtons /> */}
+        {!user && <LoginButtons />}
 
         <Box
           sx={{
@@ -71,7 +86,7 @@ const WordyVerse = () => {
             overflow: "hidden",
           }}
         >
-          <TopicsBody />
+          <TopicsBody isGameLocked={isGameLocked} isLoggedIn={!!user} />
         </Box>
       </Box>
 

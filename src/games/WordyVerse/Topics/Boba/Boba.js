@@ -1,16 +1,16 @@
   // Boba.js
   import { Typography } from "@mui/material";
   import { getWordForDate, findLatestAvailableDate } from './Data';
-  import BaseWordyGame from '../../Utilities/BaseWordyGame';
-  
+  import BaseWordyGame from '../../Components/BaseWordyGame';
+
   const BobaWordy = () => {
     const subtitleContent = (
       <Typography variant="body2" sx={{ color: "text.secondary" }}>
-        A daily word puzzle for boba tea enthusiasts! Guess words related to bubble tea, 
+        A daily word puzzle for boba tea enthusiasts! Guess words related to bubble tea,
         its ingredients, and the experience of enjoying this beloved drink.
       </Typography>
     );
-  
+
     return (
       <BaseWordyGame
         title="BOBA TEA"
@@ -23,5 +23,5 @@
       />
     );
   };
-  
+
   export default BobaWordy;
