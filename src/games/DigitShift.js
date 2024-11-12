@@ -8,7 +8,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import UndoIcon from '@mui/icons-material/Undo';
-import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const DigitShift = () => {
   const theme = useTheme();
@@ -23,12 +22,9 @@ const DigitShift = () => {
   const [correctTiles, setCorrectTiles] = useState(new Set());
 
   useEffect(() => {
-    incrementGamesPlayed('DigitShift');
-    logEvent('Game', 'Start', 'DigitShift');
     const startTime = Date.now();
     return () => {
       const sessionTime = (Date.now() - startTime) / 1000; // in seconds
-      logEvent('Game', 'SessionTime', 'DigitShift', sessionTime);
     };
   }, []);
 
@@ -59,7 +55,6 @@ const DigitShift = () => {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameOver(true);
-      logEvent('Game', 'TimeUp', 'DigitShift', moves);
     }
   }, [timeLeft, gameOver, moves]);
 
@@ -67,8 +62,6 @@ const DigitShift = () => {
     if (isBoardSolved()) {
       setIsSolved(true);
       setGameOver(true);
-      incrementGamesCompleted('DigitShift');
-      logEvent('Game', 'Complete', 'DigitShift', moves);
     }
   }, [board, moves]);
 
@@ -100,7 +93,6 @@ const DigitShift = () => {
       setMoves(moves + 1);
       setMoveHistory([...moveHistory, { from: index, to: emptyIndex }]);
       updateCorrectTiles(newBoard);
-      logEvent('Game', 'Move', 'DigitShift', moves + 1);
     }
   };
 
@@ -122,8 +114,6 @@ const DigitShift = () => {
     setTimeLeft(300);
     setGameOver(false);
     setIsSolved(false);
-    incrementGamesPlayed('DigitShift');
-    logEvent('Game', 'Restart', 'DigitShift');
   };
 
   const handleUndo = () => {
@@ -135,7 +125,6 @@ const DigitShift = () => {
       setMoves(moves - 1);
       setMoveHistory(moveHistory.slice(0, -1));
       updateCorrectTiles(newBoard);
-      logEvent('Game', 'Undo', 'DigitShift', moveHistory.length);
     }
   };
 
@@ -149,7 +138,6 @@ const DigitShift = () => {
 
     const randomMoveIndex = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     handleTileClick(randomMoveIndex);
-    logEvent('Game', 'Hint', 'DigitShift', moves);
   };
 
   const getTimeColor = () => {

@@ -9,7 +9,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ShareIcon from '@mui/icons-material/Share';
-import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const ColorMatcher = () => {
   const theme = useTheme();
@@ -38,21 +37,11 @@ const ColorMatcher = () => {
   };
 
   useEffect(() => {
-    incrementGamesPlayed('ColorMatcher');
-    logEvent('Game', 'Start', 'ColorMatcher');
     const startTime = Date.now();
     return () => {
       const sessionTime = (Date.now() - startTime) / 1000; // in seconds
-      logEvent('Game', 'SessionTime', 'ColorMatcher', sessionTime);
     };
   }, []);
-
-  useEffect(() => {
-    if (gameOver) {
-      incrementGamesCompleted('ColorMatcher');
-      logEvent('Game', 'Complete', 'ColorMatcher', score);
-    }
-  }, [gameOver, score]);
 
   useEffect(() => {
     if (!gameOver && timeLeft > 0) {
@@ -87,10 +76,8 @@ const ColorMatcher = () => {
       if (navigator.vibrate) {
         navigator.vibrate(200);
       }
-      logEvent('Game', 'CorrectMatch', 'ColorMatcher', diff);
-    } else {
-      logEvent('Game', 'IncorrectMatch', 'ColorMatcher', diff);
     }
+
     setMoves(prevMoves => prevMoves + 1);
   };
 
@@ -101,8 +88,6 @@ const ColorMatcher = () => {
     setTargetColor(getRandomColor());
     setPlayerColor({ r: 128, g: 128, b: 128 });
     setMoves(0);
-    incrementGamesPlayed('ColorMatcher');
-    logEvent('Game', 'Restart', 'ColorMatcher');
   };
 
   const handleDifficultyChange = (event) => {
@@ -110,7 +95,6 @@ const ColorMatcher = () => {
     setDifficulty(newDifficulty);
     setTimeLeft(difficultySettings[newDifficulty].timeLimit);
     handleRestart();
-    logEvent('Game', 'DifficultyChange', 'ColorMatcher', newDifficulty);
   };
 
   const handleShare = () => {
@@ -123,14 +107,12 @@ const ColorMatcher = () => {
         url: window.location.href,
       })
         .then(() => {
-          logEvent('Game', 'Share', 'ColorMatcher');
           console.log('Successful share');
         })
         .catch((error) => console.log('Error sharing:', error));
     } else {
       navigator.clipboard.writeText(shareText)
         .then(() => {
-          logEvent('Game', 'Share', 'ColorMatcher');
           alert('Score copied to clipboard!');
         })
         .catch((error) => {

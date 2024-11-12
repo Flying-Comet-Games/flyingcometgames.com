@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LinearProgress from '@mui/material/LinearProgress';
-import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const shapes = ['circle', 'square', 'triangle', 'pentagon', 'hexagon'];
 const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
@@ -99,16 +98,6 @@ const ShapeSorter = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  useEffect(() => {
-    incrementGamesPlayed('ShapeSorter');
-    logEvent('Game', 'Start', 'ShapeSorter');
-    const startTime = Date.now();
-    startNewRound();
-    return () => {
-      const sessionTime = (Date.now() - startTime) / 1000; // in seconds
-      logEvent('Game', 'SessionTime', 'ShapeSorter', sessionTime);
-    };
-  }, []);
 
   useEffect(() => {
     if (!gameOver && timeLeft > 0) {
@@ -116,8 +105,6 @@ const ShapeSorter = () => {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameOver(true);
-      incrementGamesCompleted('ShapeSorter');
-      logEvent('Game', 'End', 'ShapeSorter', score);
     }
   }, [timeLeft, gameOver, score]);
 
@@ -129,7 +116,6 @@ const ShapeSorter = () => {
     setTargetColor(randomShapeObj.color);
     setSelectedShapes([]);
     setRoundCount(prevCount => prevCount + 1);
-    logEvent('Game', 'RoundStart', 'ShapeSorter', roundCount + 1);
   };
 
   const handleShapeClick = (index) => {
@@ -163,10 +149,6 @@ const ShapeSorter = () => {
     const roundScore = correctShapes.length - incorrectSelections.length;
     setScore((prevScore) => Math.max(0, prevScore + roundScore));
 
-    logEvent('Game', 'RoundComplete', 'ShapeSorter', roundScore);
-    logEvent('Game', 'CorrectSelections', 'ShapeSorter', correctShapes.length);
-    logEvent('Game', 'IncorrectSelections', 'ShapeSorter', incorrectSelections.length);
-
     startNewRound();
   };
 
@@ -176,8 +158,6 @@ const ShapeSorter = () => {
     setGameOver(false);
     setRoundCount(0);
     startNewRound();
-    incrementGamesPlayed('ShapeSorter');
-    logEvent('Game', 'Restart', 'ShapeSorter');
   };
 
   const capitalizeFirstLetter = (string) => {

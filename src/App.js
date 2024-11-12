@@ -5,8 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import CookieConsent from 'react-cookie-consent';
 import AppContent from './AppContent';
 import { initGA, logPageView, setUserId } from './analytics';
-import { StytchProvider } from '@stytch/react';
-import { StytchUIClient } from '@stytch/vanilla-js';
 
 import ColorMatcher from './games/ColorMatcher';
 import DigitShift from './games/DigitShift';

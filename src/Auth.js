@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography, TextField, Button } from "@mui/material";
-import { Mail, Facebook, Home } from "lucide-react";
+import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { logEvent } from "./analytics";
 import FreeAccountBenefitsList from "./components/FreeAccountBenefits";
 import { useStytch } from "@stytch/react";
 import Login from "./utilities/LoginForm";
@@ -22,9 +20,6 @@ const Auth = () => {
         login_magic_link_url: `${window.location.origin}/authenticate`,
         signup_magic_link_url: `${window.location.origin}/authenticate`,
       });
-
-      // Log the attempt
-      logEvent("Auth", "SignInAttempt", "email");
 
       // Show success message or redirect to check-email page
       // You might want to navigate to a "check your email" page

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Typography, Paper, Link, Button, CircularProgress, TextField } from '@mui/material';
-import { logEvent, incrementGamesCompleted } from '../../analytics';
 import Grid from './Grid';
 import Confetti from './Confetti';
 import ProgressTracker from './ProgressTracker';
@@ -27,9 +26,6 @@ const TwitterStrands = () => {
       setError('Please enter a theme to start the game.');
       return;
     }
-
-    // Track "Start Game" event
-    logEvent('Game', 'Start', 'Twitter Strands Start Game', theme);
 
     setFoundWords([]);
     setNonThemeWords([]);
@@ -82,7 +78,6 @@ const TwitterStrands = () => {
 
       if (foundWords.filter(w => w !== spangram).length + 1 === themeWords.length) {
         setGameOver(true);
-        incrementGamesCompleted('Strands');
       }
     } else {
       setNonThemeWords([...nonThemeWords, word]);

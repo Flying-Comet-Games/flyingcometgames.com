@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper, Snackbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ShareIcon from '@mui/icons-material/Share';
-import { logEvent, incrementGamesPlayed, incrementGamesCompleted } from '../analytics';
 
 const GRID_SIZE = 10;
 const COLORS = ['#FF6B6B', '#4ECDC4', '#FFA07A', '#9B59B6', '#FFD93D', '#6A0572'];
@@ -23,21 +22,11 @@ const ColorFlood = () => {
   }, []);
 
   useEffect(() => {
-    incrementGamesPlayed('ColorFlood');
-    logEvent('Game', 'Start', 'ColorFlood');
     const startTime = Date.now();
     return () => {
       const sessionTime = (Date.now() - startTime) / 1000; // in seconds
-      logEvent('Game', 'SessionTime', 'ColorFlood', sessionTime);
     };
   }, []);
-
-  useEffect(() => {
-    if (win) {
-      incrementGamesCompleted('ColorFlood');
-      logEvent('Game', 'Complete', 'ColorFlood', moves);
-    }
-  }, [win, moves]);
 
   const startNewGame = () => {
     const newGrid = Array(GRID_SIZE).fill().map(() =>
@@ -103,14 +92,12 @@ const ColorFlood = () => {
         url: window.location.href,
       })
         .then(() => {
-          logEvent('Game', 'Share', 'ColorFlood');
           console.log('Successful share');
         })
         .catch((error) => console.log('Error sharing:', error));
     } else {
       navigator.clipboard.writeText(shareText)
         .then(() => {
-          logEvent('Game', 'Share', 'ColorFlood');
           setSnackbarMessage('Score copied to clipboard!');
           setShowSnackbar(true);
         })

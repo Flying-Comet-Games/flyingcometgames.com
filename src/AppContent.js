@@ -22,15 +22,10 @@ import SecurityIcon from '@mui/icons-material/Security';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { logPageView } from './analytics';
 
 const AppContent = () => {
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    logPageView();
-  }, [location]);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

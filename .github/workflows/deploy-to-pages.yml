@@ -30,6 +30,7 @@ jobs:
     - name: Build the React app
       env:
         CI: false
+        REACT_APP_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
       run: npm run build
 
     - name: Create 404.html as a fallback for client-side routing
