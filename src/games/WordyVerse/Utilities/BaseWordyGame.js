@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Tooltip, Snackbar } from "@mui/material";
 import { ChevronLeft, ChevronRight, Lightbulb, Share2 } from "lucide-react";
 import { keyframes } from "@mui/system";
+import { logGameStarted, logGameEnded, logGameShared } from "../../../analytics";
 
 // Keyboard layout configuration
 const KEYBOARD_KEYS = [
@@ -100,15 +101,38 @@ const BaseWordyGame = ({
     if (e.key === "Enter" && currentGuess.length === wordData.word.length) {
       const newGuesses = [...guesses, currentGuess];
       setGuesses(newGuesses);
+      const dateStr = currentDate.toLocaleDateString("en-US");
+
+      if (newGuesses.length == 1)
+      {
+        logGameStarted(title, {
+          won: true,
+          word: wordData.word,
+          date: dateStr
+        });
+      }
 
       if (currentGuess.toUpperCase() === wordData.word.toUpperCase()) {
         setGameOver(true);
         setCurrentGuess("");
+
+        logGameEnded(title, {
+          won: true,
+          attempts: newGuesses.length,
+          word: wordData.word,
+          date: dateStr
+        });
         return;
       }
 
       if (newGuesses.length >= 5) {
         setGameOver(true);
+        logGameEnded(title, {
+          won: false,
+          attempts: newGuesses.length,
+          word: wordData.word,
+          date: dateStr
+        });
       }
 
       setCurrentGuess("");
@@ -205,8 +229,7 @@ const BaseWordyGame = ({
       .then(() => {
         setShowShareToast(true);
         // Log the share event with game details
-        logEvent('Game', 'Share', title, {
-          game_name: title,
+        logGameShared(title, {
           won: won,
           attempts: attemptCount,
           word: wordData.word,

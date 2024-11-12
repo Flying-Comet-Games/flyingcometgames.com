@@ -83,6 +83,24 @@ export const logEvent = (eventName, properties = {}) => {
   safeTrack(eventName, properties);
 };
 
+export const logGameStarted = (gameTitle, extras = {}) => {
+  extras['title'] = gameTitle;
+
+  logEvent("Game started", extras);
+}
+
+export const logGameEnded = (gameTitle, extras = {}) => {
+  extras['title'] = gameTitle;
+
+  logEvent("Game ended", extras);
+}
+
+export const logGameShared = (gameTitle, extras = {}) => {
+  extras['title'] = gameTitle;
+
+  logEvent("Game shared", extras);
+}
+
 export const logUserLogin = (userId, properties = {}) => {
   if (!isInitialized || isOptedOut) return;
 

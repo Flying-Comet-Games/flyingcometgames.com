@@ -1,13 +1,9 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button"; // Added Button import
-import PersonIcon from "@mui/icons-material/Person"; // Added PersonIcon import
 import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet";
 import TopicsBody from "./TopicsBody";
-import WordyVerseToolbar from "./Toolbar";
-import LoginButtons from "./SignupButton";
 
 const WordyVerse = () => {
   const theme = useTheme();
