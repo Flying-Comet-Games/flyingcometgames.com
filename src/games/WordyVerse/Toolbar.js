@@ -33,6 +33,10 @@ const WordyVerseToolbar = () => {
   const { user } = useStytchUser();
   const navigate = useNavigate();
 
+  const handleKofiClick = () => {
+    window.open("https://ko-fi.com/V7V2162LVY", "_blank");
+  };
+
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -141,6 +145,7 @@ const WordyVerseToolbar = () => {
           </ListItem>
         ))}
         <Divider />
+
         {/* <ListItem
           button
           onClick={() => {
@@ -162,6 +167,46 @@ const WordyVerseToolbar = () => {
           </ListItemIcon>
           <ListItemText primary={user ? "Sign Out" : "Sign In"} />
         </ListItem> */}
+
+        <Box sx={{ p: 1 }}>
+          <Box
+            onClick={handleKofiClick}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+              backgroundColor: '#B8C26C',
+              color: 'white',
+              padding: '12px 24px',
+              borderRadius: '100px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                transform: 'scale(1.02)',
+                opacity: 0.9,
+              },
+              '&:active': {
+                transform: 'scale(0.98)',
+              }
+            }}
+          >
+            <img
+              src={`https://storage.ko-fi.com/cdn/logomarkLogo.png`}
+              alt="Ko-fi"
+              style={{
+                height: '20px',
+                width: 'auto'
+              }}
+            />
+            <span style={{
+              fontWeight: 500,
+              fontSize: '16px',
+              lineHeight: '20px'
+            }}>
+              Support our games!
+            </span>
+          </Box>
+        </Box>
       </List>
     </Box>
   );
