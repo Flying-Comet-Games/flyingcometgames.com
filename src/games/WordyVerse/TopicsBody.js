@@ -88,7 +88,7 @@ const TopicsBody = () => {
             // <Grid size={12}>
             //   <GoogleAd />
             // </Grid>
-            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 4 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 4, lg: 4 }}>
               <GoogleAdTopic />
             </Grid>
           )}

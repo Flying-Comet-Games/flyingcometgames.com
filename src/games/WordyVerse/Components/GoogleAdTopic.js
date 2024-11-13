@@ -10,6 +10,8 @@ const GoogleAdTopic = () => {
                 format="fluid"
                 layoutKey='-ge+5+1+2-3'
                 style={{
+                    width: "100%",
+                    overflowX: "hidden",
                     maxHeight: "350px",
                     display: "block"
                 }}

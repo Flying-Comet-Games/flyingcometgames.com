@@ -31,7 +31,9 @@ jobs:
       env:
         CI: false
         REACT_APP_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
-      run: npm run build
+      run: |
+        echo "Token exists: ${{ secrets.MIXPANEL_PROJECT_TOKEN != '' }}"
+        npm run build
 
     - name: Create 404.html as a fallback for client-side routing
       run: cp build/index.html build/404.html
