@@ -12,38 +12,42 @@ const Keyboard = ({
   currentGuess,
   wordData,
   gameOver,
-  isGuessFocused,
-  isLocked,
   guesses
 }) => {
+  // Keyboard event handler
+  const handleKeyPress = (e) => {
+    if (!wordData || gameOver) return;
+
+    if (e.key === "Enter" && currentGuess.length === wordData.word.length) {
+      e.preventDefault(); // Prevent form submission
+      onGuessUpdate("ENTER");
+    } else if (e.key === "Backspace") {
+      e.preventDefault();
+      onGuessUpdate("BACKSPACE");
+    } else if (
+      /^[A-Za-z]$/.test(e.key) &&
+      currentGuess.length < wordData.word.length
+    ) {
+      e.preventDefault();
+      onGuessUpdate(e.key.toUpperCase());
+    }
+  };
+
+  // Add keyboard event listener
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (!wordData || gameOver || !isGuessFocused || isLocked) return;
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
+  }, [currentGuess, gameOver, wordData, onGuessUpdate]);
 
-      if (e.key === "Enter" && currentGuess.length === wordData.word.length) {
-        onGuessUpdate('ENTER');
-      } else if (e.key === "Backspace") {
-        onGuessUpdate('BACKSPACE');
-      } else if (
-        /^[A-Za-z]$/.test(e.key) &&
-        currentGuess.length < wordData.word.length
-      ) {
-        onGuessUpdate(e.key.toUpperCase());
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [currentGuess, gameOver, wordData, isGuessFocused, isLocked, onGuessUpdate]);
-
+  // On-screen keyboard handler
   const handleKeyClick = (key) => {
-    if (gameOver || isLocked) return;
+    if (gameOver) return;
 
-    if (key === "ENTER") {
-      onGuessUpdate('ENTER');
+    if (key === "ENTER" && currentGuess.length === wordData.word.length) {
+      onGuessUpdate("ENTER");
     } else if (key === "⌫") {
-      onGuessUpdate('BACKSPACE');
-    } else {
+      onGuessUpdate("BACKSPACE");
+    } else if (currentGuess.length < wordData.word.length) {
       onGuessUpdate(key);
     }
   };
@@ -108,14 +112,13 @@ const Keyboard = ({
                 borderRadius: "4px",
                 fontSize: key === "ENTER" || key === "⌫" ? "12px" : "1.25em",
                 fontWeight: "bold",
-                cursor: isLocked ? "not-allowed" : "pointer",
+                cursor: "pointer",
                 userSelect: "none",
                 textTransform: "uppercase",
                 transition: "transform 0.1s",
                 "&:hover": {
-                  transform: isLocked ? "none" : "scale(1.1)",
+                  transform: "scale(1.1)",
                 },
-                opacity: isLocked ? 0.7 : 1,
               }}
             >
               {key}
