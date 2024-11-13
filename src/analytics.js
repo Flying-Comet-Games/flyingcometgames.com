@@ -12,44 +12,67 @@ export const initializeAnalytics = () => {
   }
 
   try {
-    // Initialize with opt-out tracking disabled until we have consent
+    // Always initialize Mixpanel, but with tracking disabled by default
     mixpanel.init(token, {
       debug: process.env.NODE_ENV !== 'production',
       track_pageview: true,
       persistence: "localStorage",
-      opt_out_tracking_by_default: true, // Start with tracking disabled
-      opt_out_persistence_by_default: true // Don't persist opt-out status
+      opt_out_tracking_by_default: false, // Changed to false since we'll manage this manually
+      opt_out_persistence_by_default: false // Allow persistence
     });
 
-    // Enable tracking since we have consent
-    mixpanel.opt_in_tracking();
-    isOptedOut = false;
     isInitialized = true;
 
-    // Track initialization
-    safeTrack('Analytics Initialized', {
-      timestamp: new Date().toISOString(),
-      consentStatus: 'accepted'
-    });
+    // Check if user has already given consent
+    const hasConsent = localStorage.getItem('analytics_cookie_consent') === 'true';
+
+    if (hasConsent) {
+      mixpanel.opt_in_tracking();
+      isOptedOut = false;
+    } else {
+      mixpanel.opt_out_tracking();
+      isOptedOut = true;
+    }
+
+    if (hasConsent) {
+      // Track initialization only if we have consent
+      safeTrack('Analytics Initialized', {
+        timestamp: new Date().toISOString(),
+        consentStatus: 'accepted'
+      });
+    }
 
   } catch (error) {
     console.error('Failed to initialize Mixpanel:', error);
   }
 };
 
+
+export const enableAnalytics = () => {
+  if (!isInitialized) {
+    initializeAnalytics();
+  }
+
+  mixpanel.opt_in_tracking();
+  isOptedOut = false;
+
+  // Track the opt-in event
+  safeTrack('Analytics Opted In', {
+    timestamp: new Date().toISOString()
+  });
+};
+
+
+
 export const disableAnalytics = () => {
   if (!isInitialized) return;
 
   try {
-    // Opt out of tracking
     mixpanel.opt_out_tracking();
     isOptedOut = true;
 
     // Clear any existing super properties
     mixpanel.reset();
-
-    // Clear persistence
-    localStorage.removeItem('mp_opt_in_out');
 
     console.log('Analytics tracking disabled successfully');
   } catch (error) {

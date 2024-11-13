@@ -13,6 +13,7 @@ import {
   initializeAnalytics,
   disableAnalytics,
   logUserLogin,
+  enableAnalytics
 } from "./analytics";
 
 import ColorMatcher from "./games/ColorMatcher";
@@ -201,18 +202,19 @@ function App() {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       const userId = localStorage.getItem(USER_ID_KEY);
 
+      // Always initialize analytics
+      initializeAnalytics();
+
       if (consent === "true") {
         setCookiesAccepted(true);
-        initializeAnalytics();
+        enableAnalytics();  // Explicitly enable tracking
 
-        // If we have a userId, identify the user
         if (userId) {
           logUserLogin(userId, {
             returningUser: true,
             consentStatus: "accepted",
           });
         } else {
-          // Generate new userId for new users
           const newUserId = generateUserId();
           localStorage.setItem(USER_ID_KEY, newUserId);
           logUserLogin(newUserId, {
@@ -225,7 +227,6 @@ function App() {
 
     checkConsent();
   }, []);
-
   const generateUserId = () => {
     return `u_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
   };
@@ -235,8 +236,9 @@ function App() {
       setCookiesAccepted(true);
       localStorage.setItem(COOKIE_CONSENT_KEY, "true");
 
-      // Initialize analytics
+      // First initialize analytics
       initializeAnalytics();
+      enableAnalytics();  // Explicitly enable tracking
 
       // Handle user identification
       const existingUserId = localStorage.getItem(USER_ID_KEY);
