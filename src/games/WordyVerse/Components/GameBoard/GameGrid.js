@@ -37,7 +37,7 @@ const GameGrid = ({ wordData, guesses, currentGuess, getLetterBGColor }) => {
 
         if (i < guesses.length) {
           letter = guesses[i][j];
-          bgcolor = getLetterBGColor(letter, j, true);
+          bgcolor = getLetterBGColor(letter, j, true, i); // Pass row index i
           isRevealed = true;
         } else if (i === guesses.length && j < currentGuess.length) {
           letter = currentGuess[j];

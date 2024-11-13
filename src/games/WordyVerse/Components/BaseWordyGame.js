@@ -166,13 +166,51 @@ const BaseWordyGame = ({
       .catch((err) => console.error("Failed to copy:", err));
   };
 
-  const getLetterBGColor = (letter, index, isGuessed) => {
+  const getLetterBGColor = (letter, index, isGuessed, rowIndex) => {
     if (!isGuessed || !wordData) return "white";
-    if (letter.toUpperCase() === wordData.word[index].toUpperCase())
-      return "#B4D5A7";
-    if (wordData.word.toUpperCase().includes(letter.toUpperCase()))
-      return "#F5DEB3";
-    return "#d3d6da";
+
+    const guessUpperCase = letter.toUpperCase();
+    const targetWord = wordData.word.toUpperCase();
+    const currentRowGuess = guesses[rowIndex].toUpperCase();
+
+    // First check for exact match
+    if (guessUpperCase === targetWord[index]) {
+      return "#B4D5A7"; // Green
+    }
+
+    // If not an exact match, we need to check if this letter can be yellow
+    // Count how many times this letter appears in the target word
+    const letterCountInTarget = targetWord.split(guessUpperCase).length - 1;
+
+    if (letterCountInTarget === 0) {
+      return "#d3d6da"; // Grey - letter doesn't exist in target
+    }
+
+    // Count how many exact matches of this letter exist
+    // and how many times it appears before this position in THIS row's guess
+    let exactMatches = 0;
+    let yellowCandidatesSoFar = 0;
+
+    for (let i = 0; i < currentRowGuess.length; i++) {
+      if (currentRowGuess[i] === guessUpperCase) {
+        if (currentRowGuess[i] === targetWord[i]) {
+          exactMatches++;
+        } else if (i < index) {
+          yellowCandidatesSoFar++;
+        }
+      }
+    }
+
+    // Calculate remaining yellows available
+    const remainingYellows = letterCountInTarget - exactMatches;
+
+    // If we still have yellows available and haven't used them all up
+    // in previous positions of this guess
+    if (remainingYellows > 0 && yellowCandidatesSoFar < remainingYellows) {
+      return "#F5DEB3"; // Yellow
+    }
+
+    return "#d3d6da"; // Grey
   };
 
   const getShareEmoji = (letter, index, word) => {
