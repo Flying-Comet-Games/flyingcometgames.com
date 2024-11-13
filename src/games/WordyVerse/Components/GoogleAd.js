@@ -8,6 +8,7 @@ const GoogleAd = ({ slot }) => {
                 className='adsbygoogle'
                 client="ca-pub-1729981660160138"
                 slot={slot}
+                format="fluid"
             />
         )
 
