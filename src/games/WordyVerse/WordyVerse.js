@@ -75,7 +75,7 @@ const WordyVerse = () => {
           </Typography>
         </Box>
 
-        {!user && <LoginButtons />}
+        {/* {!user && <LoginButtons />} */}
 
         <Box
           sx={{

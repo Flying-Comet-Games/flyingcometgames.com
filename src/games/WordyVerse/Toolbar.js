@@ -141,7 +141,7 @@ const WordyVerseToolbar = () => {
           </ListItem>
         ))}
         <Divider />
-        <ListItem
+        {/* <ListItem
           button
           onClick={() => {
             if (user) {
@@ -161,7 +161,7 @@ const WordyVerseToolbar = () => {
             {user ? <LogoutIcon /> : <LoginIcon />}
           </ListItemIcon>
           <ListItemText primary={user ? "Sign Out" : "Sign In"} />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Box>
   );
