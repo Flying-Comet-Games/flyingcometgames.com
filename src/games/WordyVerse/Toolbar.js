@@ -51,7 +51,7 @@ const WordyVerseToolbar = () => {
   ];
 
   const bottomMenuItems = [
-    { text: "About Us", icon: <InfoIcon />, path: "/about" },
+    { text: "About Us", icon: <InfoIcon />, path: "/wordy-verse/about" },
     { text: "Privacy Policy", icon: <SecurityIcon />, path: "/privacy" },
     { text: "Terms of Use", icon: <DescriptionIcon />, path: "/terms" },
     { text: "Send Feedback", icon: <FeedbackIcon />, path: "/feedback" },
@@ -69,15 +69,36 @@ const WordyVerseToolbar = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <img
-        src={`${process.env.PUBLIC_URL}/assets/wordy-topics/request-a-topic.svg`}
-        alt="Request a topic"
-        style={{
+      <Box
+        component="a"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeYUR5M-y0ys8IYcgHAp2duNV-RphHx9h82TWCmY-5zEYoKSA/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{
+          display: "block",
           width: "100%",
-          paddingRight: 2,
-          paddingTop: 2,
+          cursor: "pointer",
+          transition: "transform 0.2s ease, opacity 0.2s ease",
+          paddingRight: 0.5,
+          paddingTop: 1,
+          "&:hover": {
+            transform: "scale(1.02)",
+            opacity: 0.9,
+          },
+          "&:active": {
+            transform: "scale(0.98)",
+          },
         }}
-      />
+      >
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/wordy-topics/request-a-topic.svg`}
+          alt="Request a topic"
+          style={{
+            width: "100%",
+            display: "block",
+          }}
+        />
+      </Box>
 
       <List>
         {menuItems.map((item) => (

@@ -47,6 +47,9 @@ import AuthenticatePage from "./AuthenticatePage";
 import FriendsWordy from "./games/WordyVerse/Topics/Friends/Friends";
 import AnimalCrossingWordy from "./games/WordyVerse/Topics/AnimalCrossing/AnimalCrossing";
 import OccupationalTherapyWordy from "./games/WordyVerse/Topics/OccupationalTherapy/OT";
+import TermsOfUse from "./components/TermsOfService";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import WordyVerseAbout from "./games/WordyVerse/About";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -72,6 +75,8 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
         )}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/terms" element={<TermsOfUse />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/color-matcher" element={<ColorMatcher />} />
           <Route path="/digit-shift" element={<DigitShift />} />
           <Route path="/word-wizard" element={<WordWizard />} />
@@ -95,6 +100,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/nyt-guild-support" element={<NYTGuild />} />
           <Route path="/wordy-verse/boba-tea" element={<BobaWordy />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
+          <Route path="/wordy-verse/about" element={<WordyVerseAbout />} />
           <Route path="/wordy-verse/auth" element={<Auth />} />
           <Route path="/wordy-verse/gymnastics" element={<GymnasticsWordy />} />
           <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
