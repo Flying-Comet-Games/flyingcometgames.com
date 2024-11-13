@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid2";
 import GameButton from "../../components/GameButton";
 import GoogleAd from "./Components/GoogleAd";
+import GoogleAdTopic from "./Components/GoogleAdTopic";
 
 const TopicsBody = () => {
   const wordyVerseBase = "/wordy-verse";
@@ -84,8 +85,11 @@ const TopicsBody = () => {
 
           {/* Add ad after every 6 items */}
           {(index + 1) % 6 === 0 && index < games.length - 1 && (
-            <Grid size={12}>
-              <GoogleAd />
+            // <Grid size={12}>
+            //   <GoogleAd />
+            // </Grid>
+            <Grid size={{ xs: 6, sm: 6, md: 4, lg: 4 }}>
+              <GoogleAdTopic />
             </Grid>
           )}
         </React.Fragment>
