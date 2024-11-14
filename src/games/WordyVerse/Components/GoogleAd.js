@@ -8,8 +8,9 @@ const GoogleAd = ({ slot }) => {
                 className='adsbygoogle'
                 client="ca-pub-1729981660160138"
                 slot={slot}
-                format="fluid"
-                style={{ maxHeight: "350px" }}
+                format='auto'
+                style={{ display: "block", maxHeight: "350px" }}
+                responsive='true'
             />
         )
 
