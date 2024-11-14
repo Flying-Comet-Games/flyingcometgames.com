@@ -26,7 +26,7 @@ const GoogleAdTopic = () => {
       }}
     >
       <Adsense
-        className="adsbygoogle"
+        className="topicadsbygoogle"
         client="ca-pub-1729981660160138"
         slot="7421222880"
         format="fluid"
