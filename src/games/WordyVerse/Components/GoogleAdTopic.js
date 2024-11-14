@@ -7,7 +7,7 @@ const GoogleAdTopic = () => {
     <Box
       sx={{
         width: "100%",
-        height: { xs: "140px", sm: "160px" },
+        // height: { xs: "140px", sm: "160px" },
         padding: 2,
         display: "flex",
         flexDirection: "column",
