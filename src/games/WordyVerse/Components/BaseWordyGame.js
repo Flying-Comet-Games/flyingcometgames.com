@@ -13,6 +13,7 @@ import GameHeader from "./GameBoard/GameHeader";
 import GameControls from "./GameBoard/GameControls";
 import GameOver from "./GameBoard/GameOver";
 import LockedContent from "./LockedContent";
+import GoogleAd from "./GoogleAd";
 
 const BaseWordyGame = ({
   title,
@@ -235,6 +236,22 @@ const BaseWordyGame = ({
     >
 
       <Box>
+
+        <Box
+          sx={{
+            height: "150px",
+            maxWidth: "600px",
+            border: "1px black dotted",
+            textAlign: "center",
+            p: 2,
+            mb: 2,
+            mx: "auto",
+            backgroundColor: "background.default",
+          }}
+        >
+          <GoogleAd slot="9715652655" />
+        </Box>
+
         <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
 
         <GameControls
