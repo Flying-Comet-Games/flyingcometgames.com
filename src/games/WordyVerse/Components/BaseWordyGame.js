@@ -247,6 +247,7 @@ const BaseWordyGame = ({
             mb: 2,
             mx: "auto",
             backgroundColor: "background.default",
+            overflow: 'hidden' // This helps contain the ad
           }}
         >
           <GoogleAd slot="9715652655" />
