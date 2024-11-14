@@ -9,7 +9,7 @@ const GoogleAd = ({ slot }) => {
                 client="ca-pub-1729981660160138"
                 slot={slot}
                 format='auto'
-                style={{ display: "block", maxHeight: "350px" }}
+                style={{ display: "block", maxHeight: "100%", maxWidth: "100%" }}
                 responsive='true'
             />
         )
