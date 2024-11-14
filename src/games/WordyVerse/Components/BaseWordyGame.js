@@ -239,7 +239,6 @@ const BaseWordyGame = ({
 
         <Box
           sx={{
-            height: "150px",
             maxWidth: "600px",
             border: "1px black dotted",
             textAlign: "center",
