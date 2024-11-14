@@ -29,9 +29,19 @@ const GoogleAd = ({
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
-        console.log("AdSense error:", e);
-        setIsBlocked(true);
-        onAdBlocked?.();
+        if (
+          e.message &&
+          e.message.includes(
+            "All 'ins' elements in the DOM with class=adsbygoogle already have ads in them."
+          )
+        ) {
+          // Ignore this specific error since it indicates ads are already loaded
+          console.log("AdSense is already loaded.");
+        } else {
+          console.log("AdSense error:", e);
+          setIsBlocked(true);
+          onAdBlocked?.();
+        }
       }
     };
 
