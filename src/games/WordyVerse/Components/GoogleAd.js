@@ -44,6 +44,11 @@ const GoogleAd = ({
     };
   }, [onAdBlocked]);
 
+  const handleAdLoad = () => {
+    setIsBlocked(false); // Reset isBlocked if the ad successfully loads
+    onAdLoaded?.();
+  };
+
   return (
     <Box ref={adContainerRef}>
       {isBlocked ? (
@@ -78,7 +83,7 @@ const GoogleAd = ({
           format="auto"
           style={{ display: "block", maxHeight: "150px", maxWidth: "100%" }}
           responsive="true"
-          onLoad={() => onAdLoaded?.()}
+          onLoad={handleAdLoad} // Use handleAdLoad instead of directly onLoad
         />
       )}
     </Box>
