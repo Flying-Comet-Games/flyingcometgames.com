@@ -51,6 +51,7 @@ import OccupationalTherapyWordy from "./games/WordyVerse/Topics/OccupationalTher
 import TermsOfUse from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import WordyVerseAbout from "./games/WordyVerse/About";
+import LawyerWordy from "./games/WordyVerse/Topics/Lawyer/Lawyer";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -114,6 +115,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/survivor" element={<SurvivorWordy />} />
           <Route path="/authenticate" element={<AuthenticatePage />} />
           <Route path="/wordy-verse/friends" element={<FriendsWordy />} />
+          <Route path="/wordy-verse/lawyer" element={<LawyerWordy />} />
           <Route
             path="/wordy-verse/animal-crossing"
             element={<AnimalCrossingWordy />}
