@@ -69,8 +69,8 @@ const TopicsBody = () => {
       logoSrc: "/assets/wordy-topics/occupational-therapy.svg",
     },
     {
-      to: wordyVerseBase + "/lawyer",
-      title: "Lawyer",
+      to: wordyVerseBase + "/legal",
+      title: "LEGAL",
       logoSrc: "/assets/wordy-topics/lawyer.svg",
     },
   ];

@@ -115,7 +115,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/survivor" element={<SurvivorWordy />} />
           <Route path="/authenticate" element={<AuthenticatePage />} />
           <Route path="/wordy-verse/friends" element={<FriendsWordy />} />
-          <Route path="/wordy-verse/lawyer" element={<LawyerWordy />} />
+          <Route path="/wordy-verse/legal" element={<LawyerWordy />} />
           <Route
             path="/wordy-verse/animal-crossing"
             element={<AnimalCrossingWordy />}
