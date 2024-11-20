@@ -70,11 +70,14 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   }, [gameState]);
 
   const handleTimeUp = () => {
-    // Mark remaining questions as skipped
-    const remainingAnswers = Array(questions.length - answers.length).fill(
-      "skip"
-    );
-    setAnswers((prev) => [...prev, ...remainingAnswers]);
+    if (!questions) return;
+
+    // Calculate how many questions are remaining
+    const remainingCount = Math.max(0, questions.length - answers.length);
+    if (remainingCount > 0) {
+      const remainingAnswers = Array(remainingCount).fill("skip");
+      setAnswers((prev) => [...prev, ...remainingAnswers]);
+    }
     setGameState(GAME_STATES.COMPLETED);
   };
 
@@ -233,6 +236,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
 
   const renderQuestionScreen = () => {
     const currentQuestion = questions[currentQuestionIndex];
+    const totalQuestions = questions?.length || 10;
 
     return (
       <Box sx={{ p: 2 }}>
@@ -240,7 +244,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
 
         <Box sx={{ mb: 3 }}>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            Question {currentQuestionIndex + 1}/10
+            Question {currentQuestionIndex + 1}/{totalQuestions}
           </Typography>
           <Box sx={{ display: "flex", gap: 1 }}>
             {answers.map((answer, idx) => (
@@ -251,7 +255,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                   height: 20,
                   borderRadius: "50%",
                   bgcolor:
-                    answer === "correct"
+answer === "correct"
                       ? "success.main"
                       : answer === "incorrect"
                       ? "error.main"
@@ -259,6 +263,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  color: "white",
                   fontSize: "12px",
                 }}
               >
@@ -269,17 +274,19 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                   : "•"}
               </Box>
             ))}
-            {[...Array(10 - answers.length)].map((_, idx) => (
-              <Box
-                key={`empty-${idx}`}
-                sx={{
-                  width: 20,
-                  height: 20,
-                  borderRadius: "50%",
-                  bgcolor: "grey.300",
-                }}
-              />
-            ))}
+            {[...Array(Math.max(0, totalQuestions - answers.length))].map(
+              (_, idx) => (
+                <Box
+                  key={`empty-${idx}`}
+                  sx={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: "50%",
+                    bgcolor: "grey.300",
+                  }}
+                />
+              )
+            )}
           </Box>
         </Box>
 
