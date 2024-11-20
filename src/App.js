@@ -13,7 +13,7 @@ import {
   initializeAnalytics,
   disableAnalytics,
   logUserLogin,
-  enableAnalytics
+  enableAnalytics,
 } from "./analytics";
 
 import ColorMatcher from "./games/ColorMatcher";
@@ -33,7 +33,6 @@ import WhackAMole from "./games/WhackAMole";
 import GardenPuzzleGame from "./games/GardenPuzzle";
 import TwitterStrands from "./games/TwitterStrands/TwitterStrands";
 import WordyVerse from "./games/WordyVerse/WordyVerse";
-import WordyVerseToolbar from "./games/WordyVerse/Toolbar";
 import AccountingWordy from "./games/WordyVerse/Topics/AccountingWordle/AccountingWordle";
 import NYTGuild from "./games/WordyVerse/Topics/NYTGuild/NYTGuild";
 import Auth from "./Auth";
@@ -52,12 +51,17 @@ import TermsOfUse from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import WordyVerseAbout from "./games/WordyVerse/About";
 import LawyerWordy from "./games/WordyVerse/Topics/Lawyer/Lawyer";
+import TriviaRoundup from "./games/TriviaRoundup/TriviaRoundup";
+import GameToolbar from "./games/GameToolbar";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
 
 const getTheme = (pathname) => {
-  if (pathname.startsWith("/wordy-verse")) {
+  if (
+    pathname.startsWith("/wordy-verse") ||
+    pathname.startsWith("/trivia-roundup")
+  ) {
     return wordyVerseTheme;
   }
   return theme;
@@ -71,7 +75,17 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
     <>
       <ThemeProvider theme={getTheme(location.pathname)}>
         {location.pathname.startsWith("/wordy-verse") ? (
-          <WordyVerseToolbar />
+          <GameToolbar
+            logoSrc={`${process.env.PUBLIC_URL}/assets/game-logos/wordy-verse-logo-name.svg`}
+            title="Wordy-Verse"
+            basePath="/wordy-verse"
+          />
+        ) : location.pathname.startsWith("/trivia-roundup") ? (
+          <GameToolbar
+            logoSrc={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-name.svg`}
+            title="Trivia Roundup"
+            basePath="/trivia-roundup"
+          />
         ) : (
           <AppContent />
         )}
@@ -124,6 +138,8 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
             path="/wordy-verse/occupational-therapy"
             element={<OccupationalTherapyWordy />}
           />
+
+          <Route path="/trivia-roundup" element={<TriviaRoundup />} />
         </Routes>
 
         <CookieConsent
@@ -209,7 +225,7 @@ function App() {
 
       if (consent === "true") {
         setCookiesAccepted(true);
-        enableAnalytics();  // Explicitly enable tracking
+        enableAnalytics(); // Explicitly enable tracking
 
         if (userId) {
           logUserLogin(userId, {
@@ -240,7 +256,7 @@ function App() {
 
       // First initialize analytics
       initializeAnalytics();
-      enableAnalytics();  // Explicitly enable tracking
+      enableAnalytics(); // Explicitly enable tracking
 
       // Handle user identification
       const existingUserId = localStorage.getItem(USER_ID_KEY);
