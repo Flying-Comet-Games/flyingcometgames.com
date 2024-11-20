@@ -1,94 +1,58 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
-const FeaturedGame = ({ title, description, appStoreLink, appStoreImageSrc }) => {
+const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
   const theme = useTheme();
 
   return (
-    <Box
+    <Button
+      component={Link}
+      to={link}
+      variant="contained"
       sx={{
         width: '100%',
-        padding: { xs: 3, sm: 4 },
+        padding: { xs: 2, sm: 4 },
+        mb: 2,
         display: 'flex',
         flexDirection: 'column',
-        background: "#9eb4ad",
-        color: theme.palette.text.primary,
+        alignItems: 'flex-start',
+        textAlign: 'left',
+        backgroundColor: bgColor || theme.palette.background.default,
         borderRadius: '12px',
-        overflow: 'hidden',
         boxShadow: theme.shadows[2],
+        color: theme.palette.text.primary,
+        overflow: 'hidden',
+        '&:hover': {
+          backgroundColor: theme.palette.grey[200],
+        },
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, width: '100%' }}>
         <Box
           component="img"
-          src={appStoreImageSrc}
+          src={svgLogo}
           alt={`${title} logo`}
           sx={{
-            width: { xs: '60px', sm: '70px' },
+            width: { xs: '100%', sm: '100%' },
             height: { xs: '60px', sm: '70px' },
-            objectFit: 'cover',
-            borderRadius: '12px',
-            mr: 2,
           }}
         />
-        <Typography
-          variant="h6"
-          component="div"
-          fontWeight="bold"
-          sx={{
-            fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
-            lineHeight: 1.3,
-          }}
-        >
-          {title}
-        </Typography>
       </Box>
       <Typography
-        variant="body2"
         sx={{
           fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
           lineHeight: 1.5,
           color: theme.palette.text.secondary,
-          mb: 3,
+          textTransform: 'none',
         }}
       >
         {description}
       </Typography>
-      <Box
-        sx={{
-          mt: 'auto',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          gap: 2,
-        }}
-      >
-        <Link to={appStoreLink}>
-          <Box
-            component="img"
-            src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1726963200"
-            alt="Download on the App Store"
-            sx={{
-              height: { xs: '35px', sm: '40px' },
-              width: 'auto',
-            }}
-          />
-        </Link>
-        <Link to="https://play.google.com/store/apps/details?id=com.enhancenothing.com.android.keepbufoalive">
-          <Box
-            component="img"
-            src={`${process.env.PUBLIC_URL}/assets/google-play.png`}
-            alt="Download on the Google Play Store"
-            sx={{
-              height: { xs: '35px', sm: '40px' },
-              width: 'auto',
-            }}
-          />
-        </Link>
-      </Box>
-    </Box>
+    </Button>
   );
 };
 

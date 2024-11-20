@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import FeaturedGame from './FeaturedGame';
+import FeaturedMobileGame from './FeaturedMobileGame';
 import GameButton from './GameButton';
 import CollapsibleSEOContent from './CollapsibleSEOContent';
 import GamesBody from './GamesBody';
