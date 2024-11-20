@@ -53,6 +53,7 @@ import WordyVerseAbout from "./games/WordyVerse/About";
 import LawyerWordy from "./games/WordyVerse/Topics/Lawyer/Lawyer";
 import TriviaRoundup from "./games/TriviaRoundup/TriviaRoundup";
 import GameToolbar from "./games/GameToolbar";
+import SeattleTrivia from "./games/TriviaRoundup/Topics/Seattle/SeattleTrivia";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -140,6 +141,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           />
 
           <Route path="/trivia-roundup" element={<TriviaRoundup />} />
+          <Route path="/trivia-roundup/seattle" element={<SeattleTrivia />} />
         </Routes>
 
         <CookieConsent

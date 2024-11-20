@@ -1,28 +1,10 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
+import GameButton from "../../components/GameButton";
+import Grid from "@mui/material/Grid";
 import { Helmet } from "react-helmet";
-import { useStytchUser } from "@stytch/react";
-import TopicsBody from "../WordyVerse/TopicsBody";
-import TriviaRoundupTopicsBody from "./TopicsBody";
 
-const TriviaRoundup = () => {
-  const theme = useTheme();
-  const { user } = useStytchUser();
-
-  // Function to check if a game should be locked
-  const isGameLocked = (gameDate) => {
-    if (user) return false; // Always unlocked for logged-in users
-
-    const currentDate = new Date();
-    const gameDateTime = new Date(gameDate);
-    const differenceInTime = currentDate.getTime() - gameDateTime.getTime();
-    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-
-    return differenceInDays > 7;
-  };
-
+const TriviaRoundUp = () => {
   return (
     <Box
       sx={{
@@ -30,14 +12,14 @@ const TriviaRoundup = () => {
         flexDirection: "column",
         minHeight: "100vh",
         overflowX: "hidden",
-        backgroundColor: 'background.default',
+        backgroundColor: "background.default",
       }}
     >
       <Helmet>
-        <title>Wordy Verse</title>
+        <title>Trivia Round Up - Daily Trivia Games</title>
         <meta
           name="description"
-          content="Enjoy engaging online puzzle games, word games, and casual games similar to NYT Games. Challenge yourself with our collection of brain teasers and addictive puzzles."
+          content="Test your knowledge with our daily trivia games. New questions every day about different topics!"
         />
       </Helmet>
 
@@ -50,7 +32,7 @@ const TriviaRoundup = () => {
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
           maxWidth: "1024px",
-          mx: 'auto',
+          mx: "auto",
           boxSizing: "border-box",
         }}
       >
@@ -68,26 +50,40 @@ const TriviaRoundup = () => {
             sx={{
               fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
               pb: 2,
-              borderBottom: `1px solid ${theme.palette.divider}`,
+              borderBottom: "1px solid",
+              borderColor: "divider",
             }}
           >
-            Ultra-niche trivia for super fans, inside jokes, and subject matter experts.
+            Test your knowledge with our daily trivia challenges!
           </Typography>
         </Box>
 
-        {/* {!user && <LoginButtons />} */}
-
-        <Box
+        <Grid
+          container
+          spacing={3}
+          justifyContent="center"
           sx={{
             width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            boxSizing: "border-box",
-            overflow: "hidden",
           }}
         >
-          <TriviaRoundupTopicsBody isGameLocked={isGameLocked} isLoggedIn={!!user} />
-        </Box>
+          {[
+            {
+             to: "/trivia-roundup/seattle",
+             title: "Seattle",
+             logoSrc: "/assets/wordy-topics/seattle.svg",
+            },
+            // Add more topics here as they become available
+          ].map((topic) => (
+            <Grid item xs={6} sm={6} md={4} lg={3} key={topic.title}>
+              <GameButton
+                to={topic.to}
+                title={topic.title}
+                logoSrc={topic.logoSrc}
+                backgroundColor="primary.light"
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
 
       <Box
@@ -111,4 +107,4 @@ const TriviaRoundup = () => {
   );
 };
 
-export default TriviaRoundup;
+export default TriviaRoundUp;
