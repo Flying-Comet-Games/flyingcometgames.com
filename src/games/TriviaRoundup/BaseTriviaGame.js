@@ -167,13 +167,37 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
 
   const renderWelcomeScreen = () => (
     <Box sx={{ textAlign: "center", p: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        How well do you know {title}?
+      <Box
+        component="img"
+        src={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-home.svg`}
+        alt="trivia roundup logo"
+        sx={{
+          width: "100%", // Adjust width as needed
+          height: "auto", // Maintain aspect ratio
+        }}
+      />
+
+      <Box
+        component="img"
+        src={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-squirrel.svg`}
+        alt="trivia roundup squirrel mascot"
+        sx={{
+          width: "30%", // Adjust width as needed
+          height: "auto", // Maintain aspect ratio
+        }}
+      />
+
+      <Typography variant="h4" component="h1" marginTop={6} gutterBottom>
+        How well do you know{" "}
+        <Box component="span" sx={{ fontStyle: "italic" }}>
+          {title}
+        </Box>
+        ?
       </Typography>
+
       <Button
-        variant="contained"
         onClick={() => setGameState(GAME_STATES.RULES)}
-        sx={{ mt: 4 }}
+        sx={{ mt: 4, width: "200px", fontSize: "20px" }}
       >
         PLAY NOW!
       </Button>
@@ -255,7 +279,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                   height: 20,
                   borderRadius: "50%",
                   bgcolor:
-answer === "correct"
+                    answer === "correct"
                       ? "success.main"
                       : answer === "incorrect"
                       ? "error.main"
