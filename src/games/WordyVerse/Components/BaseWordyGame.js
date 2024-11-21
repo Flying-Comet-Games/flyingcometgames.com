@@ -86,7 +86,6 @@ const BaseWordyGame = ({
 
       if (newGuesses.length === 1) {
         logGameStarted(title, {
-          won: true,
           word: wordData.word,
           date: dateStr,
         });

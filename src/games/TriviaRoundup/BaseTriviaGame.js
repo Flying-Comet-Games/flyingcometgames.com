@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
-import { logEvent } from "../../analytics";
+import { logGameStarted, logGameEnded, logGameShared } from "../../analytics";
 
 const GAME_STATES = {
   WELCOME: "welcome",
@@ -79,10 +79,22 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       setAnswers((prev) => [...prev, ...remainingAnswers]);
     }
     setGameState(GAME_STATES.COMPLETED);
+
+    logGameEnded("Trivia Roundup", {
+      topic: title,
+      score: score,
+      // date: dateStr,
+    });
   };
 
   const handleStartGame = () => {
-    logEvent("Trivia", "GameStarted", topic);
+    // const dateStr = currentDate.toLocaleDateString("en-US");
+
+    logGameStarted("Trivia Roundup", {
+      topic: title,
+      //   date: dateStr,
+    });
+
     setGameState(GAME_STATES.PLAYING);
   };
 
@@ -157,6 +169,10 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
 
   const handleShare = async () => {
     const text = getShareText();
+    logGameShared("Trivia Roundup", {
+      topic: title,
+      score: score,
+    });
     try {
       await navigator.clipboard.writeText(text);
       // TODO: Show toast notification for successful copy
