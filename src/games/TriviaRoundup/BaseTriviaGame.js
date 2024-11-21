@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { logGameStarted, logGameEnded, logGameShared } from "../../analytics";
+import { getPTDate, formatPTDateString } from "../utils/date";
 
 const GAME_STATES = {
   WELCOME: "welcome",
@@ -29,11 +30,17 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
     const savedState = localStorage.getItem(`trivia_${topic}_state`);
     if (savedState) {
       const parsed = JSON.parse(savedState);
-      setGameState(parsed.gameState);
-      setCurrentQuestionIndex(parsed.currentQuestionIndex);
-      setScore(parsed.score);
-      setTimeLeft(parsed.timeLeft);
-      setAnswers(parsed.answers);
+      const savedDate = new Date(parsed.date);
+      const currentDate = getPTDate();
+
+      // Only restore state if it's from the same day
+      if (formatPTDateString(savedDate) === formatPTDateString(currentDate)) {
+        setGameState(parsed.gameState);
+        setCurrentQuestionIndex(parsed.currentQuestionIndex);
+        setScore(parsed.score);
+        setTimeLeft(parsed.timeLeft);
+        setAnswers(parsed.answers);
+      }
     }
   }, [topic]);
 
@@ -149,7 +156,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   };
 
   const getShareText = () => {
-    const date = new Date().toLocaleDateString("en-US");
+    const date = formatPTDateString(new Date());
     const emoji = answers
       .map((answer) => {
         switch (answer) {

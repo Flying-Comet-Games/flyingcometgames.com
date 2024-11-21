@@ -1,34 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { getQuestionsForDate, findLatestAvailableDate } from "./Data";
+import {
+  getQuestionsForDate,
+  getLatestQuestions,
+} from "./Data";
+import { findLatestAvailableData } from "../../../utils/date";
+import { SEATTLE_QUESTIONS } from "./Data";
 import BaseTrivaGame from "../../BaseTriviaGame";
 
 const SeattleTrivia = () => {
   const [currentDate, setCurrentDate] = useState(null);
   const [questions, setQuestions] = useState(null);
 
+  // Initialize with latest available date
   useEffect(() => {
-    const latestData = findLatestAvailableDate();
+    const latestData = findLatestAvailableData(SEATTLE_QUESTIONS);
     if (latestData) {
-      const ptDate = new Date(latestData.date + "T00:00:00-08:00");
-      setCurrentDate(ptDate);
+      setCurrentDate(new Date(latestData.date));
+      const dailyQuestions = getLatestQuestions();
+      if (dailyQuestions) {
+        setQuestions(dailyQuestions);
+      }
     }
   }, []);
 
+  // Update questions when date changes
   useEffect(() => {
     if (!currentDate) return;
 
-    const data = getQuestionsForDate(currentDate);
-    if (!data) {
-      const latestData = findLatestAvailableDate();
-      if (latestData) {
+    const dailyQuestions = getQuestionsForDate(currentDate, SEATTLE_QUESTIONS);
+    if (!dailyQuestions) {
+      // If no questions for current date, fall back to latest available
+      const latestQuestions = getLatestQuestions();
+      if (latestQuestions) {
+        const latestData = findLatestAvailableData(SEATTLE_QUESTIONS);
         setCurrentDate(new Date(latestData.date));
-        setQuestions(latestData.questions);
+        setQuestions(latestQuestions);
       }
       return;
     }
 
-    setQuestions(data);
+    setQuestions(dailyQuestions);
   }, [currentDate]);
 
   if (!questions) {
