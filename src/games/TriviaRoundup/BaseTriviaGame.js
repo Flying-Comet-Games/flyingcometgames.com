@@ -205,24 +205,60 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   );
 
   const renderRulesScreen = () => (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Howdy!
-      </Typography>
-      <Typography gutterBottom>
-        Glad you're here partner. Here's how it works:
-      </Typography>
-      <Box sx={{ my: 3 }}>
-        <Typography>Correct answer: +1</Typography>
-        <Typography>Incorrect answer: -1</Typography>
-        <Typography>Skip a question: +0</Typography>
+    <Box>
+      {renderTopSection()}
+      <Box
+        sx={{
+          p: 4,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          width: "80%",
+          mx: "auto",
+          border: `1px solid black`,
+        }}
+      >
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontFamily: theme.typography.fontFamily, fontWeight: "bold" }}
+        >
+          Howdy!
+        </Typography>
+        <Typography
+          gutterBottom
+          sx={{ fontFamily: theme.typography.fontFamily, mb: 2 }}
+        >
+          Glad you’re here partner. <br /> Here’s how it works:
+        </Typography>
+        <Box sx={{ my: 3, pl: 2 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Correct answer:</strong> +1
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Incorrect answer:</strong> -1
+          </Typography>
+          <Typography variant="body1">
+            <strong>Skip a question:</strong> +0
+          </Typography>
+        </Box>
+        <Typography gutterBottom sx={{ mb: 4 }}>
+          You have 2 minutes to answer 10 questions.
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleStartGame}
+          sx={{
+            mt: 2,
+            py: 1.5,
+            px: 4,
+            fontSize: "1rem",
+            textTransform: "none",
+            borderRadius: 2,
+          }}
+        >
+          Ready?
+        </Button>
       </Box>
-      <Typography gutterBottom>
-        You have 2 minutes to answer 10 questions.
-      </Typography>
-      <Button variant="contained" onClick={handleStartGame} sx={{ mt: 4 }}>
-        Ready?
-      </Button>
     </Box>
   );
 
@@ -230,31 +266,180 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
     <Box
       sx={{
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-between",
         p: 2,
-        bgcolor: "background.paper",
         borderRadius: 2,
+        bgcolor: "background.paper",
+        mx: "auto",
+        width: "80%",
+        border: `1px solid black`,
         mb: 2,
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Box
-          sx={{
-            color:
-              timeLeft <= 10
-                ? "error.main"
-                : timeLeft <= 30
-                ? "warning.main"
-                : "text.primary",
-          }}
-        >
-          {formatTime(timeLeft)}
+      {/* Top Section: Timer and Score */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        {/* Timer Section */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color:
+                timeLeft <= 10
+                  ? "error.main"
+                  : timeLeft <= 30
+                  ? "warning.main"
+                  : "text.primary",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+            }}
+          >
+            ⏱️ {formatTime(timeLeft)}
+          </Box>
+        </Box>
+
+        {/* Score Section */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+            }}
+          >
+            ⭐ {score}
+          </Typography>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Typography>Score: {score}</Typography>
+
+      <Typography
+        mt={1}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: "1rem",
+          fontWeight: "bold",
+        }}
+      >
+        Today's Progress
+      </Typography>
+
+      {/* Progress Circles Section */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1,
+          mt: 1,
+        }}
+      >
+        {[...Array(10)].map((_, index) => {
+          const iconSrc =
+            index < answers.length
+              ? answers[index] === "correct"
+                ? "/assets/icons/correct-answer.svg"
+                : answers[index] === "incorrect"
+                ? "/assets/icons/incorrect-answer.svg"
+                : "/assets/icons/skipped-answer.svg"
+              : "/assets/icons/unanswered.svg";
+
+          return (
+            <Box
+              key={index}
+              sx={{
+                width: 20,
+                height: 20,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={iconSrc}
+                alt="progress icon"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </Box>
+          );
+        })}
       </Box>
+    </Box>
+  );
+
+  const renderTopSection = () => (
+    <Box
+      sx={{
+        textAlign: "center",
+        mb: 1,
+        pt: 3,
+      }}
+    >
+      <Typography
+        variant="h5"
+        component="h1"
+        gutterBottom
+        sx={{ fontWeight: "bold" }}
+      >
+        How well do you know{" "}
+        <Box component="span" sx={{ fontStyle: "italic" }}>
+          {title}
+        </Box>
+        ?
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          mt: 2,
+        }}
+      >
+        {renderProgressBar()}
+      </Box>
+      {/* <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          gap: 1,
+          mt: 2,
+        }}
+      >
+        {[...Array(10)].map((_, index) => (
+          <Box
+            key={index}
+            sx={{
+              width: 20,
+              height: 20,
+              borderRadius: "50%",
+              bgcolor:
+                index < answers.length
+                  ? answers[index] === "correct"
+                    ? "success.main"
+                    : answers[index] === "incorrect"
+                    ? "error.main"
+                    : "grey.300"
+                  : "grey.300",
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          />
+        ))}
+      </Box> */}
     </Box>
   );
 
@@ -263,10 +448,20 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
     const totalQuestions = questions?.length || 10;
 
     return (
-      <Box sx={{ p: 2 }}>
-        {renderProgressBar()}
+      <Box>
+        {renderTopSection()}
 
-        <Box sx={{ mb: 3 }}>
+        <Box
+          sx={{
+            p: 4,
+            borderRadius: 2,
+            bgcolor: "background.paper",
+            width: "80%",
+            mx: "auto",
+            border: `1px solid black`,
+          }}
+        >
+          {/* <Box sx={{ mb: 3 }}>
           <Typography variant="body2" sx={{ mb: 1 }}>
             Question {currentQuestionIndex + 1}/{totalQuestions}
           </Typography>
@@ -312,31 +507,24 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               )
             )}
           </Box>
-        </Box>
+        </Box> */}
 
-        <Typography variant="h6" gutterBottom>
-          {currentQuestion.question}
-        </Typography>
+          <Typography variant="h6" gutterBottom>
+            {currentQuestion.question}
+          </Typography>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
-          {currentQuestion.options.map((option) => (
-            <Button
-              key={option}
-              variant="outlined"
-              onClick={() => handleAnswer(option)}
-              sx={{
-                p: 2,
-                color: "black",
-                justifyContent: "flex-start",
-                bgcolor:
-                  selectedAnswer === option
-                    ? hasSubmitted
-                      ? option === currentQuestion.correctAnswer
-                        ? "success.light"
-                        : "error.light"
-                      : "action.selected"
-                    : "background.paper",
-                "&:hover": {
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
+            {currentQuestion.options.map((option) => (
+              <Button
+                key={option}
+                variant="outlined"
+                onClick={() => handleAnswer(option)}
+                sx={{
+                  p: 2,
+                  color: "black",
+                  borderRadius: "50px",
+                  border: `1px solid black`,
+                  textAlign: "center",
                   bgcolor:
                     selectedAnswer === option
                       ? hasSubmitted
@@ -344,27 +532,41 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                           ? "success.light"
                           : "error.light"
                         : "action.selected"
-                      : "action.hover",
-                },
-              }}
-              disabled={hasSubmitted}
-            >
-              {option}
-            </Button>
-          ))}
-        </Box>
+                      : "background.paper",
+                  "&:hover": {
+                    bgcolor:
+                      selectedAnswer === option
+                        ? hasSubmitted
+                          ? option === currentQuestion.correctAnswer
+                            ? "success.light"
+                            : "error.light"
+                          : "action.selected"
+                        : "action.hover",
+                  },
+                }}
+                disabled={hasSubmitted}
+              >
+                {option}
+              </Button>
+            ))}
+          </Box>
 
-        <Box sx={{ display: "flex", gap: 2, mt: 4 }}>
-          {selectedAnswer && !hasSubmitted && (
-            <Button variant="contained" onClick={handleSubmitAnswer} fullWidth>
-              Submit
-            </Button>
-          )}
-          {!hasSubmitted && (
-            <Button variant="outlined" onClick={handleSkip} fullWidth>
-              Skip
-            </Button>
-          )}
+          <Box sx={{ display: "flex", gap: 2, mt: 4 }}>
+            {selectedAnswer && !hasSubmitted && (
+              <Button
+                variant="contained"
+                onClick={handleSubmitAnswer}
+                fullWidth
+              >
+                Submit
+              </Button>
+            )}
+            {!hasSubmitted && (
+              <Button variant="outlined" onClick={handleSkip} fullWidth>
+                Skip
+              </Button>
+            )}
+          </Box>
         </Box>
       </Box>
     );
@@ -386,6 +588,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               width: 20,
               height: 20,
               borderRadius: "50%",
+              border: `1px solid black`,
               bgcolor:
                 answer === "correct"
                   ? "success.main"
