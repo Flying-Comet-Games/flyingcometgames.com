@@ -5,9 +5,8 @@
  * with time components zeroed out for date comparison
  */
 export const getPTDate = (date = new Date()) => {
-  const ptDate = new Date(
-    date.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
-  );
+  const ptDateString = date.toLocaleString("en-US", { timeZone: "America/Los_Angeles" });
+  const ptDate = new Date(ptDateString);
   ptDate.setHours(0, 0, 0, 0);
   return ptDate;
 };
@@ -17,6 +16,8 @@ export const getPTDate = (date = new Date()) => {
  */
 export const formatPTDateString = (date) => {
   const ptDate = getPTDate(date);
+  console.log("formatPTDateString");
+  console.log(ptDate);
   return (
     ptDate.getFullYear() +
     "-" +
@@ -30,18 +31,16 @@ export const formatPTDateString = (date) => {
  * Generic function to get data for a specific date from a dataset
  */
 export const getDataForDate = (date, dataset) => {
+  console.log("getDataForDate");
+  console.log(date);
+  console.log(dataset);
   if (!date || !dataset || !Array.isArray(dataset)) {
     return null;
   }
 
-  const ptDate = getPTDate(date);
-  const currentPTDate = getPTDate();
-
-  if (ptDate > currentPTDate) {
-    return null;
-  }
-
-  const dateString = formatPTDateString(ptDate);
+  console.log(date);
+  const dateString = formatPTDateString(date);
+  console.log(dateString);
   return dataset.find((entry) => entry.date === dateString);
 };
 

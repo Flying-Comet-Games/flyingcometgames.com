@@ -14,31 +14,17 @@ const SeattleTrivia = () => {
 
   // Initialize with latest available date
   useEffect(() => {
-    const latestData = findLatestAvailableData(SEATTLE_QUESTIONS);
-    if (latestData) {
-      setCurrentDate(new Date(latestData.date));
-      const dailyQuestions = getLatestQuestions();
-      if (dailyQuestions) {
-        setQuestions(dailyQuestions);
-      }
-    }
+    console.log("initialize questions")
+    const latestData = getLatestQuestions();
+    setQuestions(latestData);
   }, []);
 
   // Update questions when date changes
   useEffect(() => {
     if (!currentDate) return;
 
-    const dailyQuestions = getQuestionsForDate(currentDate, SEATTLE_QUESTIONS);
-    if (!dailyQuestions) {
-      // If no questions for current date, fall back to latest available
-      const latestQuestions = getLatestQuestions();
-      if (latestQuestions) {
-        const latestData = findLatestAvailableData(SEATTLE_QUESTIONS);
-        setCurrentDate(new Date(latestData.date));
-        setQuestions(latestQuestions);
-      }
-      return;
-    }
+    console.log("grabbing daily questions");
+    const dailyQuestions = getLatestQuestions();
 
     setQuestions(dailyQuestions);
   }, [currentDate]);
