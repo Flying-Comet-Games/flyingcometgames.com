@@ -4,12 +4,12 @@ export const SEATTLE_QUESTIONS = [
     questions: [
       {
         question: "What body of water is Seattle primarily situated on?",
-        options: [
+        options: shuffleArray([
           "Puget Sound",
           "Pacific Ocean",
           "Lake Washington",
           "Columbia River",
-        ],
+        ]),
         correctAnswer: "Puget Sound",
         category: "Geography",
         difficulty: 1,
@@ -17,12 +17,12 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "Which famous market is a Seattle landmark and tourist destination?",
-        options: [
+        options: shuffleArray([
           "Pike Place Market",
           "Queen Victoria Market",
           "Reading Terminal Market",
           "Ferry Building Marketplace",
-        ],
+        ]),
         correctAnswer: "Pike Place Market",
         category: "Landmarks",
         difficulty: 2,
@@ -30,20 +30,20 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "What iconic Seattle structure was built for the 1962 World's Fair?",
-        options: [
+        options: shuffleArray([
           "Space Needle",
           "Columbia Center",
           "Smith Tower",
           "Seattle Great Wheel",
-        ],
+        ]),
         correctAnswer: "Space Needle",
         category: "History",
         difficulty: 3,
       },
       {
         question:
-          "Which major company founded in 1971 in Seattle's Pike Place Market?",
-        options: ["Starbucks", "Amazon", "Microsoft", "Boeing"],
+          "Which major company was founded in 1971 in Seattle's Pike Place Market?",
+        options: shuffleArray(["Starbucks", "Amazon", "Microsoft", "Boeing"]),
         correctAnswer: "Starbucks",
         category: "Business",
         difficulty: 4,
@@ -51,12 +51,12 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "What nickname did Seattle earn during the Klondike Gold Rush?",
-        options: [
+        options: shuffleArray([
           "Gateway to Alaska",
           "Emerald City",
           "Rain City",
           "Queen City",
-        ],
+        ]),
         correctAnswer: "Gateway to Alaska",
         category: "History",
         difficulty: 5,
@@ -64,7 +64,7 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "Which Seattle neighborhood is known for its Scandinavian heritage?",
-        options: ["Ballard", "Capitol Hill", "Fremont", "West Seattle"],
+        options: shuffleArray(["Ballard", "Capitol Hill", "Fremont", "West Seattle"]),
         correctAnswer: "Ballard",
         category: "Culture",
         difficulty: 6,
@@ -72,7 +72,7 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "What indigenous tribe originally inhabited the Seattle area?",
-        options: ["Duwamish", "Chinook", "Suquamish", "Muckleshoot"],
+        options: shuffleArray(["Duwamish", "Chinook", "Suquamish", "Muckleshoot"]),
         correctAnswer: "Duwamish",
         category: "History",
         difficulty: 7,
@@ -80,12 +80,12 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "Which architectural style defines Seattle's Pioneer Square district?",
-        options: [
+        options: shuffleArray([
           "Richardsonian Romanesque",
           "Art Deco",
           "Gothic Revival",
           "Victorian",
-        ],
+        ]),
         correctAnswer: "Richardsonian Romanesque",
         category: "Architecture",
         difficulty: 8,
@@ -93,7 +93,7 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "What year did the Great Seattle Fire destroy the city's downtown?",
-        options: ["1889", "1892", "1901", "1885"],
+        options: shuffleArray(["1889", "1892", "1901", "1885"]),
         correctAnswer: "1889",
         category: "History",
         difficulty: 9,
@@ -101,7 +101,7 @@ export const SEATTLE_QUESTIONS = [
       {
         question:
           "Which Seattle mayor established the city's first streetcar system?",
-        options: ["Frank Black", "John Leary", "Henry Yesler", "Thomas Mercer"],
+        options: shuffleArray(["Frank Black", "John Leary", "Henry Yesler", "Thomas Mercer"]),
         correctAnswer: "Frank Black",
         category: "History",
         difficulty: 10,
@@ -109,6 +109,11 @@ export const SEATTLE_QUESTIONS = [
     ],
   },
 ];
+
+// Helper function to shuffle the options
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
 export const getQuestionsForDate = (date) => {
     if (!date || !SEATTLE_QUESTIONS) {

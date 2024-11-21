@@ -9,7 +9,9 @@ const GAME_STATES = {
   COMPLETED: "completed",
 };
 
-const INITIAL_TIME = 120; // 2 minutes in seconds
+const INITIAL_TIME = 60; // 1 minute in seconds
+const TIME_PER_QUESTION = 6; // Expected time per question
+const MAX_MULTIPLIER = 2.0; // Maximum score multiplier for fast answers
 
 const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const theme = useTheme();
@@ -18,6 +20,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
+  const [questionStartTime, setQuestionStartTime] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -69,33 +72,26 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
     return () => clearInterval(timer);
   }, [gameState]);
 
+  const calculateScoreMultiplier = (responseTime) => {
+    const baseMultiplier = Math.max(0, (TIME_PER_QUESTION - responseTime) / TIME_PER_QUESTION);
+    return Math.min(MAX_MULTIPLIER, 1 + baseMultiplier);
+  };
+
   const handleTimeUp = () => {
     if (!questions) return;
-
-    // Calculate how many questions are remaining
     const remainingCount = Math.max(0, questions.length - answers.length);
     if (remainingCount > 0) {
       const remainingAnswers = Array(remainingCount).fill("skip");
       setAnswers((prev) => [...prev, ...remainingAnswers]);
     }
     setGameState(GAME_STATES.COMPLETED);
-
-    logGameEnded("Trivia Roundup", {
-      topic: title,
-      score: score,
-      // date: dateStr,
-    });
+    logGameEnded("Trivia Roundup", { topic: title, score: score });
   };
 
   const handleStartGame = () => {
-    // const dateStr = currentDate.toLocaleDateString("en-US");
-
-    logGameStarted("Trivia Roundup", {
-      topic: title,
-      //   date: dateStr,
-    });
-
+    logGameStarted("Trivia Roundup", { topic: title });
     setGameState(GAME_STATES.PLAYING);
+    setQuestionStartTime(Date.now());
   };
 
   const handleAnswer = (answer) => {
@@ -106,19 +102,22 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const handleSubmitAnswer = () => {
     if (!selectedAnswer || hasSubmitted) return;
 
+    const responseTime = (Date.now() - questionStartTime) / 1000;
+    const multiplier = calculateScoreMultiplier(responseTime);
     const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    const points = isCorrect ? Math.round(multiplier * 100) / 100 : -1;
 
     setAnswers((prev) => [...prev, isCorrect ? "correct" : "incorrect"]);
-    setScore((prev) => prev + (isCorrect ? 1 : -1));
+    setScore((prev) => Math.round((prev + points) * 100) / 100);
     setHasSubmitted(true);
 
-    // Move to next question after delay
     setTimeout(() => {
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex((prev) => prev + 1);
         setSelectedAnswer(null);
         setHasSubmitted(false);
+        setQuestionStartTime(Date.now());
       } else {
         setGameState(GAME_STATES.COMPLETED);
       }
@@ -135,11 +134,13 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
         setCurrentQuestionIndex((prev) => prev + 1);
         setSelectedAnswer(null);
         setHasSubmitted(false);
+        setQuestionStartTime(Date.now());
       } else {
         setGameState(GAME_STATES.COMPLETED);
       }
     }, 1000);
   };
+
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -223,55 +224,45 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const renderRulesScreen = () => (
     <Box>
       {renderTopSection()}
-      <Box
-        sx={{
-          p: 4,
-          borderRadius: 2,
-          bgcolor: "background.paper",
-          width: "80%",
-          mx: "auto",
-          border: `1px solid black`,
-        }}
-      >
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontFamily: theme.typography.fontFamily, fontWeight: "bold" }}
-        >
+      <Box sx={{
+        p: 4,
+        borderRadius: 2,
+        bgcolor: "background.paper",
+        width: "80%",
+        mx: "auto",
+        border: `1px solid black`,
+      }}>
+        <Typography variant="h5" gutterBottom sx={{ fontFamily: theme.typography.fontFamily, fontWeight: "bold" }}>
           Howdy!
         </Typography>
-        <Typography
-          gutterBottom
-          sx={{ fontFamily: theme.typography.fontFamily, mb: 2 }}
-        >
-          Glad you’re here partner. <br /> Here’s how it works:
+        <Typography gutterBottom sx={{ fontFamily: theme.typography.fontFamily, mb: 2 }}>
+          Glad you're here partner. <br /> Here's how scoring works:
         </Typography>
         <Box sx={{ my: 3, pl: 2 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Correct answer:</strong> +1
+            <strong>Correct answer:</strong> +1 to +2 points
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1, pl: 2 }}>
+            Faster answers = More points!
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Incorrect answer:</strong> -1
+            <strong>Incorrect answer:</strong> -1 point
           </Typography>
           <Typography variant="body1">
-            <strong>Skip a question:</strong> +0
+            <strong>Skip:</strong> 0 points
           </Typography>
         </Box>
         <Typography gutterBottom sx={{ mb: 4 }}>
-          You have 2 minutes to answer 10 questions.
+          You have 1 minute to answer 10 questions.
         </Typography>
-        <Button
-          variant="contained"
-          onClick={handleStartGame}
-          sx={{
-            mt: 2,
-            py: 1.5,
-            px: 4,
-            fontSize: "1rem",
-            textTransform: "none",
-            borderRadius: 2,
-          }}
-        >
+        <Button variant="contained" onClick={handleStartGame} sx={{
+          mt: 2,
+          py: 1.5,
+          px: 4,
+          fontSize: "1rem",
+          textTransform: "none",
+          borderRadius: 2,
+        }}>
           Ready?
         </Button>
       </Box>
