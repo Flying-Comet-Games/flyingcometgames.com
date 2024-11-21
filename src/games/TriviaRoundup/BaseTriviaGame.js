@@ -13,6 +13,7 @@ const GAME_STATES = {
 const INITIAL_TIME = 60; // 1 minute in seconds
 const TIME_PER_QUESTION = 6; // Expected time per question
 const MAX_MULTIPLIER = 2.0; // Maximum score multiplier for fast answers
+const MAX_SCORE = 20; // Maximum possible score
 
 const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const theme = useTheme();
@@ -113,7 +114,8 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
     const multiplier = calculateScoreMultiplier(responseTime);
     const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-    const points = isCorrect ? Math.round(multiplier * 100) / 100 : -1;
+    // Updated scoring: correct answers get points, incorrect answers get 0
+    const points = isCorrect ? Math.round(multiplier * 2 * 100) / 100 : 0;
 
     setAnswers((prev) => [...prev, isCorrect ? "correct" : "incorrect"]);
     setScore((prev) => Math.round((prev + points) * 100) / 100);
@@ -163,7 +165,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
           case "correct":
             return "🟩";
           case "incorrect":
-            return "🟥";
+            return "⬜";
           case "skip":
             return "⬜";
           default:
@@ -172,7 +174,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       })
       .join("");
 
-    return `${shareText} ${date}\nScore: ${score}/10\n\n${emoji}\n\nPlay at: ${shareUrl}`;
+    return `${shareText} ${date}\nScore: ${score}/${MAX_SCORE}\n\n${emoji}\n\nPlay at: ${shareUrl}`;
   };
 
   const handleShare = async () => {
@@ -247,20 +249,20 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
         </Typography>
         <Box sx={{ my: 3, pl: 2 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Correct answer:</strong> +1 to +2 points
+            <strong>Correct answer:</strong> +2 to +4 points
           </Typography>
           <Typography variant="body1" sx={{ mb: 1, pl: 2 }}>
             Faster answers = More points!
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Incorrect answer:</strong> -1 point
+            <strong>Incorrect answer:</strong> 0 points
           </Typography>
           <Typography variant="body1">
             <strong>Skip:</strong> 0 points
           </Typography>
         </Box>
         <Typography gutterBottom sx={{ mb: 4 }}>
-          You have 1 minute to answer 10 questions.
+          You have 1 minute to answer 10 questions. Maximum score is 20 points!
         </Typography>
         <Button variant="contained" onClick={handleStartGame} sx={{
           mt: 2,
@@ -592,7 +594,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
         Time's up!
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Final Score: {score}/10
+        Final Score: {score}/{MAX_SCORE}
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "center", gap: 1, my: 3 }}>
         {answers.map((answer, idx) => (
@@ -606,8 +608,6 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               bgcolor:
                 answer === "correct"
                   ? "success.main"
-                  : answer === "incorrect"
-                  ? "error.main"
                   : "grey.300",
               display: "flex",
               alignItems: "center",
@@ -616,7 +616,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               fontSize: "12px",
             }}
           >
-            {answer === "correct" ? "✓" : answer === "incorrect" ? "✗" : "•"}
+            {answer === "correct" ? "✓" : "•"}
           </Box>
         ))}
       </Box>
