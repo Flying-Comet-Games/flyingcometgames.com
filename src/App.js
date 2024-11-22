@@ -56,6 +56,7 @@ import GameToolbar from "./games/GameToolbar";
 import SeattleTrivia from "./games/TriviaRoundup/Topics/Seattle/SeattleTrivia";
 import SanFranciscoTrivia from "./games/TriviaRoundup/Topics/SanFrancisco/SanFranciscoTrivia";
 import NewJerseyTrivia from "./games/TriviaRoundup/Topics/NewJersey/NewJerseyTrivia";
+import SFStandardDemo from "./games/TriviaRoundup/Topics/SFStandardDemo/SFStandardDemo";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -146,6 +147,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/trivia-roundup/seattle" element={<SeattleTrivia />} />
           <Route path="/trivia-roundup/san-francisco" element={<SanFranciscoTrivia />} />
           <Route path="/trivia-roundup/new-jersey" element={<NewJerseyTrivia />} />
+          <Route path="/trivia-roundup/sf-standard-demo" element={<SFStandardDemo />} />
         </Routes>
 
         <CookieConsent

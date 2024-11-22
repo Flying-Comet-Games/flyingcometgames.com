@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, Button, useTheme, Snackbar, Alert } from "@mui/material";
 import { logGameStarted, logGameEnded, logGameShared } from "../../analytics";
 import { getPTDate, formatPTDateString } from "../utils/date";
 
@@ -25,6 +25,8 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const [questionStartTime, setQuestionStartTime] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [showShareToast, setShowShareToast] = useState(false);
+  const [shareError, setShareError] = useState(false);
 
   // Load saved game state
   useEffect(() => {
@@ -185,13 +187,37 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       topic: title,
       score: score,
     });
+
     try {
       await navigator.clipboard.writeText(text);
-      // TODO: Show toast notification for successful copy
+      setShareError(false);
+      setShowShareToast(true);
     } catch (err) {
       console.error("Failed to copy:", err);
+      setShareError(true);
+      setShowShareToast(true);
     }
   };
+
+  const renderShareToast = () => (
+    <Snackbar
+      open={showShareToast}
+      autoHideDuration={3000}
+      onClose={() => setShowShareToast(false)}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert
+        onClose={() => setShowShareToast(false)}
+        severity={shareError ? "error" : "success"}
+        sx={{ width: '100%' }}
+      >
+        {shareError
+          ? "Failed to copy results to clipboard"
+          : "Results copied to clipboard!"}
+      </Alert>
+    </Snackbar>
+  );
+
 
   const renderWelcomeScreen = () => (
     <Box sx={{ textAlign: "center", p: 4 }}>
@@ -476,7 +502,6 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
 
   const renderQuestionScreen = () => {
     const currentQuestion = questions[currentQuestionIndex];
-    const totalQuestions = questions?.length || 10;
 
     return (
       <Box>
@@ -492,94 +517,73 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
             border: `1px solid black`,
           }}
         >
-          {/* <Box sx={{ mb: 3 }}>
-          <Typography variant="body2" sx={{ mb: 1 }}>
-            Question {currentQuestionIndex + 1}/{totalQuestions}
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            {answers.map((answer, idx) => (
-              <Box
-                key={idx}
-                sx={{
-                  width: 20,
-                  height: 20,
-                  borderRadius: "50%",
-                  bgcolor:
-                    answer === "correct"
-                      ? "success.main"
-                      : answer === "incorrect"
-                      ? "error.main"
-                      : "grey.300",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontSize: "12px",
-                }}
-              >
-                {answer === "correct"
-                  ? "✓"
-                  : answer === "incorrect"
-                  ? "✗"
-                  : "•"}
-              </Box>
-            ))}
-            {[...Array(Math.max(0, totalQuestions - answers.length))].map(
-              (_, idx) => (
-                <Box
-                  key={`empty-${idx}`}
-                  sx={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: "50%",
-                    bgcolor: "grey.300",
-                  }}
-                />
-              )
-            )}
-          </Box>
-        </Box> */}
-
           <Typography variant="h6" gutterBottom>
             {currentQuestion.question}
           </Typography>
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
-            {currentQuestion.options.map((option) => (
-              <Button
-                key={option}
-                variant="outlined"
-                onClick={() => handleAnswer(option)}
-                sx={{
-                  p: 2,
-                  color: "black",
-                  borderRadius: "50px",
-                  border: `1px solid black`,
-                  textAlign: "center",
-                  bgcolor:
-                    selectedAnswer === option
-                      ? hasSubmitted
-                        ? option === currentQuestion.correctAnswer
-                          ? "success.light"
-                          : "error.light"
-                        : "action.selected"
-                      : "background.paper",
-                  "&:hover": {
-                    bgcolor:
-                      selectedAnswer === option
-                        ? hasSubmitted
-                          ? option === currentQuestion.correctAnswer
-                            ? "success.light"
-                            : "error.light"
-                          : "action.selected"
-                        : "action.hover",
-                  },
-                }}
-                disabled={hasSubmitted}
-              >
-                {option}
-              </Button>
-            ))}
+            {currentQuestion.options.map((option) => {
+              const isSelected = selectedAnswer === option;
+              const isCorrectAnswer = option === currentQuestion.correctAnswer;
+
+              // Determine button styling based on game state
+              let buttonStyle = {
+                p: 2,
+                color: "black",
+                borderRadius: "50px",
+                border: `1px solid black`,
+                textAlign: "center",
+              };
+
+              // Base background color
+              let bgColor = "background.paper";
+
+              // If an answer has been submitted or skipped
+              if (hasSubmitted) {
+                if (isCorrectAnswer) {
+                  // Always highlight the correct answer in green
+                  bgColor = "success.light";
+                } else if (isSelected) {
+                  // If this was the selected (wrong) answer
+                  bgColor = "error.light";
+                }
+              } else if (isSelected) {
+                // Selected but not yet submitted
+                bgColor = "action.selected";
+              }
+
+              return (
+                <Button
+                  key={option}
+                  variant="outlined"
+                  onClick={() => handleAnswer(option)}
+                  sx={{
+                    ...buttonStyle,
+                    bgcolor: bgColor,
+                    "&:hover": {
+                      bgcolor: hasSubmitted ? bgColor : "action.hover",
+                    },
+                    // Add a checkmark for correct answer when submitted/skipped
+                    "& .correct-indicator": {
+                      display: hasSubmitted && isCorrectAnswer ? "inline" : "none",
+                      marginLeft: 1,
+                    },
+                    // Add an X for incorrect selected answer
+                    "& .incorrect-indicator": {
+                      display: hasSubmitted && isSelected && !isCorrectAnswer ? "inline" : "none",
+                      marginLeft: 1,
+                    },
+                  }}
+                  disabled={hasSubmitted}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                    {option}
+                    <span className="correct-indicator">✓</span>
+                    <span className="incorrect-indicator">✗</span>
+                  </Box>
+                </Button>
+              );
+            })}
           </Box>
 
           <Box sx={{ display: "flex", gap: 2, mt: 4 }}>
@@ -598,6 +602,20 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               </Button>
             )}
           </Box>
+
+          {hasSubmitted && (
+            <Typography
+              sx={{
+                mt: 3,
+                color: selectedAnswer === currentQuestion.correctAnswer ? "success.main" : "text.primary",
+                fontWeight: "medium"
+              }}
+            >
+              {selectedAnswer === currentQuestion.correctAnswer
+                ? "Correct!"
+                : `${currentQuestion.explanation}`}
+            </Typography>
+          )}
         </Box>
       </Box>
     );
@@ -673,6 +691,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
         }}
       >
         {renderCurrentScreen()}
+        {renderShareToast()}
       </Box>
     </Box>
   );
