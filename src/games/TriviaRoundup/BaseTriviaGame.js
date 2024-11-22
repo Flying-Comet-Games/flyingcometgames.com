@@ -20,7 +20,7 @@ const GAME_STATES = {
 const INITIAL_TIME = 120; // 1 minute in seconds
 const TIME_PER_QUESTION = 10; // Expected time per question
 const MAX_MULTIPLIER = 2.0; // Maximum score multiplier for fast answers
-const MAX_SCORE = 20; // Maximum possible score
+const MAX_SCORE = 40; // Maximum possible score
 
 const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const theme = useTheme();
@@ -305,7 +305,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
           </Typography>
         </Box>
         <Typography gutterBottom sx={{ mb: 4 }}>
-          You have 2 minutes to answer 10 questions. Maximum score is 20 points!
+          You have 2 minutes to answer 10 questions. Maximum score is {MAX_SCORE} points!
         </Typography>
         <Button
           variant="contained"
