@@ -81,7 +81,10 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   }, [gameState]);
 
   const calculateScoreMultiplier = (responseTime) => {
-    const baseMultiplier = Math.max(0, (TIME_PER_QUESTION - responseTime) / TIME_PER_QUESTION);
+    const baseMultiplier = Math.max(
+      0,
+      (TIME_PER_QUESTION - responseTime) / TIME_PER_QUESTION
+    );
     return Math.min(MAX_MULTIPLIER, 1 + baseMultiplier);
   };
 
@@ -149,7 +152,6 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       }
     }, 1000);
   };
-
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -233,18 +235,27 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   const renderRulesScreen = () => (
     <Box>
       {renderTopSection()}
-      <Box sx={{
-        p: 4,
-        borderRadius: 2,
-        bgcolor: "background.paper",
-        width: "80%",
-        mx: "auto",
-        border: `1px solid black`,
-      }}>
-        <Typography variant="h5" gutterBottom sx={{ fontFamily: theme.typography.fontFamily, fontWeight: "bold" }}>
+      <Box
+        sx={{
+          p: 4,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          width: "80%",
+          mx: "auto",
+          border: `1px solid black`,
+        }}
+      >
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ fontFamily: theme.typography.fontFamily, fontWeight: "bold" }}
+        >
           Howdy!
         </Typography>
-        <Typography gutterBottom sx={{ fontFamily: theme.typography.fontFamily, mb: 2 }}>
+        <Typography
+          gutterBottom
+          sx={{ fontFamily: theme.typography.fontFamily, mb: 2 }}
+        >
           Glad you're here partner. <br /> Here's how scoring works:
         </Typography>
         <Box sx={{ my: 3, pl: 2 }}>
@@ -264,14 +275,18 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
         <Typography gutterBottom sx={{ mb: 4 }}>
           You have 1 minute to answer 10 questions. Maximum score is 20 points!
         </Typography>
-        <Button variant="contained" onClick={handleStartGame} sx={{
-          mt: 2,
-          py: 1.5,
-          px: 4,
-          fontSize: "1rem",
-          textTransform: "none",
-          borderRadius: 2,
-        }}>
+        <Button
+          variant="contained"
+          onClick={handleStartGame}
+          sx={{
+            mt: 2,
+            py: 1.5,
+            px: 4,
+            fontSize: "1rem",
+            textTransform: "none",
+            borderRadius: 2,
+          }}
+        >
           Ready?
         </Button>
       </Box>
@@ -605,10 +620,7 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
               height: 20,
               borderRadius: "50%",
               border: `1px solid black`,
-              bgcolor:
-                answer === "correct"
-                  ? "success.main"
-                  : "grey.300",
+              bgcolor: answer === "correct" ? "success.main" : "grey.300",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -645,13 +657,23 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
   return (
     <Box
       sx={{
-        maxWidth: "sm",
-        mx: "auto",
+        display: "flex",
+        flexDirection: "column",
         minHeight: "100vh",
-        bgcolor: "background.default",
+        overflowX: "hidden",
+        backgroundColor: "background.default",
       }}
     >
-      {renderCurrentScreen()}
+      <Box
+        sx={{
+          maxWidth: "sm",
+          mx: "auto",
+          minHeight: "100vh",
+          bgcolor: "background.default",
+        }}
+      >
+        {renderCurrentScreen()}
+      </Box>
     </Box>
   );
 };
