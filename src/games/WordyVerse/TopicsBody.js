@@ -87,16 +87,6 @@ const TopicsBody = () => {
               backgroundColor="#d1d0c9"
             />
           </Grid>
-
-          {/* Add ad after every 6 items */}
-          {(index + 1) % 6 === 0 && index < games.length - 1 && (
-            // <Grid size={12}>
-            //   <GoogleAd />
-            // </Grid>
-            <Grid size={{ xs: 12, sm: 12, md: 4, lg: 4 }}>
-              <GoogleAdTopic />
-            </Grid>
-          )}
         </React.Fragment>
       ))}
     </Grid>
