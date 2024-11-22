@@ -35,9 +35,9 @@ const GameBody = () => {
 
       {[
         {
-          to: "/my-strands",
-          title: "My Strands",
-          logoSrc: "/assets/game-logos/my-strands-logo.png",
+          to: "/color-flood",
+          title: "Color Flood",
+          logoSrc: "/assets/game-logos/color-flood-logo.png",
         },
         {
           to: "/startup-speedrun-simulator",
@@ -68,11 +68,6 @@ const GameBody = () => {
           to: "/memory-maze",
           title: "Memory Maze",
           logoSrc: "/assets/game-logos/memory-maze-logo.png",
-        },
-        {
-          to: "/color-flood",
-          title: "Color Flood",
-          logoSrc: "/assets/game-logos/color-flood-logo.png",
         },
         {
           to: "/color-matcher",
