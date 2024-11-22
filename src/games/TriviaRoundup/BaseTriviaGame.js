@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, useTheme, Snackbar, Alert } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  useTheme,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { logGameStarted, logGameEnded, logGameShared } from "../../analytics";
 import { getPTDate, formatPTDateString } from "../utils/date";
 
@@ -204,12 +211,12 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       open={showShareToast}
       autoHideDuration={3000}
       onClose={() => setShowShareToast(false)}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
     >
       <Alert
         onClose={() => setShowShareToast(false)}
         severity={shareError ? "error" : "success"}
-        sx={{ width: '100%' }}
+        sx={{ width: "100%" }}
       >
         {shareError
           ? "Failed to copy results to clipboard"
@@ -217,7 +224,6 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
       </Alert>
     </Snackbar>
   );
-
 
   const renderWelcomeScreen = () => (
     <Box sx={{ textAlign: "center", p: 4 }}>
@@ -565,18 +571,29 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
                     },
                     // Add a checkmark for correct answer when submitted/skipped
                     "& .correct-indicator": {
-                      display: hasSubmitted && isCorrectAnswer ? "inline" : "none",
+                      display:
+                        hasSubmitted && isCorrectAnswer ? "inline" : "none",
                       marginLeft: 1,
                     },
                     // Add an X for incorrect selected answer
                     "& .incorrect-indicator": {
-                      display: hasSubmitted && isSelected && !isCorrectAnswer ? "inline" : "none",
+                      display:
+                        hasSubmitted && isSelected && !isCorrectAnswer
+                          ? "inline"
+                          : "none",
                       marginLeft: 1,
                     },
                   }}
                   disabled={hasSubmitted}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
                     {option}
                     <span className="correct-indicator">✓</span>
                     <span className="incorrect-indicator">✗</span>
@@ -603,57 +620,164 @@ const BaseTrivaGame = ({ title, questions, topic, shareText, shareUrl }) => {
             )}
           </Box>
 
-          {hasSubmitted && (
-            <Typography
-              sx={{
-                mt: 3,
-                color: selectedAnswer === currentQuestion.correctAnswer ? "success.main" : "text.primary",
-                fontWeight: "medium"
-              }}
-            >
-              {selectedAnswer === currentQuestion.correctAnswer
-                ? "Correct!"
-                : `${currentQuestion.explanation}`}
-            </Typography>
-          )}
+          {hasSubmitted &&
+            (selectedAnswer === currentQuestion.correctAnswer ? (
+              <Typography
+                sx={{ mt: 3, color: "success.main", fontWeight: "medium" }}
+              >
+                Correct!
+              </Typography>
+            ) : (
+              currentQuestion.explanation && (
+                <Typography
+                  sx={{ mt: 3, color: "text.primary", fontWeight: "medium" }}
+                >
+                  {currentQuestion.explanation}
+                </Typography>
+              )
+            ))}
         </Box>
       </Box>
     );
   };
 
   const renderCompletedScreen = () => (
-    <Box sx={{ p: 4, textAlign: "center" }}>
-      <Typography variant="h5" gutterBottom>
-        Time's up!
+    <Box sx={{ textAlign: "center", p: 4 }}>
+      {/* Logo and Mascot Section */}
+      <Box
+        component="img"
+        src={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-squirrel.svg`}
+        alt="trivia roundup squirrel mascot"
+        sx={{
+          width: "30%",
+          height: "auto",
+          mb: 4,
+        }}
+      />
+
+      {/* Title and Topic */}
+      <Typography
+        variant="h6"
+        component="h2"
+        gutterBottom
+        sx={{ fontWeight: "bold" }}
+      >
+        How well do you know{" "}
+        <Box component="span" sx={{ fontStyle: "italic" }}>
+          {title}
+        </Box>
+        ?
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        Final Score: {score}/{MAX_SCORE}
-      </Typography>
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, my: 3 }}>
-        {answers.map((answer, idx) => (
-          <Box
-            key={idx}
-            sx={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              border: `1px solid black`,
-              bgcolor: answer === "correct" ? "success.main" : "grey.300",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "black",
-              fontSize: "12px",
-            }}
+
+      {/* Score Card */}
+      <Box
+        sx={{
+          p: 4,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          width: "90%",
+          mx: "auto",
+          border: `1px solid black`,
+          my: 4,
+        }}
+      >
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
+          Time's up!
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
+            my: 3,
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{ fontWeight: "bold", color: "primary.main" }}
           >
-            {answer === "correct" ? "✓" : "•"}
-          </Box>
-        ))}
+            {score}
+          </Typography>
+          <Typography variant="h5" sx={{ color: "text.secondary" }}>
+            / {MAX_SCORE}
+          </Typography>
+        </Box>
+
+        {/* Progress Icons */}
+        <Box
+       sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 1,
+            my: 3,
+            mx: "auto",
+            // px: 2, // Add some padding on the sides
+          }}
+        >
+          {answers.map((answer, idx) => {
+            const iconSrc =
+              answer === "correct"
+                ? "/assets/icons/correct-answer.svg"
+                : answer === "incorrect"
+                ? "/assets/icons/incorrect-answer.svg"
+                : "/assets/icons/skipped-answer.svg";
+
+            return (
+              <Box
+                key={idx}
+                sx={{
+                  width: 20, // Reduced from 24 to make them slightly smaller
+                  height: 20, // Reduced from 24 to make them slightly smaller
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0, // Prevent icons from shrinking
+                }}
+              >
+                <Box
+                  component="img"
+                  src={iconSrc}
+                  alt="progress icon"
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              </Box>
+            );
+          })}
+        </Box>
+
+        {/* Share Button */}
+        <Button
+          variant="contained"
+          onClick={handleShare}
+          sx={{
+            mt: 3,
+            py: 1.5,
+            px: 4,
+            fontSize: "1rem",
+            textTransform: "none",
+            borderRadius: 2,
+            minWidth: 200,
+          }}
+        >
+          Share Result
+        </Button>
+
+        {/* Return Message */}
+        <Typography
+          sx={{
+            mt: 4,
+            color: "text.secondary",
+            fontStyle: "italic",
+          }}
+        >
+          Come back tomorrow for a new quiz!
+        </Typography>
       </Box>
-      <Button variant="contained" onClick={handleShare} sx={{ mt: 2 }}>
-        Share Result
-      </Button>
-      <Typography sx={{ mt: 4 }}>Come back tomorrow for a new quiz!</Typography>
     </Box>
   );
 
