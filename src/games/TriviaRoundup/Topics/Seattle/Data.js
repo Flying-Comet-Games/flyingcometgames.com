@@ -578,117 +578,165 @@ export const SEATTLE_QUESTIONS = [
     questions: [
       {
         id: "sea-1125-1",
-        question: "Which mountain range is visible from Seattle?",
+        question:
+          "A fish just flew over your head at Pike Place Market! This legendary tradition started because...",
         options: [
-          "Olympic Mountains",
-          "Cascades",
-          "Coast Range",
-          "Blue Mountains",
+          "The fishmongers got tired of walking back and forth",
+          "Tourists kept asking for a show",
+          "Someone dropped a salmon by accident",
+          "A local TV show requested it",
         ],
-        correctAnswer: "Olympic Mountains",
-        category: "Geography",
+        correctAnswer: "The fishmongers got tired of walking back and forth",
+        category: "Local Life",
         difficulty: 1,
+        explanation:
+          "Yep - in the 1930s, they figured why walk fish from the counter to the ice when you could just yeet them across! Now it's world-famous, but it started as pure laziness-driven innovation.",
       },
       {
         id: "sea-1125-2",
-        question: "What is the name of Seattle's largest university?",
+        question:
+          "Your friend spots houseboats on Lake Union and asks 'Why would anyone live on water in rainy Seattle?' Well...",
         options: [
-          "University of Washington",
-          "Seattle University",
-          "Seattle Pacific University",
-          "City University",
+          "Back in the day, it was the ultimate life hack for cheap rent",
+          "Rich people wanted vacation homes",
+          "The city ran out of land to build on",
+          "Fishermen needed to live near their boats",
         ],
-        correctAnswer: "University of Washington",
-        category: "Education",
+        correctAnswer:
+          "Back in the day, it was the ultimate life hack for cheap rent",
+        category: "City Life",
         difficulty: 2,
+        explanation:
+          "Boom! These floating homes started as a budget living solution during the Great Depression. Now they're worth millions - talk about a property value glow-up!",
       },
       {
         id: "sea-1125-3",
-        question: "Which Seattle park features a botanical conservatory?",
+        question:
+          "You're under the Aurora Bridge and there's a massive stone troll crushing a VW Beetle. This happened because...",
         options: [
-          "Volunteer Park",
-          "Discovery Park",
-          "Woodland Park",
-          "Washington Park",
+          "Artists turned an ugly spot into the city's weirdest selfie backdrop",
+          "The city needed to scare away graffiti artists",
+          "A car dealership wanted attention",
+          "Kids voted for it in a design contest",
         ],
-        correctAnswer: "Volunteer Park",
-        category: "Parks",
+        correctAnswer:
+          "Artists turned an ugly spot into the city's weirdest selfie backdrop",
+        category: "Local Culture",
         difficulty: 3,
+        explanation:
+          "This 18-foot troll was the winning answer to 'how do we make this sketchy underbridge area cool?' Now it's Instagram famous and people leave offerings of hubcaps!",
       },
       {
         id: "sea-1125-4",
         question:
-          "What is the name of Seattle's independent public radio station?",
-        options: ["KEXP", "KUOW", "KNKX", "KING"],
-        correctAnswer: "KEXP",
-        category: "Media",
+          "After the Great Seattle Fire of 1889, instead of just rebuilding, the city decided to...",
+        options: [
+          "Level up and build a whole new layer of city on top of the old one",
+          "Move everything away from the water",
+          "Switch to all-brick buildings",
+          "Create the world's biggest fire department",
+        ],
+        correctAnswer:
+          "Level up and build a whole new layer of city on top of the old one",
+        category: "City Stories",
         difficulty: 4,
+        explanation:
+          "They literally said 'let's just stack a new city on top!' Now the underground tunnels are where all the ghost stories (and tours) happen.",
       },
       {
         id: "sea-1125-5",
-        question: "Which famous Seattle grunge band formed in 1987?",
-        options: ["Alice in Chains", "Nirvana", "Soundgarden", "Pearl Jam"],
-        correctAnswer: "Alice in Chains",
-        category: "Music",
+        question:
+          "When Bill Gates brought Microsoft to Seattle in 1979, he was really after...",
+        options: [
+          "All those smart University of Washington computer nerds",
+          "Seattle's famous coffee to fuel late-night coding",
+          "Cheap office space in the rain",
+          "Being closer to his mom's cooking",
+        ],
+        correctAnswer:
+          "All those smart University of Washington computer nerds",
+        category: "Tech Tales",
         difficulty: 5,
+        explanation:
+          "Gates wanted those UW computer science grads! And hey, being close to mom's house probably didn't hurt either.",
       },
       {
         id: "sea-1125-6",
-        question: "What is the depth of Lake Washington at its deepest point?",
-        options: ["214 feet", "205 feet", "225 feet", "198 feet"],
-        correctAnswer: "214 feet",
-        category: "Geography",
+        question: "The Space Needle's original design came from...",
+        options: [
+          "A doodle on a napkin at a coffee shop",
+          "A professional architect's blueprint",
+          "A child's drawing contest",
+          "Copying the Eiffel Tower",
+        ],
+        correctAnswer: "A doodle on a napkin at a coffee shop",
+        category: "City Icons",
         difficulty: 6,
+        explanation:
+          "The most famous Seattle building started as a coffee shop scribble! They built this 605-foot doodle in just 400 days for the World's Fair.",
       },
       {
         id: "sea-1125-7",
         question:
-          "Which Seattle neighborhood was originally called 'Brooklyn'?",
+          "The Fremont neighborhood declared itself 'The Center of the Universe' because...",
         options: [
-          "University District",
-          "Belltown",
-          "South Lake Union",
-          "First Hill",
+          "They thought it would be hilarious (it was)",
+          "They found an ancient cosmic alignment",
+          "Their GPS coordinates are special",
+          "A mayor made it official",
         ],
-        correctAnswer: "University District",
-        category: "History",
+        correctAnswer: "They thought it would be hilarious (it was)",
+        category: "Neighborhood Vibes",
         difficulty: 7,
+        explanation:
+          "In true Seattle style, they just decided to be weird and it stuck. They even installed signs pointing to 'The Center of the Universe' and 'Anywhere but here'!",
       },
       {
         id: "sea-1125-8",
-        question:
-          "What type of wood was primarily used in Seattle's early buildings?",
+        question: "Seattle gets 90% of its power from...",
         options: [
-          "Douglas Fir",
-          "Western Red Cedar",
-          "Sitka Spruce",
-          "Western Hemlock",
+          "All that rain they keep complaining about",
+          "Underground steam vents",
+          "Thousands of hamster wheels",
+          "Coffee-powered generators",
         ],
-        correctAnswer: "Douglas Fir",
-        category: "History",
+        correctAnswer: "All that rain they keep complaining about",
+        category: "City Secrets",
         difficulty: 8,
+        explanation:
+          "They turned their biggest complaint into their biggest power source! All that rain feeds hydroelectric dams that power the city. Talk about making lemonade from lemons...",
       },
       {
         id: "sea-1125-9",
-        question: "Which Seattle bridge has the highest clearance above water?",
+        question:
+          "Why do random salmon sometimes show up in the middle of the city?",
         options: [
-          "West Seattle Bridge",
-          "Aurora Bridge",
-          "520 Bridge",
-          "I-90 Bridge",
+          "They're swimming home through secret underground streams",
+          "The fish market had a delivery accident",
+          "They're escape artists from the aquarium",
+          "Local pranksters plant them",
         ],
-        correctAnswer: "Aurora Bridge",
-        category: "Infrastructure",
+        correctAnswer:
+          "They're swimming home through secret underground streams",
+        category: "Urban Nature",
         difficulty: 9,
+        explanation:
+          "Seattle built right over salmon streams, but these determined fish still find their way through underground waterways. Sometimes they pop up in weird places like parking lots!",
       },
       {
         id: "sea-1125-10",
-        question:
-          "What percentage of Seattle's land area was modified by regrading projects?",
-        options: ["60%", "45%", "35%", "50%"],
-        correctAnswer: "60%",
-        category: "History",
+        question: "What's the real reason Seattle has so many coffee shops?",
+        options: [
+          "The rain makes everyone need a cozy indoor hangout",
+          "Starbucks started a coffee arms race",
+          "A law requires one per block",
+          "Coffee beans grow well here",
+        ],
+        correctAnswer: "The rain makes everyone need a cozy indoor hangout",
+        category: "Daily Life",
         difficulty: 10,
+        explanation:
+          "When it rains 152 days a year, you need somewhere warm to hang out! Coffee shops became Seattle's second living room, and then it got competitive...",
       },
     ],
   },
@@ -1051,12 +1099,14 @@ export default SEATTLE_QUESTIONS;
 
 // Get questions for a specific date with shuffled options
 export const getQuestionsForDate = (date) => {
-  console.log(date)
+  console.log(date);
   const dailyData = getDataForDate(date, SEATTLE_QUESTIONS);
-  return dailyData?.questions.map(question => ({
-    ...question,
-    options: shuffleArray(question.options),
-  })) || null;
+  return (
+    dailyData?.questions.map((question) => ({
+      ...question,
+      options: shuffleArray(question.options),
+    })) || null
+  );
 };
 
 // Get today's questions (in PT)
