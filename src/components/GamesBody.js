@@ -75,17 +75,18 @@ const GameBody = () => {
           logoSrc: "/assets/game-logos/startup-accelerator-logo.svg",
           color: "#b8c26c",
         },
+        // {
+        //   to: "/whack-a-mole",
+        //   title: "Whack A Mole",
+        //   logoSrc: "/assets/game-logos/whack-a-mole-logo.svg",
+        //   color: "#c9bbde",
+        // },
         {
-          to: "/whack-a-mole",
-          title: "Whack A Mole",
-          logoSrc: "/assets/game-logos/whack-a-mole-logo.svg",
+          to: "/color-dash",
+          title: "Color Dash",
+          logoSrc: "/assets/game-logos/color-dash-logo.svg",
           color: "#c9bbde",
         },
-        // {
-        //   to: "/color-dash",
-        //   title: "Color Dash",
-        //   logoSrc: "/assets/game-logos/color-dash-logo.svg",
-        // },
         // {
         //   to: "/word-wizard",
         //   title: "Word Wizard",
