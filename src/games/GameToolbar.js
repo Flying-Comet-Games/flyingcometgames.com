@@ -18,11 +18,25 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 
 const GameToolbar = ({
-  logoSrc,
-  title,
   basePath,
-  backgroundColor = "#e0dfd9",
-  menuItems = [{ text: "Topics", icon: <SportsEsportsIcon />, path: "" }],
+  backgroundColor = "#f4f0df",
+  menuItems = [
+    {
+      text: "Home",
+      icon: `${process.env.PUBLIC_URL}/assets/logo.svg`,
+      path: "/",
+    },
+    {
+      text: "Wordy-verse",
+      icon: `${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`,
+      path: "/wordy-verse",
+    },
+    {
+      text: "Trivia Roundup",
+      icon: `${process.env.PUBLIC_URL}/assets/icons/trivia-roundup-icon.svg`,
+      path: "/trivia-roundup",
+    },
+  ],
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -96,7 +110,7 @@ const GameToolbar = ({
             button
             key={item.text}
             component={Link}
-            to={`${basePath}${item.path}`}
+            to={`${item.path}`}
             sx={{
               py: 2,
               "&:hover": {
@@ -104,7 +118,13 @@ const GameToolbar = ({
               },
             }}
           >
-            <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 40 }}>
+              <img
+                src={item.icon}
+                alt={item.title}
+                style={{ width: 24, height: 24 }}
+              />
+            </ListItemIcon>
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
@@ -183,7 +203,7 @@ const GameToolbar = ({
         <Toolbar sx={{ backgroundColor, justifyContent: "space-between" }}>
           <Box
             component={Link}
-            to={basePath}
+            to="/"
             sx={{
               display: "flex",
               alignItems: "center",
@@ -192,8 +212,8 @@ const GameToolbar = ({
             }}
           >
             <img
-              src={logoSrc}
-              alt={`${title} Logo`}
+              src={`${process.env.PUBLIC_URL}/assets/logo-vertical.svg`}
+              alt={`Flying Comet Games Logo`}
               style={{ height: "30px", marginRight: "10px" }}
             />
           </Box>

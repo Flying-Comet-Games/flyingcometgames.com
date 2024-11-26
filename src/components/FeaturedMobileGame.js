@@ -14,11 +14,13 @@ const FeaturedMobileGame = ({ title, description, appStoreLink, appStoreImageSrc
         padding: { xs: 3, sm: 4 },
         display: 'flex',
         flexDirection: 'column',
-        background: "#9eb4ad",
+        border: '1px solid black',
+        background: "#ffd583",
         color: theme.palette.text.primary,
         borderRadius: '12px',
         overflow: 'hidden',
         boxShadow: theme.shadows[2],
+        mb: 0.5,
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -29,9 +31,8 @@ const FeaturedMobileGame = ({ title, description, appStoreLink, appStoreImageSrc
           sx={{
             width: { xs: '60px', sm: '70px' },
             height: { xs: '60px', sm: '70px' },
-            objectFit: 'cover',
-            borderRadius: '12px',
-            mr: 2,
+            // objectFit: 'cover',
+            mr: 1,
           }}
         />
         <Typography
@@ -39,7 +40,7 @@ const FeaturedMobileGame = ({ title, description, appStoreLink, appStoreImageSrc
           component="div"
           fontWeight="bold"
           sx={{
-            fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+            fontSize: { xs: '1.75rem', sm: '2rem', md: '2rem' },
             lineHeight: 1.3,
           }}
         >
@@ -63,6 +64,7 @@ const FeaturedMobileGame = ({ title, description, appStoreLink, appStoreImageSrc
           display: 'flex',
           justifyContent: 'flex-start',
           gap: 2,
+          mx: 'auto',
         }}
       >
         <Link to={appStoreLink}>

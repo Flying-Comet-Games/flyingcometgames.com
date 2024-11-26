@@ -1,17 +1,16 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
-const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
+const TrivaRoundUpBeta = () => {
   const theme = useTheme();
 
   return (
     <Button
       component={Link}
-      to={link}
+      to={"/trivia-roundup/seattle"}
       variant="contained"
       sx={{
         width: "100%",
@@ -19,9 +18,9 @@ const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        textAlign: "left",
+        textAlign: "center",
         border: "1px solid black",
-        backgroundColor: bgColor || theme.palette.background.default,
+        backgroundColor: "#e2b48f",
         borderRadius: "12px",
         boxShadow: theme.shadows[2],
         color: theme.palette.text.primary,
@@ -34,10 +33,10 @@ const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
       <Box sx={{ display: "flex", alignItems: "center", mb: 2, mx: "auto" }}>
         <Box
           component="img"
-          src={svgLogo}
-          alt={`${title} logo`}
+          src={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-squirrel.svg`}
+          alt={`Trivia roundup logo`}
           sx={{
-            width: { xs: "30%", sm: "50%" },
+            width: { xs: "30%", sm: "50%"},
             height: { xs: "60px", sm: "70px" },
           }}
         />
@@ -55,9 +54,10 @@ const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
             whiteSpace: "nowrap", // Prevent text from breaking
           }}
         >
-          {title}
+          Trivia Roundup
         </Typography>
       </Box>
+
       <Typography
         sx={{
           fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
@@ -65,12 +65,27 @@ const FeaturedGame = ({ svgLogo, description, title, link, bgColor }) => {
           color: theme.palette.text.secondary,
           textTransform: "none",
           textAlign: "center",
+          mx: "auto",
+          fontWeight: 500,
         }}
       >
-        {description}
+        COMING SOON
+      </Typography>
+
+      <Typography
+        sx={{
+          fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
+          lineHeight: 1.5,
+          color: theme.palette.text.secondary,
+          textTransform: "none",
+          textAlign: "center",
+          mx: "auto",
+        }}
+      >
+        Play the Seattle beta version now!
       </Typography>
     </Button>
   );
 };
 
-export default FeaturedGame;
+export default TrivaRoundUpBeta;

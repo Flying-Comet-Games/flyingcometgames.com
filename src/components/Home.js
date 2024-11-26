@@ -66,12 +66,13 @@ const Home = () => {
             component="h2"
             gutterBottom
             sx={{
-              fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+              fontSize: { xs: '1.25rem', sm: '1.25rem', md: '1.5rem' },
               pb: 2,
+              fontWeight: 400,
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Challenge your mind with our collection of puzzle games, similar to NYT Games!
+            Entertain your brain with our curated mini-games inspired by NYT Games and classic puzzles.
           </Typography>
         </Box>
 

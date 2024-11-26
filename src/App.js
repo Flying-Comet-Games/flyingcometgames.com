@@ -62,12 +62,12 @@ const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
 
 const getTheme = (pathname) => {
-  if (
-    pathname.startsWith("/wordy-verse") ||
-    pathname.startsWith("/trivia-roundup")
-  ) {
-    return wordyVerseTheme;
-  }
+  // if (
+  //   pathname.startsWith("/wordy-verse") ||
+  //   pathname.startsWith("/trivia-roundup")
+  // ) {
+  //   return wordyVerseTheme;
+  // }
   return theme;
 };
 
@@ -78,21 +78,9 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
   return (
     <>
       <ThemeProvider theme={getTheme(location.pathname)}>
-        {location.pathname.startsWith("/wordy-verse") ? (
-          <GameToolbar
-            logoSrc={`${process.env.PUBLIC_URL}/assets/game-logos/wordy-verse-logo-name.svg`}
-            title="Wordy-Verse"
-            basePath="/wordy-verse"
-          />
-        ) : location.pathname.startsWith("/trivia-roundup") ? (
-          <GameToolbar
-            logoSrc={`${process.env.PUBLIC_URL}/assets/game-logos/trivia-roundup-name.svg`}
-            title="Trivia Roundup"
-            basePath="/trivia-roundup"
-          />
-        ) : (
-          <AppContent />
-        )}
+
+        <GameToolbar />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/terms" element={<TermsOfUse />} />
@@ -145,9 +133,18 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
 
           <Route path="/trivia-roundup" element={<TriviaRoundup />} />
           <Route path="/trivia-roundup/seattle" element={<SeattleTrivia />} />
-          <Route path="/trivia-roundup/san-francisco" element={<SanFranciscoTrivia />} />
-          <Route path="/trivia-roundup/new-jersey" element={<NewJerseyTrivia />} />
-          <Route path="/trivia-roundup/sf-standard-demo" element={<SFStandardDemo />} />
+          <Route
+            path="/trivia-roundup/san-francisco"
+            element={<SanFranciscoTrivia />}
+          />
+          <Route
+            path="/trivia-roundup/new-jersey"
+            element={<NewJerseyTrivia />}
+          />
+          <Route
+            path="/trivia-roundup/sf-standard-demo"
+            element={<SFStandardDemo />}
+          />
         </Routes>
 
         <CookieConsent

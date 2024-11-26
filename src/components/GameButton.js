@@ -19,9 +19,10 @@ const GameButton = ({ to, title, logoSrc, backgroundColor }) => (
         justifyContent: 'center',
         textAlign: 'center',
         marginBottom: '4px',
+        border: '1px solid black',
         backgroundColor: backgroundColor,
         borderRadius: '16px',
-        boxShadow: theme => `0 2px 4px ${theme.palette.grey[400]}`,
+        // boxShadow: theme => `0 2px 4px ${theme.palette.grey[400]}`,
         '&:hover': {
           backgroundColor: theme => theme.palette.grey[200],
         },
@@ -45,8 +46,9 @@ const GameButton = ({ to, title, logoSrc, backgroundColor }) => (
         variant="subtitle1"
         component="h3"
         sx={{
-          fontSize: { xs: '0.875rem', sm: '1rem' },
+          fontSize: { xs: '1rem', sm: '1rem' },
           color: 'text.primary',
+          fontWeight: "500"
         }}
       >
         {title}
