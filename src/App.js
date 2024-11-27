@@ -49,7 +49,7 @@ import AnimalCrossingWordy from "./games/WordyVerse/Topics/AnimalCrossing/Animal
 import OccupationalTherapyWordy from "./games/WordyVerse/Topics/OccupationalTherapy/OT";
 import TermsOfUse from "./components/TermsOfService";
 import PrivacyPolicy from "./components/PrivacyPolicy";
-import WordyVerseAbout from "./games/WordyVerse/About";
+import AboutUs from "./components/About";
 import LawyerWordy from "./games/WordyVerse/Topics/Lawyer/Lawyer";
 import TriviaRoundup from "./games/TriviaRoundup/TriviaRoundup";
 import GameToolbar from "./games/GameToolbar";
@@ -108,7 +108,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/nyt-guild-support" element={<NYTGuild />} />
           <Route path="/wordy-verse/boba-tea" element={<BobaWordy />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
-          <Route path="/wordy-verse/about" element={<WordyVerseAbout />} />
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/wordy-verse/auth" element={<Auth />} />
           <Route path="/wordy-verse/gymnastics" element={<GymnasticsWordy />} />
           <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
