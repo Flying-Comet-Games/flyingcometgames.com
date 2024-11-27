@@ -214,7 +214,7 @@ const GameToolbar = ({
             <img
               src={`${process.env.PUBLIC_URL}/assets/logo-vertical.svg`}
               alt={`Flying Comet Games Logo`}
-              style={{ height: "30px", marginRight: "10px" }}
+              style={{ height: "45px", marginRight: "10px" }}
             />
           </Box>
 
