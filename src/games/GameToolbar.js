@@ -34,7 +34,7 @@ const GameToolbar = ({
     {
       text: "Trivia Roundup",
       icon: `${process.env.PUBLIC_URL}/assets/icons/trivia-roundup-icon.svg`,
-      path: "/trivia-roundup",
+      path: "/trivia-roundup/seattle",
     },
   ],
 }) => {

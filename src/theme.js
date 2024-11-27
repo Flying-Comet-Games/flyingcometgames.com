@@ -32,13 +32,15 @@ const theme = createTheme({
           color: '#000000',
           '&:hover': {
             backgroundColor: '#cca59f',
+            color: '#000000',
           },
         },
         contained: {
-          backgroundColor: '#cca59f',
-          color: '#000000',
+          backgroundColor: '#000000',
+          color: '#ffffff',
           '&:hover': {
             backgroundColor: '#ebe2d1',
+            color: '#000000',
           },
         },
       },

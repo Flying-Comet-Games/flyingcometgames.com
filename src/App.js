@@ -91,7 +91,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/shape-sorter" element={<ShapeSorter />} />
           <Route path="/color-flood" element={<ColorFlood />} />
           <Route path="/memory-maze" element={<MemoryMaze />} />
-          <Route path="/avoid-blocks" element={<AvoidBlocks />} />
+          <Route path="/raining-blocks" element={<AvoidBlocks />} />
           <Route path="/cowboy-quest" element={<EmojiQuest />} />
           <Route path="/color-dash" element={<ColorDash />} />
           <Route

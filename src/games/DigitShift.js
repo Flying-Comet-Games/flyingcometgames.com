@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import LinearProgress from '@mui/material/LinearProgress';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import UndoIcon from '@mui/icons-material/Undo';
+import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import LinearProgress from "@mui/material/LinearProgress";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
+import UndoIcon from "@mui/icons-material/Undo";
 
 const DigitShift = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [board, setBoard] = useState([]);
   const [moves, setMoves] = useState(0);
@@ -29,7 +29,7 @@ const DigitShift = () => {
   }, []);
 
   const initializeBoard = () => {
-    let numbers = Array.from({length: 15}, (_, i) => i + 1);
+    let numbers = Array.from({ length: 15 }, (_, i) => i + 1);
     numbers.push(null); // Empty space
     numbers = shuffleArray(numbers);
     setBoard(numbers);
@@ -88,7 +88,10 @@ const DigitShift = () => {
     const emptyIndex = board.indexOf(null);
     if (canMove(index, emptyIndex)) {
       const newBoard = [...board];
-      [newBoard[index], newBoard[emptyIndex]] = [newBoard[emptyIndex], newBoard[index]];
+      [newBoard[index], newBoard[emptyIndex]] = [
+        newBoard[emptyIndex],
+        newBoard[index],
+      ];
       setBoard(newBoard);
       setMoves(moves + 1);
       setMoveHistory([...moveHistory, { from: index, to: emptyIndex }]);
@@ -120,7 +123,10 @@ const DigitShift = () => {
     if (moveHistory.length > 0) {
       const lastMove = moveHistory[moveHistory.length - 1];
       const newBoard = [...board];
-      [newBoard[lastMove.from], newBoard[lastMove.to]] = [newBoard[lastMove.to], newBoard[lastMove.from]];
+      [newBoard[lastMove.from], newBoard[lastMove.to]] = [
+        newBoard[lastMove.to],
+        newBoard[lastMove.from],
+      ];
       setBoard(newBoard);
       setMoves(moves - 1);
       setMoveHistory(moveHistory.slice(0, -1));
@@ -131,149 +137,193 @@ const DigitShift = () => {
   const handleHint = () => {
     const emptyIndex = board.indexOf(null);
     const possibleMoves = [
-      emptyIndex - 4, emptyIndex + 4,
+      emptyIndex - 4,
+      emptyIndex + 4,
       emptyIndex % 4 !== 0 ? emptyIndex - 1 : -1,
-      emptyIndex % 4 !== 3 ? emptyIndex + 1 : -1
-    ].filter(i => i >= 0 && i < 16);
+      emptyIndex % 4 !== 3 ? emptyIndex + 1 : -1,
+    ].filter((i) => i >= 0 && i < 16);
 
-    const randomMoveIndex = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    const randomMoveIndex =
+      possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     handleTileClick(randomMoveIndex);
   };
 
   const getTimeColor = () => {
     const percentage = timeLeft / 300;
-    if (percentage > 0.6) return '#4caf50';
-    if (percentage > 0.3) return '#ffc107';
-    return '#f44336';
+    if (percentage > 0.6) return "#4caf50";
+    if (percentage > 0.3) return "#ffc107";
+    return "#f44336";
   };
 
   return (
-    <Box sx={{
-      textAlign: 'center',
-      px: 2,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      maxWidth: 600,
-      margin: 'auto',
-      pt: 2,
-      pb: 2,
-    }}>
-      <Typography variant="h4" sx={{
-        fontSize: '2rem',
-        fontWeight: 800,
-        mb: 2,
-        background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-      }}>
-        Digit Shift
-      </Typography>
-
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mb: 2,
-        p: 1.5,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-      }}>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Moves: {moves}</Typography>
-        <Box sx={{ width: '50%', mx: 2 }}>
-          <LinearProgress
-            variant="determinate"
-            value={(timeLeft / 300) * 100}
-            sx={{
-              height: 10,
-              borderRadius: 5,
-              '& .MuiLinearProgress-bar': {
-                borderRadius: 5,
-                background: `linear-gradient(90deg, ${getTimeColor()} 0%, ${getTimeColor()} 100%)`,
-              },
-            }}
-          />
-        </Box>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</Typography>
-      </Box>
-
-      <Box sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 1,
-        mb: 2,
-        aspectRatio: '1 / 1',
-        width: '100%',
-        maxWidth: 400,
-        margin: 'auto'
-      }}>
-        {board.map((number, index) => (
-          <Button
-            key={index}
-            variant="contained"
-            onClick={() => handleTileClick(index)}
-            disabled={gameOver || number === null}
-            sx={{
-              aspectRatio: '1 / 1',
-              fontSize: '1.5rem',
-              fontWeight: 'bold',
-              bgcolor: number ? (correctTiles.has(index) ? '#4caf50' : '#2196F3') : 'rgba(0,0,0,0.1)',
-              color: 'white',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                bgcolor: number ? (correctTiles.has(index) ? '#45a049' : '#1e88e5') : 'rgba(0,0,0,0.2)',
-                transform: 'scale(1.05)',
-              },
-              '&.Mui-disabled': {
-                bgcolor: number ? (correctTiles.has(index) ? '#4caf50' : '#2196F3') : 'rgba(0,0,0,0.1)',
-                color: 'white',
-              },
-              border: number === null ? '2px dashed rgba(255,255,255,0.5)' : 'none',
-            }}
-          >
-            {number}
-          </Button>
-        ))}
-      </Box>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-        <IconButton onClick={handleUndo} disabled={moveHistory.length === 0 || gameOver}>
-          <UndoIcon />
-        </IconButton>
-        <IconButton onClick={handleHint} disabled={gameOver}>
-          <ShuffleIcon />
-        </IconButton>
-      </Box>
-
-      <Box sx={{ mt: 'auto' }}>
-        {gameOver && (
-          <Typography variant="h5" sx={{ mb: 2 }}>
-            {isSolved ? `Congratulations! You solved it in ${moves} moves.` : "Time's up!"}
-          </Typography>
-        )}
-        <Button
-          variant="contained"
-          onClick={handleRestart}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        textAlign: "center",
+        p: 2,
+        backgroundColor: "background.default",
+      }}
+    >
+      <Box
+        sx={{
+          textAlign: "center",
+          px: 2,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: 600,
+          margin: "auto",
+          pt: 2,
+          pb: 2,
+        }}
+      >
+        <Typography
+          variant="h4"
           sx={{
-            fontSize: '1.1rem',
-            py: 1.2,
-            px: 4,
-            borderRadius: 3,
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-            width: '100%',
-            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-            '&:hover': {
-              background: 'linear-gradient(45deg, #21CBF3 30%, #2196F3 90%)',
-              transform: 'scale(1.02)',
-            },
-            transition: 'all 0.3s ease',
+            fontSize: "2rem",
+            fontWeight: 800,
+            mb: 2,
+            background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
           }}
         >
-          {gameOver ? 'Play Again' : 'Restart'}
-        </Button>
+          Digit Shift
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+            p: 1.5,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          }}
+        >
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+            Moves: {moves}
+          </Typography>
+          <Box sx={{ width: "50%", mx: 2 }}>
+            <LinearProgress
+              variant="determinate"
+              value={(timeLeft / 300) * 100}
+              sx={{
+                height: 10,
+                borderRadius: 5,
+                "& .MuiLinearProgress-bar": {
+                  borderRadius: 5,
+                  background: `linear-gradient(90deg, ${getTimeColor()} 0%, ${getTimeColor()} 100%)`,
+                },
+              }}
+            />
+          </Box>
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+            {Math.floor(timeLeft / 60)}:
+            {(timeLeft % 60).toString().padStart(2, "0")}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 1,
+            mb: 2,
+            aspectRatio: "1 / 1",
+            width: "100%",
+            maxWidth: 400,
+            mt: 5,
+            mx: "auto"
+          }}
+        >
+          {board.map((number, index) => (
+            <Button
+              key={index}
+              variant="contained"
+              onClick={() => handleTileClick(index)}
+              disabled={gameOver || number === null}
+              sx={{
+                aspectRatio: "1 / 1",
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                bgcolor: number
+                  ? correctTiles.has(index)
+                    ? "#4caf50"
+                    : "#2196F3"
+                  : "rgba(0,0,0,0.1)",
+                color: "white",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  bgcolor: number
+                    ? correctTiles.has(index)
+                      ? "#45a049"
+                      : "#1e88e5"
+                    : "rgba(0,0,0,0.2)",
+                  transform: "scale(1.05)",
+                },
+                "&.Mui-disabled": {
+                  bgcolor: number
+                    ? correctTiles.has(index)
+                      ? "#4caf50"
+                      : "#2196F3"
+                    : "rgba(0,0,0,0.1)",
+                  color: "white",
+                },
+                border:
+                  number === null ? "2px dashed rgba(255,255,255,0.5)" : "none",
+              }}
+            >
+              {number}
+            </Button>
+          ))}
+        </Box>
+
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+          <IconButton
+            onClick={handleUndo}
+            disabled={moveHistory.length === 0 || gameOver}
+          >
+            <UndoIcon />
+          </IconButton>
+          <IconButton onClick={handleHint} disabled={gameOver}>
+            <ShuffleIcon />
+          </IconButton>
+        </Box>
+
+        <Box sx={{ mt: 1 }}>
+          {gameOver && (
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              {isSolved
+                ? `Congratulations! You solved it in ${moves} moves.`
+                : "Time's up!"}
+            </Typography>
+          )}
+          <Button
+            variant="contained"
+            onClick={handleRestart}
+            sx={{
+              fontSize: "1.1rem",
+              py: 1.2,
+              px: 4,
+              borderRadius: 3,
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              width: "100%",
+              background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #21CBF3 30%, #2196F3 90%)",
+                transform: "scale(1.02)",
+              },
+              transition: "all 0.3s ease",
+            }}
+          >
+            {gameOver ? "Play Again" : "Restart"}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
