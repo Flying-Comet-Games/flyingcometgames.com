@@ -26,11 +26,11 @@ const BenefitItem = ({ iconPath, text }) => (
 const FreeAccountBenefitsList = () => {
   const benefits = [
     { iconPath: '/assets/icons/key.svg', text: 'Unlock more puzzles' },
-    { iconPath: '/assets/icons/calendar.svg', text: 'Track your streak' },
-    { iconPath: '/assets/icons/favorites.svg', text: 'Save your favorites' },
-    { iconPath: '/assets/icons/leaderboard.svg', text: 'Get on leaderboards' },
+    // { iconPath: '/assets/icons/calendar.svg', text: 'Track your streak' },
+    // { iconPath: '/assets/icons/favorites.svg', text: 'Save your favorites' },
+    // { iconPath: '/assets/icons/leaderboard.svg', text: 'Get on leaderboards' },
     { iconPath: '/assets/icons/share.svg', text: 'Share your wins' },
-    { iconPath: '/assets/icons/buddy.svg', text: 'Add your buddies' },
+    // { iconPath: '/assets/icons/buddy.svg', text: 'Add your buddies' },
   ];
 
   return (

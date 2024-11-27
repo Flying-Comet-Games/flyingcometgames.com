@@ -21,7 +21,6 @@ const SignupButton = ({ containerStyles = {}, buttonStyles = {} }) => {
         display: "flex",
         justifyContent: "center",
         width: "100%",
-        mb: 2,
         ...containerStyles,
       }}
     >

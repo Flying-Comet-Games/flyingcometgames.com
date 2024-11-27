@@ -5,6 +5,7 @@ import GameButton from "./GameButton";
 import FeaturedGame from "./FeaturedGame";
 import TriviaRoundupBeta from "./TriviaRoundupBeta";
 import KofiButton from "./KofiButton";
+import SignupButton from "../games/WordyVerse/SignupButton";
 
 const GameBody = () => {
   const backgroundColors = ["#9eb4ad", "#cca59f", "#91b2d1", "#cfc79d"];
@@ -108,6 +109,7 @@ const GameBody = () => {
             />
           </Grid>
           {index === 3 && <TriviaRoundupBeta />}
+          {index === 3 && <SignupButton />}
         </React.Fragment>
       ))}
 

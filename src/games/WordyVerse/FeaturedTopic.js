@@ -10,8 +10,11 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
   const theme = useTheme();
 
   return (
-    <Box
+    <Button
+      component={Link}
+      to={link}
       sx={{
+        textTransform: 'none',
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -22,6 +25,12 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
         boxShadow: theme.shadows[2],
         width: "100%",
         maxWidth: "600px",
+
+        '&:hover': {
+          backgroundColor: theme => theme.palette.grey[200],
+        },
+
+
       }}
     >
       <Box
@@ -49,7 +58,8 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
           src={`${process.env.PUBLIC_URL}/assets/icons/wordy-verse-feature.svg`}
           alt={`${title} logo`}
           sx={{
-            mb: -6.5,
+            mt: {lg: 4},
+            mb: {xs: -6.5, lg: -7},
             width: { xs: "30%", sm: "50%" },
             height: { xs: "60px", sm: "70px" },
           }}
@@ -62,7 +72,7 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
         logoSrc={svgLogo}
         backgroundColor="#ffffff"
       />
-    </Box>
+    </Button>
   );
 };
 

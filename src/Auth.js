@@ -100,41 +100,6 @@ const Auth = () => {
           <Login />
 
         </Box>
-
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: 360,
-            py: 2,
-            textAlign: "center",
-          }}
-        >
-          <Typography sx={{ mb: 1, fontWeight: "bold" }}>
-            Made with ❤️ by{" "}
-            <Link
-              to="https://flyingcometgames.com"
-              style={{
-                color: "inherit",
-                textDecoration: "underline",
-              }}
-            >
-              Flying Comet Games
-            </Link>
-          </Typography>
-          <Typography>
-            Explore more of our puzzle games{" "}
-            <Link
-              to="/"
-              style={{
-                color: "inherit",
-                textDecoration: "underline",
-              }}
-            >
-              here
-            </Link>
-            !
-          </Typography>
-        </Box>
       </Box>
     </Box>
   );
