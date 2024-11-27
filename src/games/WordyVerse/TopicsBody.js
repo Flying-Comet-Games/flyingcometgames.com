@@ -3,6 +3,8 @@ import Grid from "@mui/material/Grid2";
 import GameButton from "../../components/GameButton";
 import GoogleAd from "./Components/GoogleAd";
 import GoogleAdTopic from "./Components/GoogleAdTopic";
+import FeaturedGame from "../../components/FeaturedGame";
+import FeaturedTopic from "./FeaturedTopic";
 
 const TopicsBody = () => {
   const wordyVerseBase = "/wordy-verse";
@@ -28,11 +30,11 @@ const TopicsBody = () => {
       title: "GYMNASTICS",
       logoSrc: "/assets/wordy-topics/gymnastics.svg",
     },
-    {
-      to: wordyVerseBase + "/seattle",
-      title: "SEATTLE",
-      logoSrc: "/assets/wordy-topics/seattle.svg",
-    },
+    // {
+    //   to: wordyVerseBase + "/seattle",
+    //   title: "SEATTLE",
+    //   logoSrc: "/assets/wordy-topics/seattle.svg",
+    // },
     {
       to: wordyVerseBase + "/yoga",
       title: "YOGA",
@@ -76,7 +78,16 @@ const TopicsBody = () => {
   ];
 
   return (
-    <Grid container spacing={3} justifyContent="center" width="100%">
+    <Grid container spacing={2} justifyContent="center" width="100%">
+
+      <FeaturedTopic
+        svgLogo="/assets/wordy-topics/seattle.svg"
+        description="Explore puzzles inspired by the Emerald City!"
+        title="Seattle"
+        link="/wordy-verse/seattle"
+        bgColor="#b8c26c"
+      />
+
       {games.map((game, index) => (
         <React.Fragment key={game.title}>
           <Grid size={{ xs: 6, sm: 6, md: 4, lg: 4 }}>
@@ -84,7 +95,7 @@ const TopicsBody = () => {
               to={game.to}
               title={game.title}
               logoSrc={game.logoSrc}
-              backgroundColor="#d1d0c9"
+              backgroundColor="#ffffff"
             />
           </Grid>
         </React.Fragment>

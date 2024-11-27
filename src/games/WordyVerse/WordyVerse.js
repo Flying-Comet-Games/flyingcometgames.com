@@ -49,29 +49,33 @@ const WordyVerse = () => {
           alignItems: "center",
           px: 2,
           py: { xs: 2, sm: 3, md: 4 },
-          maxWidth: "1024px",
+          maxWidth: "600px",
           mx: 'auto',
           boxSizing: "border-box",
         }}
       >
-        <Box
-          sx={{
-            maxWidth: "600px",
-            textAlign: "left",
-            mb: { xs: 3, sm: 4, md: 5 },
-          }}
-        >
-          <Typography
-            variant="h2"
-            component="h2"
-            gutterBottom
+        <Box>
+
+        <Typography
             sx={{
-              fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
-              pb: 2,
-              borderBottom: `1px solid ${theme.palette.divider}`,
+              fontSize: { xs: "1.125rem", sm: "1.25rem", md: "1.5rem" },
+              textAlign: 'center',
+              fontWeight: 500,
             }}
           >
-            Ultra-niche word puzzles for super fans, inside jokes, and subject matter experts.
+            Welcome to the
+          </Typography>
+
+          <Typography
+            gutterBottom
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.25rem", md: "2.5rem" },
+              pb: 2,
+              textAlign: 'center',
+              fontWeight: 500,
+            }}
+          >
+            Wordy-verse!
           </Typography>
         </Box>
 
