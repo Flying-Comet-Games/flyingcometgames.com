@@ -72,7 +72,7 @@ const WordyVerse = () => {
               fontSize: { xs: "2rem", sm: "2.25rem", md: "2.5rem" },
               pb: 2,
               textAlign: 'center',
-              fontWeight: 500,
+              fontWeight: 900,
             }}
           >
             Wordy-verse!

@@ -17,7 +17,6 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
         alignItems: "center",
         justifyContent: "space-between",
         padding: 2,
-        // borderRadius: "12px",
         backgroundColor: bgColor || theme.palette.grey[300],
         width: "100%",
         maxWidth: "600px",
