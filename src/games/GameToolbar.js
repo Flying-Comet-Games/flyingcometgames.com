@@ -8,6 +8,7 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
@@ -20,6 +21,7 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { useStytchUser } from "@stytch/react";
 import StreakCounter from "../components/StreakCounter";
+import AuthListItem from "../components/AuthListItem";
 
 const GameToolbar = ({
   basePath,
@@ -155,6 +157,8 @@ const GameToolbar = ({
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
+        <Divider />
+        <AuthListItem />
         <Divider />
 
         <Box sx={{ p: 1 }}>

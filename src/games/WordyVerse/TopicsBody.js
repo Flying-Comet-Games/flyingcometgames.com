@@ -5,6 +5,7 @@ import GoogleAd from "./Components/GoogleAd";
 import GoogleAdTopic from "./Components/GoogleAdTopic";
 import FeaturedGame from "../../components/FeaturedGame";
 import FeaturedTopic from "./FeaturedTopic";
+import SignupButton from "./SignupButton";
 
 const TopicsBody = () => {
   const wordyVerseBase = "/wordy-verse";
@@ -87,6 +88,8 @@ const TopicsBody = () => {
         link="/wordy-verse/seattle"
         bgColor="#b8c26c"
       />
+
+      <SignupButton />
 
       {games.map((game, index) => (
         <React.Fragment key={game.title}>

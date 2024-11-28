@@ -24,6 +24,14 @@ const GameBody = () => {
           width: "100%",
         }}
       >
+        <SignupButton />
+      </Grid>
+
+      <Grid
+        sx={{
+          width: "100%",
+        }}
+      >
         <FeaturedGame
           svgLogo={`${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`}
           description="A collection of themed word puzzles for niche content that’s new each day."
@@ -123,7 +131,6 @@ const GameBody = () => {
 
         <KofiButton />
       </Grid>
-
     </Grid>
   );
 };
