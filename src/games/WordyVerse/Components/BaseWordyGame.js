@@ -175,7 +175,7 @@ const BaseWordyGame = ({
 
     // First check for exact match
     if (guessUpperCase === targetWord[index]) {
-      return "#B4D5A7"; // Green
+      return ["#b8c26c", "black"]; // Green
     }
 
     // If not an exact match, we need to check if this letter can be yellow
@@ -183,7 +183,7 @@ const BaseWordyGame = ({
     const letterCountInTarget = targetWord.split(guessUpperCase).length - 1;
 
     if (letterCountInTarget === 0) {
-      return "#d3d6da"; // Grey - letter doesn't exist in target
+      return ["#010101", "white"]; // Grey - letter doesn't exist in target
     }
 
     // Count how many exact matches of this letter exist
@@ -207,10 +207,10 @@ const BaseWordyGame = ({
     // If we still have yellows available and haven't used them all up
     // in previous positions of this guess
     if (remainingYellows > 0 && yellowCandidatesSoFar < remainingYellows) {
-      return "#F5DEB3"; // Yellow
+      return ["#ecb061", "white"]; // Yellow
     }
 
-    return "#d3d6da"; // Grey
+    return ["#010101", "white"]; // Grey
   };
 
   const getShareEmoji = (letter, index, word) => {

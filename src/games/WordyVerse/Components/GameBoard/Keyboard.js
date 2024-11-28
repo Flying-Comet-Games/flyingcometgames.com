@@ -53,7 +53,7 @@ const Keyboard = ({
   };
 
   const getKeyboardKeyColor = (key) => {
-    if (!wordData || !guesses) return "#d3d6da";
+    if (!wordData || !guesses) return ["white", "black"];
 
     const keyUpperCase = key.toUpperCase();
     const wordUpperCase = wordData.word.toUpperCase();
@@ -78,11 +78,11 @@ const Keyboard = ({
       }
     }
 
-    if (correctPosition) return "#B4D5A7";
-    if (letterInWord && keyFound) return "#F5DEB3";
+    if (correctPosition) return ["#b8c26c", "black"];
+    if (letterInWord && keyFound) return ["#ecb061", "white"];
     return guesses.some((guess) => guess.toUpperCase().includes(keyUpperCase))
-      ? "#787c7e"
-      : "#d3d6da";
+      ? ["black", "white"]
+      : ["white", "black"];
   };
 
   return (
@@ -102,8 +102,8 @@ const Keyboard = ({
               key={key}
               onClick={() => handleKeyClick(key)}
               sx={{
-                backgroundColor: getKeyboardKeyColor(key),
-                color: "black",
+                backgroundColor: getKeyboardKeyColor(key)[0],
+                color: getKeyboardKeyColor(key)[1],
                 minWidth: key === "ENTER" || key === "⌫" ? "55px" : "36px",
                 height: "58px",
                 display: "flex",
