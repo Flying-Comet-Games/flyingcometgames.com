@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Button, Modal, IconButton } from "@mui/material";
 import { X as CloseIcon, Send as SendIcon } from "lucide-react";
 
-const ModalContent = ({ children }) => (
+const ModalContent = ({ children, success }) => (
   <Box
     sx={{
       position: "absolute",
@@ -11,134 +11,244 @@ const ModalContent = ({ children }) => (
       transform: "translate(-50%, -50%)",
       width: "90%",
       maxWidth: "400px",
-      bgcolor: "white",
+      bgcolor: success ? "#b8c26c" : "white",
       borderRadius: "8px",
       p: 4,
       outline: "none",
       textAlign: "center",
+      position: "relative",
     }}
   >
     {children}
   </Box>
 );
 
-export const ShareModal = ({ open, onClose, onShare, isPreSolve = false }) => (
-  <Modal open={open} onClose={onClose}>
-    <ModalContent>
-      <IconButton
-        onClick={onClose}
-        sx={{
-          position: "absolute",
-          right: 8,
-          top: 8,
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
+export const ShareModal = ({
+  open,
+  onClose,
+  onShare,
+  guesses = [],
+  maxGuesses = 5,
+  isCorrect = false,
+  onCreateAccount
+}) => {
+  const isGameOver = guesses.length === maxGuesses || isCorrect;
 
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-        {isPreSolve ? "Share before solving?" : "You solved it!"}
-        {isPreSolve && (
-          <Box
-            component="img"
-            src={`${process.env.PUBLIC_URL}/assets/game-logos/wordy-verse-confused.svg`}
-            alt="duck mascot with a tilted head"
-            sx={{
-              display: { xs: "block", sm: "none" },
-              width: "25%",
-              height: "auto",
-              my: 2,
-              mx: "auto",
-            }}
-          />
-        )}
-      </Typography>
-
-      {!isPreSolve && (
-        <Box
+  return (
+    <Modal open={open} onClose={onClose}>
+      <ModalContent success={isCorrect}>
+        <IconButton
+          onClick={onClose}
           sx={{
-            mb: 3,
-            display: "flex",
-            justifyContent: "center",
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: "black",
           }}
         >
-          {/* Score preview grid would go here */}
-          <Box
-            sx={{
-              width: 120,
-              height: 120,
-              border: "1px solid #000",
-              borderRadius: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 0.5,
-            }}
-          >
-            <Box
-              sx={{
-                width: "80%",
-                height: 12,
-                bgcolor: "#b8c26c",
-                borderRadius: 0.5,
-              }}
-            />
-            <Box
-              sx={{
-                width: "80%",
-                height: 12,
-                bgcolor: "#b8c26c",
-                borderRadius: 0.5,
-              }}
-            />
-            <Box
-              sx={{
-                width: "80%",
-                height: 12,
-                bgcolor: "#ecb061",
-                borderRadius: 0.5,
-              }}
-            />
-          </Box>
-        </Box>
-      )}
+          <CloseIcon />
+        </IconButton>
 
-      <Button
-        fullWidth
-        variant="contained"
-        onClick={onShare}
-        startIcon={<SendIcon />}
-        sx={{
-          mb: 2,
-          bgcolor: "#000",
-          color: "#fff",
-          "&:hover": {
-            bgcolor: "#333",
-          },
-        }}
-      >
-        {isPreSolve ? "Yes share this puzzle" : "Share my score"}
-      </Button>
+        {/* Show "Share before solving?" for non-game-over state */}
+        {!isGameOver && (
+          <>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold", color: "black" }}>
+              Share before solving?
+            </Typography>
+            <Box
+              component="img"
+              src={`${process.env.PUBLIC_URL}/assets/game-logos/wordy-verse-confused.svg`}
+              alt="duck mascot"
+              sx={{
+                width: "80px",
+                height: "80px",
+                mb: 2,
+                mx: "auto",
+                display: "block",
+              }}
+            />
+          </>
+        )}
 
-      {!isPreSolve && (
+        {/* Game Over states */}
+        {isGameOver && (
+          <>
+            <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold", color: "black" }}>
+              {isCorrect ? "YOU SOLVED IT!" : "Better luck next time!"}
+            </Typography>
+
+            {/* Score preview grid */}
+            {/* <Box
+              sx={{
+                mb: 3,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: 120,
+                  height: 120,
+                  bgcolor: "white",
+                  borderRadius: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 0.5,
+                  p: 2,
+                }}
+              >
+
+                {guesses.map((guess, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "80%",
+                      height: 12,
+                      bgcolor: index < 2 ? "#b8c26c" : "#ecb061",
+                      borderRadius: 0.5
+                    }}
+                  />
+                ))}
+              </Box>
+            </Box> */}
+          </>
+        )}
+
+        {/* Action Buttons */}
         <Button
-          fullWidth
+          width="80%"
           variant="contained"
+          onClick={onShare}
           sx={{
-            bgcolor: "#000",
-            color: "#fff",
+            mb: 2,
+            bgcolor: "black",
+            color: "white",
             "&:hover": {
               bgcolor: "#333",
             },
           }}
         >
-          Create my free account!
+          {!isGameOver ? "Share this puzzle" : "Share my score"}
         </Button>
-      )}
-    </ModalContent>
-  </Modal>
-);
+
+
+          <Button
+          width="80%"
+            variant="contained"
+            onClick={onCreateAccount}
+            sx={{
+              bgcolor: "black",
+              color: "white",
+              "&:hover": {
+                bgcolor: "#333",
+              },
+            }}
+          >
+            Create my free account!
+          </Button>
+
+
+        {/* Celebration Duck - only show for successful game over */}
+        {isGameOver && isCorrect && (
+          <Box
+            component="img"
+            src={`${process.env.PUBLIC_URL}/assets/game-logos/wordy-verse-party.svg`}
+            alt="celebrating duck mascot"
+            sx={{
+              position: "absolute",
+              bottom: -3,
+              right: 10,
+              width: "30px",
+              height: "auto",
+            }}
+          />
+        )}
+      </ModalContent>
+    </Modal>
+  );
+};
+
+// In ShareModal component:
+const GuessGrid = ({ guesses, word }) => {
+    const getLetterBGColor = (letter, letterIndex, guess) => {
+      if (!letter) return "#e5e5e5"; // Empty square color
+
+      const guessUpperCase = letter.toUpperCase();
+      const targetWord = word.toUpperCase();
+
+      // Exact match
+      if (guessUpperCase === targetWord[letterIndex]) {
+        return "#b8c26c"; // Green
+      }
+
+      // Letter exists but wrong position
+      if (targetWord.includes(guessUpperCase)) {
+        // Count occurrences in target word
+        const targetCount = targetWord.split(guessUpperCase).length - 1;
+        // Count exact matches
+        let exactMatches = 0;
+        // Count previous yellows
+        let yellowsSoFar = 0;
+
+        for (let i = 0; i < guess.length; i++) {
+          if (guess[i].toUpperCase() === guessUpperCase) {
+            if (i === letterIndex) break; // Stop at current letter
+            if (guess[i].toUpperCase() === targetWord[i]) {
+              exactMatches++;
+            } else {
+              yellowsSoFar++;
+            }
+          }
+        }
+
+        if (yellowsSoFar + exactMatches < targetCount) {
+          return "#ecb061"; // Yellow
+        }
+      }
+
+      return "#d3d6da"; // Grey - wrong letter
+    };
+
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+          p: 2,
+        }}
+      >
+        {Array(5).fill(null).map((_, rowIndex) => (
+          <Box
+            key={rowIndex}
+            sx={{
+              display: "flex",
+              gap: 0.5,
+              justifyContent: "center",
+            }}
+          >
+            {Array(word.length).fill(null).map((_, colIndex) => {
+              const letter = guesses[rowIndex]?.[colIndex] || '';
+              return (
+                <Box
+                  key={colIndex}
+                  sx={{
+                    width: "20px",
+                    height: "20px",
+                    bgcolor: guesses[rowIndex]
+                      ? getLetterBGColor(letter, colIndex, guesses[rowIndex])
+                      : "#e5e5e5",
+                    borderRadius: "2px",
+                  }}
+                />
+              )})}
+          </Box>
+        ))}
+      </Box>
+    );
+  };
 
 export const ShareButton = ({ onClick }) => (
   <Button
@@ -147,64 +257,12 @@ export const ShareButton = ({ onClick }) => (
     sx={{
       mt: 2,
       color: "#000",
-      borderColor: "#000",
+      textDecoration: "underline",
       "&:hover": {
-        borderColor: "#000",
-        bgcolor: "rgba(0, 0, 0, 0.04)",
+        bgcolor: "transparent",
       },
     }}
   >
     Send to a friend
   </Button>
-);
-
-export const GameOverShare = ({ won, guesses, onShare, isLoggedIn }) => (
-  <Box
-    sx={{
-      mt: 4,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 2,
-    }}
-  >
-    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-      {won ? "YOU SOLVED IT!" : "Better luck next time!"}
-    </Typography>
-
-    {!isLoggedIn && (
-      <Typography variant="body2" color="text.secondary">
-        Sign in to save your streak!
-      </Typography>
-    )}
-
-    <Button
-      variant="contained"
-      onClick={onShare}
-      sx={{
-        bgcolor: won ? "#b8c26c" : "#000",
-        color: won ? "#000" : "#fff",
-        "&:hover": {
-          bgcolor: won ? "#a5b154" : "#333",
-        },
-      }}
-    >
-      Share my score
-    </Button>
-
-    {!isLoggedIn && (
-      <Button
-        variant="contained"
-        sx={{
-          bgcolor: "#000",
-          color: "#fff",
-          "&:hover": {
-            bgcolor: "#333",
-          },
-        }}
-      >
-        Create my free account!
-      </Button>
-    )}
-  </Box>
 );

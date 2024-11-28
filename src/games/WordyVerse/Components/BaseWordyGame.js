@@ -15,9 +15,9 @@ import GameOver from "./GameBoard/GameOver";
 import LockedContent from "./LockedContent";
 import GoogleAd from "./GoogleAd";
 import {
-GameOverShare,
-ShareButton,
-ShareModal,
+  GameOverShare,
+  ShareButton,
+  ShareModal,
 } from "../../../components/ShareModal";
 
 const BaseWordyGame = ({
@@ -41,6 +41,7 @@ const BaseWordyGame = ({
   const [isGuessFocused, setIsGuessFocused] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isPreSolveShare, setIsPreSolveShare] = useState(false);
+  const [gameState, setGameState] = useState(null);
 
   const isDateLocked = (date) => {
     if (user) return false;
@@ -98,22 +99,15 @@ const BaseWordyGame = ({
         });
       }
 
-      if (currentGuess.toUpperCase() === wordData.word.toUpperCase()) {
-        setGameOver(true);
-        setCurrentGuess("");
-        logGameEnded(title, {
-          won: true,
-          attempts: newGuesses.length,
-          word: wordData.word,
-          date: dateStr,
-        });
-        return;
-      }
+      const isCorrect = currentGuess.toUpperCase() === wordData.word.toUpperCase();
 
-      if (newGuesses.length >= 5) {
+      if (isCorrect || newGuesses.length >= 5) {
         setGameOver(true);
+        // Automatically show share modal when game ends
+        setShareModalOpen(true);
+
         logGameEnded(title, {
-          won: false,
+          won: isCorrect,
           attempts: newGuesses.length,
           word: wordData.word,
           date: dateStr,
@@ -141,8 +135,14 @@ const BaseWordyGame = ({
     }
   };
 
-  const handleShare = (isPreSolve = false) => {
-    setIsPreSolveShare(isPreSolve);
+  const handleShare = () => {
+    // Determine game state
+    if (guesses.length > 0) {
+      const won =
+        guesses[guesses.length - 1].toUpperCase() ===
+        wordData.word.toUpperCase();
+      setGameState(won ? "success" : "failure");
+    }
     setShareModalOpen(true);
   };
 
@@ -172,7 +172,7 @@ const BaseWordyGame = ({
     // Original sharing logic for when there are guesses
     const attemptCount = guesses.length;
     const won =
-    guesses[guesses.length - 1].toUpperCase() === wordData.word.toUpperCase();
+      guesses[guesses.length - 1].toUpperCase() === wordData.word.toUpperCase();
 
     let shareString = `${shareText} ${dateStr} ${
       won ? attemptCount : "X"
@@ -316,7 +316,7 @@ const BaseWordyGame = ({
               guesses={guesses}
             />
 
-            {gameOver ? (
+            {/* {gameOver ? (
               <GameOverShare
                 won={
                   guesses[guesses.length - 1].toUpperCase() ===
@@ -327,15 +327,24 @@ const BaseWordyGame = ({
                 isLoggedIn={!!user}
               />
             ) : (
-              <ShareButton onClick={() => handleShare(true)} />
-            )}
+              <ShareButton onClick={handleShare} />
+            )} */}
 
             <ShareModal
               open={shareModalOpen}
               onClose={() => setShareModalOpen(false)}
               onShare={handleShareConfirm}
-              isPreSolve={isPreSolveShare}
+              guesses={guesses}
+              maxGuesses={5}
+              isCorrect={
+                guesses.length > 0 &&
+               guesses[guesses.length - 1].toUpperCase() ===
+                 wordData.word.toUpperCase()
+              }
+              onCreateAccount={() => navigate("/wordy-verse/auth")}
             />
+
+            <ShareButton onClick={handleShare} />
           </>
         )}
 
