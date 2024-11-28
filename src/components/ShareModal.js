@@ -28,9 +28,10 @@ export const ShareModal = ({
   onClose,
   onShare,
   guesses = [],
+  word,
   maxGuesses = 5,
   isCorrect = false,
-  onCreateAccount
+  onCreateAccount,
 }) => {
   const isGameOver = guesses.length === maxGuesses || isCorrect;
 
@@ -52,7 +53,10 @@ export const ShareModal = ({
         {/* Show "Share before solving?" for non-game-over state */}
         {!isGameOver && (
           <>
-            <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold", color: "black" }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 3, fontWeight: "bold", color: "black" }}
+            >
               Share before solving?
             </Typography>
             <Box
@@ -73,12 +77,15 @@ export const ShareModal = ({
         {/* Game Over states */}
         {isGameOver && (
           <>
-            <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold", color: "black" }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 3, fontWeight: "bold", color: "black" }}
+            >
               {isCorrect ? "YOU SOLVED IT!" : "Better luck next time!"}
             </Typography>
 
             {/* Score preview grid */}
-            {/* <Box
+            <Box
               sx={{
                 mb: 3,
                 display: "flex",
@@ -87,32 +94,52 @@ export const ShareModal = ({
             >
               <Box
                 sx={{
-                  width: 120,
-                  height: 120,
                   bgcolor: "white",
                   borderRadius: 1,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: 0.5,
+                  gap: 0.75,
                   p: 2,
                 }}
               >
-
-                {guesses.map((guess, index) => (
+                {guesses.map((guess, rowIndex) => (
                   <Box
-                    key={index}
+                    key={rowIndex}
                     sx={{
-                      width: "80%",
-                      height: 12,
-                      bgcolor: index < 2 ? "#b8c26c" : "#ecb061",
-                      borderRadius: 0.5
+                      display: "flex",
+                      gap: 0.75,
                     }}
-                  />
+                  >
+                    {Array.from(guess).map((letter, i) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          width: 16,
+                          height: 16,
+                          bgcolor: (() => {
+                            if (
+                              letter.toUpperCase() ===
+                              word[i].toUpperCase()
+                            )
+                              return "#b8c26c";
+                            if (
+                              word
+                                .toUpperCase()
+                                .includes(letter.toUpperCase())
+                            )
+                              return "#ecb061";
+                            return "#d3d6da";
+                          })(),
+                          borderRadius: 0.5,
+                        }}
+                      />
+                    ))}
+                  </Box>
                 ))}
               </Box>
-            </Box> */}
+            </Box>
           </>
         )}
 
@@ -133,22 +160,20 @@ export const ShareModal = ({
           {!isGameOver ? "Share this puzzle" : "Share my score"}
         </Button>
 
-
-          <Button
+        <Button
           width="80%"
-            variant="contained"
-            onClick={onCreateAccount}
-            sx={{
-              bgcolor: "black",
-              color: "white",
-              "&:hover": {
-                bgcolor: "#333",
-              },
-            }}
-          >
-            Create my free account!
-          </Button>
-
+          variant="contained"
+          onClick={onCreateAccount}
+          sx={{
+            bgcolor: "black",
+            color: "white",
+            "&:hover": {
+              bgcolor: "#333",
+            },
+          }}
+        >
+          Create my free account!
+        </Button>
 
         {/* Celebration Duck - only show for successful game over */}
         {isGameOver && isCorrect && (
@@ -172,55 +197,57 @@ export const ShareModal = ({
 
 // In ShareModal component:
 const GuessGrid = ({ guesses, word }) => {
-    const getLetterBGColor = (letter, letterIndex, guess) => {
-      if (!letter) return "#e5e5e5"; // Empty square color
+  const getLetterBGColor = (letter, letterIndex, guess) => {
+    if (!letter) return "#e5e5e5"; // Empty square color
 
-      const guessUpperCase = letter.toUpperCase();
-      const targetWord = word.toUpperCase();
+    const guessUpperCase = letter.toUpperCase();
+    const targetWord = word.toUpperCase();
 
-      // Exact match
-      if (guessUpperCase === targetWord[letterIndex]) {
-        return "#b8c26c"; // Green
-      }
+    // Exact match
+    if (guessUpperCase === targetWord[letterIndex]) {
+      return "#b8c26c"; // Green
+    }
 
-      // Letter exists but wrong position
-      if (targetWord.includes(guessUpperCase)) {
-        // Count occurrences in target word
-        const targetCount = targetWord.split(guessUpperCase).length - 1;
-        // Count exact matches
-        let exactMatches = 0;
-        // Count previous yellows
-        let yellowsSoFar = 0;
+    // Letter exists but wrong position
+    if (targetWord.includes(guessUpperCase)) {
+      // Count occurrences in target word
+      const targetCount = targetWord.split(guessUpperCase).length - 1;
+      // Count exact matches
+      let exactMatches = 0;
+      // Count previous yellows
+      let yellowsSoFar = 0;
 
-        for (let i = 0; i < guess.length; i++) {
-          if (guess[i].toUpperCase() === guessUpperCase) {
-            if (i === letterIndex) break; // Stop at current letter
-            if (guess[i].toUpperCase() === targetWord[i]) {
-              exactMatches++;
-            } else {
-              yellowsSoFar++;
-            }
+      for (let i = 0; i < guess.length; i++) {
+        if (guess[i].toUpperCase() === guessUpperCase) {
+          if (i === letterIndex) break; // Stop at current letter
+          if (guess[i].toUpperCase() === targetWord[i]) {
+            exactMatches++;
+          } else {
+            yellowsSoFar++;
           }
         }
-
-        if (yellowsSoFar + exactMatches < targetCount) {
-          return "#ecb061"; // Yellow
-        }
       }
 
-      return "#d3d6da"; // Grey - wrong letter
-    };
+      if (yellowsSoFar + exactMatches < targetCount) {
+        return "#ecb061"; // Yellow
+      }
+    }
 
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 0.5,
-          p: 2,
-        }}
-      >
-        {Array(5).fill(null).map((_, rowIndex) => (
+    return "#d3d6da"; // Grey - wrong letter
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 0.5,
+        p: 2,
+      }}
+    >
+      {Array(5)
+        .fill(null)
+        .map((_, rowIndex) => (
           <Box
             key={rowIndex}
             sx={{
@@ -229,26 +256,29 @@ const GuessGrid = ({ guesses, word }) => {
               justifyContent: "center",
             }}
           >
-            {Array(word.length).fill(null).map((_, colIndex) => {
-              const letter = guesses[rowIndex]?.[colIndex] || '';
-              return (
-                <Box
-                  key={colIndex}
-                  sx={{
-                    width: "20px",
-                    height: "20px",
-                    bgcolor: guesses[rowIndex]
-                      ? getLetterBGColor(letter, colIndex, guesses[rowIndex])
-                      : "#e5e5e5",
-                    borderRadius: "2px",
-                  }}
-                />
-              )})}
+            {Array(word.length)
+              .fill(null)
+              .map((_, colIndex) => {
+                const letter = guesses[rowIndex]?.[colIndex] || "";
+                return (
+                  <Box
+                    key={colIndex}
+                    sx={{
+                      width: "20px",
+                      height: "20px",
+                      bgcolor: guesses[rowIndex]
+                        ? getLetterBGColor(letter, colIndex, guesses[rowIndex])
+                        : "#e5e5e5",
+                      borderRadius: "2px",
+                    }}
+                  />
+                );
+              })}
           </Box>
         ))}
-      </Box>
-    );
-  };
+    </Box>
+  );
+};
 
 export const ShareButton = ({ onClick }) => (
   <Button

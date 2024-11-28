@@ -335,6 +335,7 @@ const BaseWordyGame = ({
               onClose={() => setShareModalOpen(false)}
               onShare={handleShareConfirm}
               guesses={guesses}
+              word={wordData.word}
               maxGuesses={5}
               isCorrect={
                 guesses.length > 0 &&
