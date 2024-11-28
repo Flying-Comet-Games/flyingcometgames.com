@@ -3,9 +3,9 @@ import { Box, Snackbar } from "@mui/material";
 import { useStytchUser } from "@stytch/react";
 import { useNavigate } from "react-router-dom";
 import {
-logGameStarted,
-logGameEnded,
-logGameShared,
+  logGameStarted,
+  logGameEnded,
+  logGameShared,
 } from "../../../analytics";
 import GameGrid from "./GameBoard/GameGrid";
 import Keyboard from "./GameBoard/Keyboard";
@@ -14,6 +14,11 @@ import GameControls from "./GameBoard/GameControls";
 import GameOver from "./GameBoard/GameOver";
 import LockedContent from "./LockedContent";
 import GoogleAd from "./GoogleAd";
+import {
+GameOverShare,
+ShareButton,
+ShareModal,
+} from "../../../components/ShareModal";
 
 const BaseWordyGame = ({
   title,
@@ -34,6 +39,8 @@ const BaseWordyGame = ({
   const [showHint, setShowHint] = useState(false);
   const [showShareToast, setShowShareToast] = useState(false);
   const [isGuessFocused, setIsGuessFocused] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [isPreSolveShare, setIsPreSolveShare] = useState(false);
 
   const isDateLocked = (date) => {
     if (user) return false;
@@ -134,11 +141,38 @@ const BaseWordyGame = ({
     }
   };
 
-  const handleShare = () => {
+  const handleShare = (isPreSolve = false) => {
+    setIsPreSolveShare(isPreSolve);
+    setShareModalOpen(true);
+  };
+
+  const handleShareConfirm = () => {
     const dateStr = currentDate.toLocaleDateString("en-US");
+
+    // If there are no guesses yet, just share the game link
+    if (guesses.length === 0) {
+      const shareString = `${shareText} for ${dateStr}\n\nPlay at: ${shareUrl}`;
+
+      navigator.clipboard
+        .writeText(shareString)
+        .then(() => {
+          setShowShareToast(true);
+          logGameShared(title, {
+            isPreShare: true,
+            word: wordData.word,
+            date: dateStr,
+          });
+        })
+        .catch((err) => console.error("Failed to copy:", err));
+
+      setShareModalOpen(false);
+      return;
+    }
+
+    // Original sharing logic for when there are guesses
     const attemptCount = guesses.length;
     const won =
-      guesses[guesses.length - 1].toUpperCase() === wordData.word.toUpperCase();
+    guesses[guesses.length - 1].toUpperCase() === wordData.word.toUpperCase();
 
     let shareString = `${shareText} ${dateStr} ${
       won ? attemptCount : "X"
@@ -164,6 +198,8 @@ const BaseWordyGame = ({
         });
       })
       .catch((err) => console.error("Failed to copy:", err));
+
+    setShareModalOpen(false);
   };
 
   const getLetterBGColor = (letter, index, isGuessed, rowIndex) => {
@@ -233,9 +269,7 @@ const BaseWordyGame = ({
         position: "relative",
       }}
     >
-
       <Box>
-
         <Box
           sx={{
             maxWidth: "600px",
@@ -245,7 +279,7 @@ const BaseWordyGame = ({
             mb: 2,
             mx: "auto",
             backgroundColor: "background.default",
-            overflow: 'hidden' // This helps contain the ad
+            overflow: "hidden", // This helps contain the ad
           }}
         >
           <GoogleAd slot="9715652655" />
@@ -282,13 +316,26 @@ const BaseWordyGame = ({
               guesses={guesses}
             />
 
-            {gameOver && (
-              <GameOver
+            {gameOver ? (
+              <GameOverShare
+                won={
+                  guesses[guesses.length - 1].toUpperCase() ===
+                  wordData.word.toUpperCase()
+                }
                 guesses={guesses}
-                wordData={wordData}
-                onShare={handleShare}
+                onShare={() => handleShare(false)}
+                isLoggedIn={!!user}
               />
+            ) : (
+              <ShareButton onClick={() => handleShare(true)} />
             )}
+
+            <ShareModal
+              open={shareModalOpen}
+              onClose={() => setShareModalOpen(false)}
+              onShare={handleShareConfirm}
+              isPreSolve={isPreSolveShare}
+            />
           </>
         )}
 
