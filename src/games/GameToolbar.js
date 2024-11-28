@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,12 +10,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import SecurityIcon from "@mui/icons-material/Security";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import { useStytchUser } from "@stytch/react";
+import StreakCounter from "../components/StreakCounter";
 
 const GameToolbar = ({
   basePath,
@@ -39,6 +43,7 @@ const GameToolbar = ({
   ],
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { user } = useStytchUser();
 
   const handleKofiClick = () => {
     window.open("https://ko-fi.com/V7V2162LVY", "_blank");
@@ -196,7 +201,6 @@ const GameToolbar = ({
       </List>
     </Box>
   );
-
   return (
     <Box sx={{ borderBottom: "1px solid black" }}>
       <AppBar position="static" elevation={0}>
@@ -218,14 +222,18 @@ const GameToolbar = ({
             />
           </Box>
 
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={toggleDrawer(true)}
-            sx={{ ml: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <StreakCounter isLoggedIn={user} />
+
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={toggleDrawer(true)}
+              sx={{ ml: "1px" }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
 
