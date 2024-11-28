@@ -16,8 +16,6 @@ export const getPTDate = (date = new Date()) => {
  */
 export const formatPTDateString = (date) => {
   const ptDate = getPTDate(date);
-  console.log("formatPTDateString");
-  console.log(ptDate);
   return (
     ptDate.getFullYear() +
     "-" +
@@ -31,9 +29,6 @@ export const formatPTDateString = (date) => {
  * Generic function to get data for a specific date from a dataset
  */
 export const getDataForDate = (date, dataset) => {
-  console.log("getDataForDate");
-  console.log(date);
-  console.log(dataset);
   if (!date || !dataset || !Array.isArray(dataset)) {
     return null;
   }

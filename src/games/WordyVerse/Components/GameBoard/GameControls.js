@@ -1,7 +1,8 @@
-import React from 'react';
-import { Box, Typography, IconButton, Tooltip } from '@mui/material';
-import { ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
-import { keyframes } from '@mui/system';
+import React from "react";
+import { Box, Typography, IconButton, Tooltip } from "@mui/material";
+import { ChevronLeft, ChevronRight, Lightbulb } from "lucide-react";
+import { keyframes } from "@mui/system";
+import GameHint from "../../../../components/GameHint";
 
 const popIn = keyframes`
   0% { transform: scale(0.8); opacity: 0; }
@@ -9,12 +10,12 @@ const popIn = keyframes`
   100% { transform: scale(1); opacity: 1; }
 `;
 
-const GameControls = ({ 
-  currentDate, 
-  onDateChange, 
-  showHint, 
-  onHintToggle, 
-  wordData 
+const GameControls = ({
+  currentDate,
+  onDateChange,
+  showHint,
+  onHintToggle,
+  wordData,
 }) => {
   return (
     <>
@@ -63,8 +64,8 @@ const GameControls = ({
             onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
             tabIndex={-1}
             sx={{
-              color: showHint ? "#F93854" : "action.disabled",
-              "&:hover": { color: "#F93854" },
+              color: "action.disabled",
+              "&:hover": { color: "black" },
               transition: "color 0.3s ease",
             }}
           >
@@ -73,19 +74,7 @@ const GameControls = ({
         </Tooltip>
       </Box>
 
-      {showHint && (
-        <Typography
-          variant="body2"
-          sx={{
-            mb: 2,
-            color: "#F93854",
-            fontStyle: "italic",
-            animation: `${popIn} 0.3s ease-in`,
-          }}
-        >
-          Hint: {wordData.theme}
-        </Typography>
-      )}
+      <GameHint hint={wordData.theme} open={showHint} onClose={onHintToggle} />
     </>
   );
 };
