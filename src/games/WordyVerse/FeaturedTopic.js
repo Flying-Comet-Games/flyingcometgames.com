@@ -10,25 +10,17 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
   const theme = useTheme();
 
   return (
-    <Button
-      component={Link}
-      to={link}
+    <Box
       sx={{
         textTransform: 'none',
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         padding: 2,
-        borderRadius: "12px",
+        // borderRadius: "12px",
         backgroundColor: bgColor || theme.palette.grey[300],
-        border: "1px solid black",
-        boxShadow: theme.shadows[2],
         width: "100%",
         maxWidth: "600px",
-
-        '&:hover': {
-          backgroundColor: theme => theme.palette.grey[200],
-        },
 
 
       }}
@@ -72,7 +64,7 @@ const FeaturedTopic = ({ svgLogo, title, link, bgColor }) => {
         logoSrc={svgLogo}
         backgroundColor="#ffffff"
       />
-    </Button>
+    </Box>
   );
 };
 
