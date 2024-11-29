@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Button, Modal, IconButton } from "@mui/material";
 import { X as CloseIcon, Send as SendIcon } from "lucide-react";
+import SignupButton from "../games/WordyVerse/SignupButton";
 
 const ModalContent = ({ children, success }) => (
   <Box
@@ -145,7 +146,8 @@ export const ShareModal = ({
 
         {/* Action Buttons */}
         <Button
-          width="80%"
+          fullWidth
+          startIcon={<SendIcon />}
           variant="contained"
           onClick={onShare}
           sx={{
@@ -160,7 +162,7 @@ export const ShareModal = ({
           {!isGameOver ? "Share this puzzle" : "Share my score"}
         </Button>
 
-        <Button
+        {/* <Button
           width="80%"
           variant="contained"
           onClick={onCreateAccount}
@@ -173,7 +175,9 @@ export const ShareModal = ({
           }}
         >
           Create my free account!
-        </Button>
+        </Button> */}
+
+        <SignupButton />
 
         {/* Celebration Duck - only show for successful game over */}
         {isGameOver && isCorrect && (
@@ -184,7 +188,7 @@ export const ShareModal = ({
             sx={{
               position: "absolute",
               bottom: -3,
-              right: 10,
+              right: 0,
               width: "30px",
               height: "auto",
             }}

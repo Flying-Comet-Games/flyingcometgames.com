@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Tooltip } from "@mui/material";
+import { getStreakFromStorage } from "./StreakUtil";
 
-const StreakCounter = ({ streak = 0, isLoggedIn = false }) => {
+const StreakCounter = ({ streak = getStreakFromStorage()['count'], isLoggedIn = false }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {

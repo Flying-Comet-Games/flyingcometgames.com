@@ -19,6 +19,7 @@ import {
   ShareButton,
   ShareModal,
 } from "../../../components/ShareModal";
+import { getStreakFromStorage, newStreak, updateStreak } from "../../../components/StreakUtil";
 
 const BaseWordyGame = ({
   title,
@@ -42,6 +43,7 @@ const BaseWordyGame = ({
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [isPreSolveShare, setIsPreSolveShare] = useState(false);
   const [gameState, setGameState] = useState(null);
+  const [streak, setStreak] = useState(getStreakFromStorage().count);
 
   const isDateLocked = (date) => {
     if (user) return false;
@@ -105,6 +107,11 @@ const BaseWordyGame = ({
         setGameOver(true);
         // Automatically show share modal when game ends
         setShareModalOpen(true);
+
+        // Update streak when game ends, regardless of win/loss
+        const newStreak = updateStreak(currentDate);
+        setStreak(newStreak);
+
 
         logGameEnded(title, {
           won: isCorrect,

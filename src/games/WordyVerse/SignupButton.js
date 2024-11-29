@@ -4,7 +4,7 @@ import { User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useStytchUser } from "@stytch/react";
 
-const SignupButton = ({ containerStyles = {}, buttonStyles = {} }) => {
+const SignupButton = ({ buttonText = "Create a free account!", containerStyles = {}, buttonStyles = {} }) => {
   const navigate = useNavigate();
   const { user } = useStytchUser();
 
@@ -40,7 +40,7 @@ const SignupButton = ({ containerStyles = {}, buttonStyles = {} }) => {
           ...buttonStyles,
         }}
       >
-        Create a free account!
+        {buttonText}
       </Button>
     </Box>
   );
