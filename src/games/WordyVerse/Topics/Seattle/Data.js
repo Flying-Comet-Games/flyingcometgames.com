@@ -1,293 +1,373 @@
-// Data.js
 export const SEATTLE_WORDS = [
-  {
-    date: "2024-11-01",
-    theme: "Feature",
-    word: "SOUND",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-02",
-    theme: "Name",
-    word: "KERRY",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-03",
-    theme: "Feature",
-    word: "CREEK",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-04",
-    theme: "Building",
-    word: "TOWER",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-05",
-    theme: "Name",
-    word: "AURORA",
-    characterCount: 6,
-  },
-  {
-    date: "2024-11-06",
-    theme: "Name",
-    word: "EZELLS",
-    characterCount: 6,
-  },
-  {
-    date: "2024-11-07",
-    theme: "Feature",
-    word: "CANAL",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-08",
-    theme: "Name",
-    word: "YESLER",
-    characterCount: 6,
-  },
-  {
-    date: "2024-11-09",
-    theme: "Other",
-    word: "STORM",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-10",
-    theme: "Feature",
-    word: "BRIDGE",
-    characterCount: 6,
-  },
-  {
-    date: "2024-11-11",
-    theme: "Other",
-    word: "TRAIN",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-12",
-    theme: "Feature",
-    word: "COAST",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-13",
-    theme: "Feature",
-    word: "TREES",
-    characterCount: 5,
-  },
-  {
-    date: "2024-11-14",
-    theme: "Feature",
-    word: "FERNS",
-    characterCount: 5,
-  },
+  // November 2024
   {
     date: "2024-11-15",
     theme: "Name",
-    word: "TAHOMA",
-    characterCount: 6,
+    word: "SEWARD",
+    characterCount: 6
   },
   {
     date: "2024-11-16",
-    theme: "Other",
-    word: "SLOOP",
-    characterCount: 5,
+    theme: "Name",
+    word: "CHERRY",
+    characterCount: 6
   },
   {
     date: "2024-11-17",
     theme: "Feature",
-    word: "BASIN",
-    characterCount: 5,
+    word: "LOCKS",
+    characterCount: 5
   },
   {
     date: "2024-11-18",
-    theme: "Other",
-    word: "MAPLE",
-    characterCount: 5,
+    theme: "Name",
+    word: "BAKER",
+    characterCount: 5
   },
   {
     date: "2024-11-19",
-    theme: "Other",
-    word: "GARDEN",
-    characterCount: 6,
+    theme: "Business",
+    word: "SALTYS",
+    characterCount: 6
   },
   {
     date: "2024-11-20",
-    theme: "Other",
-    word: "TROLL",
-    characterCount: 5,
+    theme: "Place",
+    word: "LUMEN",
+    characterCount: 5
   },
   {
     date: "2024-11-21",
     theme: "Name",
-    word: "DICKS",
-    characterCount: 5,
+    word: "LESCHI",
+    characterCount: 6
   },
   {
     date: "2024-11-22",
-    theme: "Other",
-    word: "FERRY",
-    characterCount: 5,
+    theme: "Place",
+    word: "PRATT",
+    characterCount: 5
   },
   {
     date: "2024-11-23",
-    theme: "Other",
-    word: "GORGE",
-    characterCount: 5,
+    theme: "Place",
+    word: "MANEKI",
+    characterCount: 6
   },
   {
     date: "2024-11-24",
-    theme: "Name",
-    word: "TOPPOT",
-    characterCount: 6,
+    theme: "Place",
+    word: "FRANZ",
+    characterCount: 5
   },
   {
     date: "2024-11-25",
     theme: "Name",
-    word: "IVARS",
-    characterCount: 5,
+    word: "BOREN",
+    characterCount: 5
   },
   {
     date: "2024-11-26",
-    theme: "Name",
-    word: "DENNY",
-    characterCount: 5,
+    theme: "Business",
+    word: "COSTCO",
+    characterCount: 6
   },
   {
     date: "2024-11-27",
-    theme: "Name",
-    word: "PUGET",
-    characterCount: 5,
+    theme: "Place",
+    word: "HILLMAN",
+    characterCount: 5
   },
   {
     date: "2024-11-28",
-    theme: "Animal",
-    word: "ORCAS",
-    characterCount: 5,
+    theme: "Place",
+    word: "CANLIS",
+    characterCount: 6
   },
   {
     date: "2024-11-29",
-    theme: "Other",
-    word: "TRAIL",
-    characterCount: 5,
+    theme: "Business",
+    word: "LADRO",
+    characterCount: 5
   },
   {
     date: "2024-11-30",
     theme: "Name",
-    word: "UNION",
-    characterCount: 5,
+    word: "MERCER",
+    characterCount: 6
   },
+  // December 2024
   {
     date: "2024-12-01",
-    theme: "Name",
-    word: "SMITH",
-    characterCount: 5,
+    theme: "Business",
+    word: "UMAMI",
+    characterCount: 5
   },
   {
     date: "2024-12-02",
     theme: "Other",
-    word: "CEDAR",
-    characterCount: 5,
+    word: "TULIP",
+    characterCount: 5
   },
   {
     date: "2024-12-03",
-    theme: "Name",
-    word: "SONICS",
-    characterCount: 6,
+    theme: "Phrase",
+    word: "FREEZE",
+    characterCount: 6
   },
   {
     date: "2024-12-04",
     theme: "Feature",
-    word: "RIVER",
-    characterCount: 5,
+    word: "VOAST",
+    characterCount: 5
   },
   {
     date: "2024-12-05",
     theme: "Feature",
-    word: "HARBOR",
-    characterCount: 6,
+    word: "TUNNEL",
+    characterCount: 6
   },
   {
     date: "2024-12-06",
-    theme: "Feature",
-    word: "MOUNT",
-    characterCount: 5,
+    theme: "Other",
+    word: "GRUNGE",
+    characterCount: 6
   },
   {
     date: "2024-12-07",
-    theme: "Other",
-    word: "MURAL",
-    characterCount: 5,
+    theme: "Name",
+    word: "BAKER",
+    characterCount: 5
   },
   {
     date: "2024-12-08",
     theme: "Name",
-    word: "SAFECO",
-    characterCount: 6,
+    word: "STORM",
+    characterCount: 5
   },
   {
     date: "2024-12-09",
-    theme: "Feature",
-    word: "BEACH",
-    characterCount: 5,
+    theme: "Thing",
+    word: "EAGLE",
+    characterCount: 5
   },
   {
     date: "2024-12-10",
-    theme: "Other",
-    word: "WAVES",
-    characterCount: 5,
+    theme: "Acronym",
+    word: "MOPOP",
+    characterCount: 5
   },
   {
     date: "2024-12-11",
-    theme: "Feature",
-    word: "SHORE",
-    characterCount: 5,
+    theme: "Other",
+    word: "RAINY",
+    characterCount: 5
   },
   {
     date: "2024-12-12",
-    theme: "Animal",
-    word: "EAGLE",
-    characterCount: 5,
+    theme: "Name",
+    word: "KUBOTA",
+    characterCount: 6
   },
   {
     date: "2024-12-13",
-    theme: "Feature",
-    word: "TRAIL",
-    characterCount: 5,
+    theme: "Name",
+    word: "BRUCE",
+    characterCount: 5
   },
   {
     date: "2024-12-14",
-    theme: "Feature",
-    word: "VISTA",
-    characterCount: 5,
+    theme: "Thing",
+    word: "SALMON",
+    characterCount: 6
   },
   {
     date: "2024-12-15",
-    theme: "Feature",
-    word: "BLUFF",
-    characterCount: 5,
+    theme: "Other",
+    word: "FISHER",
+    characterCount: 6
   },
   {
     date: "2024-12-16",
-    theme: "Feature",
-    word: "ISLAND",
-    characterCount: 6,
+    theme: "Other",
+    word: "OTTER",
+    characterCount: 5
   },
   {
     date: "2024-12-17",
-    theme: "Name",
-    word: "STONE",
-    characterCount: 5,
+    theme: "Place",
+    word: "QUEEN",
+    characterCount: 5
   },
   {
     date: "2024-12-18",
     theme: "Name",
-    word: "BEACON",
-    characterCount: 6,
+    word: "CHERRY",
+    characterCount: 6
   },
+  {
+    date: "2024-12-19",
+    theme: "Name",
+    word: "MCCAW",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-20",
+    theme: "Feature",
+    word: "MARINA",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-21",
+    theme: "Place",
+    word: "SKAGIT",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-22",
+    theme: "Other",
+    word: "MURAL",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-23",
+    theme: "Name",
+    word: "OLIVE",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-24",
+    theme: "Place",
+    word: "VASHON",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-25",
+    theme: "Name",
+    word: "EDGAR",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-26",
+    theme: "Two words",
+    word: "THEPI",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-27",
+    theme: "Name",
+    word: "KRACKE",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-28",
+    theme: "Feature",
+    word: "MARKET",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-29",
+    theme: "Other",
+    word: "FLIGHT",
+    characterCount: 6
+  },
+  {
+    date: "2024-12-30",
+    theme: "Acronym",
+    word: "MOHAI",
+    characterCount: 5
+  },
+  {
+    date: "2024-12-31",
+    theme: "Other",
+    word: "GREYS",
+    characterCount: 5
+  },
+  // January 2025
+  {
+    date: "2025-01-01",
+    theme: "Two words",
+    word: "THEAVE",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-03",
+    theme: "Business",
+    word: "TIMES",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-04",
+    theme: "Name",
+    word: "DRAVUS",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-05",
+    theme: "Other",
+    word: "YUKON",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-06",
+    theme: "Place",
+    word: "GOLDEN",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-07",
+    theme: "Place",
+    word: "GARDEN",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-08",
+    theme: "Other",
+    word: "HUSKY",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-09",
+    theme: "Business",
+    word: "VOAST",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-10",
+    theme: "Other",
+    word: "CRAFT",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-11",
+    theme: "Business",
+    word: "UNEEDA",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-12",
+    theme: "Name",
+    word: "PEARL",
+    characterCount: 5
+  },
+  {
+    date: "2025-01-13",
+    theme: "Name",
+    word: "BRANDY",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-14",
+    theme: "Other",
+    word: "DAHLIA",
+    characterCount: 6
+  },
+  {
+    date: "2025-01-15",
+    theme: "Other",
+    word: "HAWKS",
+    characterCount: 5
+  }
 ];
 
 export const getWordForDate = (date) => {
