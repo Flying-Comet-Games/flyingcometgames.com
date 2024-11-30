@@ -6,7 +6,7 @@ import { getDataForDate, getPTDate } from "../../../utils/date";
 
 export const SEATTLE_QUESTIONS = [
   {
-    date: "2024-11-20",
+    date: "2024-11-30",
     questions: [
       {
         id: "sea-1120-1",
