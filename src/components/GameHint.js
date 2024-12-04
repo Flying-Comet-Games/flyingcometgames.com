@@ -43,7 +43,7 @@ const HintModal = ({ hint, open, onClose, children }) => {
               color: 'text.primary',
             }}
           >
-            Hint: {hint}
+            Hint: <br /> {hint}
           </Typography>
         </Box>
 
