@@ -3,105 +3,105 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-11-15",
     theme:
-"This park was named after the Secretary of State who negotiated the Alaska Purchase, featuring a gorgeous lakefront and amphitheater",
+      "This park was named after the Secretary of State who negotiated the Alaska Purchase, featuring a gorgeous lakefront and amphitheater",
     word: "SEWARD",
     characterCount: 6,
   },
   {
     date: "2024-11-16",
     theme:
-"These springtime blossoms draw thousands of visitors to the UW Quad each March and April",
+      "These springtime blossoms draw thousands of visitors to the UW Quad each March and April",
     word: "CHERRY",
     characterCount: 6,
   },
   {
     date: "2024-11-17",
     theme:
-"This engineering marvel in Ballard allows boats to travel between different water levels",
+      "This engineering marvel in Ballard allows boats to travel between different water levels",
     word: "LOCKS",
     characterCount: 5,
   },
   {
     date: "2024-11-18",
     theme:
-     "This snow-capped peak is visible from Seattle on clear days, standing as Washington's third-highest mountain",
+      "This snow-capped peak is visible from Seattle on clear days, standing as Washington's third-highest mountain",
     word: "BAKER",
     characterCount: 5,
   },
   {
     date: "2024-11-19",
     theme:
-     "This Alki Beach restaurant offers spectacular water views and renowned seafood dishes",
+      "This Alki Beach restaurant offers spectacular water views and renowned seafood dishes",
     word: "SALTYS",
     characterCount: 6,
   },
   {
     date: "2024-11-20",
     theme:
-     "This stadium, previously known as CenturyLink Field, hosts NFL games and major concerts",
+      "This stadium, previously known as CenturyLink Field, hosts NFL games and major concerts",
     word: "LUMEN",
     characterCount: 5,
   },
   {
     date: "2024-11-21",
     theme:
-   "This waterfront neighborhood honors a Nisqually chief who was friendly with early settlers",
+      "This waterfront neighborhood honors a Nisqually chief who was friendly with early settlers",
     word: "LESCHI",
     characterCount: 6,
   },
   {
     date: "2024-11-22",
     theme:
- "Home to Seattle's first public swimming pool, this Central District park remains a community hub",
+      "Home to Seattle's first public swimming pool, this Central District park remains a community hub",
     word: "PRATT",
     characterCount: 5,
   },
   {
     date: "2024-11-23",
     theme:
-    "Seattle's oldest Japanese restaurant, serving sushi in the International District since 1904",
+      "Seattle's oldest Japanese restaurant, serving sushi in the International District since 1904",
     word: "MANEKI",
     characterCount: 6,
   },
   {
     date: "2024-11-24",
     theme:
-  "Look for the iconic red neon sign of this historic bakery near the waterfront",
+      "Look for the iconic red neon sign of this historic bakery near the waterfront",
     word: "FRANZ",
     characterCount: 5,
   },
   {
     date: "2024-11-25",
     theme:
-"A major downtown avenue named for a pioneering family who arrived in the 1850s",
+      "A major downtown avenue named for a pioneering family who arrived in the 1850s",
     word: "BOREN",
     characterCount: 5,
   },
   {
     date: "2024-11-26",
     theme:
-   "This retail giant began in Seattle's SODO district, famous for bulk shopping and $1.50 hot dogs",
+      "This retail giant began in Seattle's SODO district, famous for bulk shopping and $1.50 hot dogs",
     word: "COSTCO",
     characterCount: 6,
   },
   {
     date: "2024-11-27",
     theme:
-"Visit this city park's Japanese gardens for an unmatched view of the Cascades",
+      "Visit this city park's Japanese gardens for an unmatched view of the Cascades",
     word: "HILLMAN",
     characterCount: 7,
   },
   {
     date: "2024-11-28",
     theme:
-     "This fine dining institution above Lake Union has hosted celebrities and special occasions since 1950",
+      "This fine dining institution above Lake Union has hosted celebrities and special occasions since 1950",
     word: "CANLIS",
     characterCount: 6,
   },
   {
     date: "2024-11-29",
     theme:
-  "A beloved local coffee chain that started in 1993 on Queen Anne Hill",
+      "A beloved local coffee chain that started in 1993 on Queen Anne Hill",
     word: "LADRO",
     characterCount: 5,
   },
@@ -114,28 +114,28 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-01",
     theme:
-    "This Capitol Hill restaurant puts an Asian twist on American fast food classics",
+      "This Capitol Hill restaurant puts an Asian twist on American fast food classics",
     word: "UMAMI",
     characterCount: 5,
   },
   {
     date: "2024-12-02",
     theme:
-  "These flowers create stunning multicolored fields in the Skagit Valley each spring",
+      "These flowers create stunning multicolored fields in the Skagit Valley each spring",
     word: "TULIP",
     characterCount: 5,
   },
   {
     date: "2024-12-03",
     theme:
-"When forecasters predict this weather event, Seattleites clear grocery store shelves",
+      "When forecasters predict this weather event, Seattleites clear grocery store shelves",
     word: "FREEZE",
     characterCount: 6,
   },
   {
     date: "2024-12-04",
     theme:
-"A unique coffee chain born in Capitol Hill, known for its latte art and minimalist design",
+     "This Seattle startup created an innovative video booth for capturing guest messages at weddings and events",
     word: "VOAST",
     characterCount: 5,
   },
@@ -148,14 +148,14 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-06",
     theme:
-"This music movement put Seattle on the cultural map in the early 1990s",
+      "This music movement put Seattle on the cultural map in the early 1990s",
     word: "GRUNGE",
     characterCount: 6,
   },
   {
     date: "2024-12-07",
     theme:
-     "This volcanic peak creates its own weather systems visible from Seattle",
+      "This volcanic peak creates its own weather systems visible from Seattle",
     word: "BAKER",
     characterCount: 5,
   },
@@ -168,14 +168,14 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-09",
     theme:
-     "These majestic birds can often be spotted fishing along the Puget Sound shoreline",
+      "These majestic birds can often be spotted fishing along the Puget Sound shoreline",
     word: "EAGLE",
     characterCount: 5,
   },
   {
     date: "2024-12-10",
     theme:
-   "This Seattle Center museum celebrates popular culture and music history",
+      "This Seattle Center museum celebrates popular culture and music history",
     word: "MOPOP",
     characterCount: 5,
   },
@@ -188,42 +188,42 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-12",
     theme:
-"This stunning Japanese garden in South Seattle was created by a pioneering Asian-American landscaper",
+      "This stunning Japanese garden in South Seattle was created by a pioneering Asian-American landscaper",
     word: "KUBOTA",
     characterCount: 6,
   },
   {
     date: "2024-12-13",
     theme:
-     "This martial arts legend is buried in Lake View Cemetery on Capitol Hill",
+      "This martial arts legend is buried in Lake View Cemetery on Capitol Hill",
     word: "BRUCE",
     characterCount: 5,
   },
   {
     date: "2024-12-14",
     theme:
- "Watch these iconic fish leap up the fish ladder at the Ballard Locks",
+      "Watch these iconic fish leap up the fish ladder at the Ballard Locks",
     word: "SALMON",
     characterCount: 6,
   },
   {
     date: "2024-12-15",
     theme:
-    "These commercial fishing boats can be seen heading out from Fishermen's Terminal",
+      "These commercial fishing boats can be seen heading out from Fishermen's Terminal",
     word: "FISHER",
     characterCount: 6,
   },
   {
     date: "2024-12-16",
     theme:
-  "These playful marine mammals can sometimes be spotted in Elliott Bay",
+      "These playful marine mammals can sometimes be spotted in Elliott Bay",
     word: "OTTER",
     characterCount: 5,
   },
   {
     date: "2024-12-17",
     theme:
-"This hill offers some of the best city views and was once Seattle's primary LGBTQ+ neighborhood",
+      "This hill offers some of the best city views and was once Seattle's primary LGBTQ+ neighborhood",
     word: "QUEEN",
     characterCount: 5,
   },
@@ -236,42 +236,42 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-19",
     theme:
-"This performing arts venue near Seattle Center was named for a telecommunications pioneer",
+      "This performing arts venue near Seattle Center was named for a telecommunications pioneer",
     word: "MCCAW",
     characterCount: 5,
   },
   {
     date: "2024-12-20",
     theme:
-"This waterfront area houses hundreds of boats and offers stunning sunset views",
+      "This waterfront area houses hundreds of boats and offers stunning sunset views",
     word: "MARINA",
     characterCount: 6,
   },
   {
     date: "2024-12-21",
     theme:
-     "This valley north of Seattle is famous for its tulip fields and eagle watching",
+      "This valley north of Seattle is famous for its tulip fields and eagle watching",
     word: "SKAGIT",
     characterCount: 6,
   },
   {
     date: "2024-12-22",
     theme:
-     "These large public art pieces can be found throughout Pioneer Square and the International District",
+      "These large public art pieces can be found throughout Pioneer Square and the International District",
     word: "MURAL",
     characterCount: 5,
   },
   {
     date: "2024-12-23",
     theme:
-    "This street on Capitol Hill is home to many popular restaurants and bars",
+      "This street on Capitol Hill is home to many popular restaurants and bars",
     word: "OLIVE",
     characterCount: 5,
   },
   {
     date: "2024-12-24",
     theme:
-"This island, accessible only by ferry, is known for its artist community and local farms",
+      "This island, accessible only by ferry, is known for its artist community and local farms",
     word: "VASHON",
     characterCount: 6,
   },
@@ -284,21 +284,21 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-26",
     theme:
-"This iconic restaurant near Pike Place Market is known for its coconut cream pies",
+      "This iconic restaurant near Pike Place Market is known for its coconut cream pies",
     word: "THEPI",
     characterCount: 5,
   },
   {
     date: "2024-12-27",
     theme:
-"This park offers one of Seattle's best viewpoints of downtown and Mount Rainier",
+      "This park offers one of Seattle's best viewpoints of downtown and Mount Rainier",
     word: "KRACKE",
     characterCount: 6,
   },
   {
     date: "2024-12-28",
     theme:
-"This historic downtown destination is famous for fish-throwing and local vendors",
+      "This historic downtown destination is famous for fish-throwing and local vendors",
     word: "MARKET",
     characterCount: 6,
   },
@@ -317,7 +317,7 @@ export const SEATTLE_WORDS = [
   {
     date: "2024-12-31",
     theme:
-"This popular medical TV show was set in Seattle but filmed elsewhere",
+      "This popular medical TV show was set in Seattle but filmed elsewhere",
     word: "GREYS",
     characterCount: 5,
   },
@@ -354,7 +354,7 @@ export const SEATTLE_WORDS = [
   {
     date: "2025-01-07",
     theme:
-     "This botanical attraction near the Space Needle features numerous glass sculptures",
+      "This botanical attraction near the Space Needle features numerous glass sculptures",
     word: "GARDEN",
     characterCount: 6,
   },
@@ -379,14 +379,14 @@ export const SEATTLE_WORDS = [
   {
     date: "2025-01-11",
     theme:
-     "This historic burger joint in Fremont is known for its walk-up window",
+      "This historic burger joint in Fremont is known for its walk-up window",
     word: "UNEEDA",
     characterCount: 6,
   },
   {
     date: "2025-01-12",
     theme:
-     "This street in Capitol Hill is lined with popular bars and restaurants",
+      "This street in Capitol Hill is lined with popular bars and restaurants",
     word: "PEARL",
     characterCount: 5,
   },
@@ -399,7 +399,7 @@ export const SEATTLE_WORDS = [
   {
     date: "2025-01-14",
     theme:
-     "These flowers bloom throughout the city in summer, especially at the Woodland Park Zoo",
+      "These flowers bloom throughout the city in summer, especially at the Woodland Park Zoo",
     word: "DAHLIA",
     characterCount: 6,
   },
