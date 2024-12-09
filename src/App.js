@@ -57,6 +57,7 @@ import SeattleTrivia from "./games/TriviaRoundup/Topics/Seattle/SeattleTrivia";
 import SanFranciscoTrivia from "./games/TriviaRoundup/Topics/SanFrancisco/SanFranciscoTrivia";
 import NewJerseyTrivia from "./games/TriviaRoundup/Topics/NewJersey/NewJerseyTrivia";
 import SFStandardDemo from "./games/TriviaRoundup/Topics/SFStandardDemo/SFStandardDemo";
+import Tempus from "./games/Tempus/Tempus";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -94,6 +95,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/raining-blocks" element={<AvoidBlocks />} />
           <Route path="/cowboy-quest" element={<EmojiQuest />} />
           <Route path="/color-dash" element={<ColorDash />} />
+          <Route path="/tempus" element={<Tempus />} />
           <Route
             path="/startup-speedrun-simulator"
             element={<StartupSpeedrunSimulator />}
