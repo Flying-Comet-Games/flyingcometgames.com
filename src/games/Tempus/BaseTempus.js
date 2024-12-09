@@ -81,6 +81,7 @@ const MediaDisplay = ({ item }) => {
         sx={{
           width: "100%",
           maxWidth: 400,
+          maxHeight: 350,
           mx: "auto",
           aspectRatio: "2/3",
           position: "relative",
@@ -93,8 +94,8 @@ const MediaDisplay = ({ item }) => {
             width: "100%",
             height: "100%",
             objectFit: "contain",
-            borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            // borderRadius: "8px",
+            // boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
           }}
         />
       </Box>
