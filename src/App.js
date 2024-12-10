@@ -58,6 +58,7 @@ import SanFranciscoTrivia from "./games/TriviaRoundup/Topics/SanFrancisco/SanFra
 import NewJerseyTrivia from "./games/TriviaRoundup/Topics/NewJersey/NewJerseyTrivia";
 import SFStandardDemo from "./games/TriviaRoundup/Topics/SFStandardDemo/SFStandardDemo";
 import Tempus from "./games/Tempus/Tempus";
+import SeattleCrosswordle from "./games/CrossWordy/CrossWordy";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -111,6 +112,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/boba-tea" element={<BobaWordy />} />
           <Route path="/wordy-verse" element={<WordyVerse />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/crosswordy" element={<SeattleCrosswordle />} />
           <Route path="/wordy-verse/auth" element={<Auth />} />
           <Route path="/wordy-verse/gymnastics" element={<GymnasticsWordy />} />
           <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
