@@ -32,16 +32,16 @@ const GameToolbar = ({
       icon: `${process.env.PUBLIC_URL}/assets/logo.svg`,
       path: "/",
     },
-    {
-      text: "Wordy-verse",
-      icon: `${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`,
-      path: "/wordy-verse",
-    },
-    {
-      text: "Trivia Roundup",
-      icon: `${process.env.PUBLIC_URL}/assets/icons/trivia-roundup-icon.svg`,
-      path: "/trivia-roundup/seattle",
-    },
+    // {
+    //   text: "Wordy-verse",
+    //   icon: `${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`,
+    //   path: "/wordy-verse",
+    // },
+    // {
+    //   text: "Trivia Roundup",
+    //   icon: `${process.env.PUBLIC_URL}/assets/icons/trivia-roundup-icon.svg`,
+    //   path: "/trivia-roundup/seattle",
+    // },
   ],
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -80,7 +80,7 @@ const GameToolbar = ({
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <Box
+      {/* <Box
         component="a"
         href="https://docs.google.com/forms/d/e/1FAIpQLSeYUR5M-y0ys8IYcgHAp2duNV-RphHx9h82TWCmY-5zEYoKSA/viewform"
         target="_blank"
@@ -109,7 +109,7 @@ const GameToolbar = ({
             display: "block",
           }}
         />
-      </Box>
+      </Box> */}
 
       <List>
         {menuItems.map((item) => (
@@ -168,7 +168,7 @@ const GameToolbar = ({
               display: "flex",
               alignItems: "center",
               gap: 1.5,
-              backgroundColor: "#B8C26C",
+              backgroundColor: "black",
               color: "white",
               padding: "12px 24px",
               borderRadius: "100px",
