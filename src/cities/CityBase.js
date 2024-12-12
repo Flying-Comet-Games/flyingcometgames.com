@@ -74,7 +74,7 @@ const CityBase = ({ cityName, cityPath }) => {
               />
             </Grid>
 
-            <Grid mb={2} size={12}>
+            <Grid mb={4} size={12}>
               <SignupButton />
             </Grid>
 
@@ -88,6 +88,30 @@ const CityBase = ({ cityName, cityPath }) => {
               >
                 Coming Soon!
               </Typography>
+            </Grid>
+
+            <Grid mb={2} size={12}>
+              <GameTileBase
+                title="TIL Trivia"
+                description={`Today I learned” ${cityName} trivia, increases in difficulty as you win.`}
+                svgLogo={`${process.env.PUBLIC_URL}/assets/game-tiles/til-trivia.svg`}
+                // link={`${cityPath}/til-trivia`}
+                link="/"
+                bgColor="#c0abeb"
+                isLocked={true}
+              />
+            </Grid>
+
+            <Grid mb={2} size={12}>
+              <GameTileBase
+                title="Quick Quack"
+                description={`Complete the phrase before the clock fills it in for you, inspired by Wheel of Fortune.`}
+                svgLogo={`${process.env.PUBLIC_URL}/assets/game-tiles/quick-quack-seattle.svg`}
+                // link={`${cityPath}/til-trivia`}
+                link="/"
+                bgColor="#91b2d1"
+                isLocked={true}
+              />
             </Grid>
           </Box>
         </Grid>
