@@ -18,7 +18,7 @@ const KofiButton = () => {
         mx: "auto",
         color: "white",
         padding: "12px 24px",
-        borderRadius: "10px",
+        borderRadius: 20,
         cursor: "pointer",
         transition: "all 0.2s ease",
         "&:hover": {

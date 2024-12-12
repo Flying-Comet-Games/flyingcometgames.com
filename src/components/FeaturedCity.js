@@ -20,7 +20,7 @@ const FeaturedCity = ({ title, bgColor }) => {
         backgroundColor: bgColor || "#91b2d1",
         position: "relative",
         border: "1px black solid",
-        borderRadius: "2px",
+        borderRadius: "5px",
         minHeight: "175px",
       }}
     >
@@ -42,6 +42,7 @@ const FeaturedCity = ({ title, bgColor }) => {
         sx={{
           width: "50%",
           fontWeight: 500,
+          borderRadius: 20,
           backgroundColor: "black",
           color: "white",
           "&:hover": {
