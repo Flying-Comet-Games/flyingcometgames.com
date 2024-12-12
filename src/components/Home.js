@@ -59,7 +59,7 @@ const Home = () => {
               mb: 2,
             }}
           >
-            Online Puzzle & Word Games
+            Feel-good games for insiders.
           </Typography>
           <Typography
             variant="h2"
@@ -72,7 +72,7 @@ const Home = () => {
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Entertain your brain with our curated mini-games inspired by NYT Games and classic puzzles.
+            Kick back with our curated collection of mini-games that put your local knowledge to the test.
           </Typography>
         </Box>
 
@@ -86,17 +86,6 @@ const Home = () => {
           }}
         >
           <GamesBody />
-        </Box>
-
-        <Box
-          sx={{
-            width: '100%',
-            pt: 5,
-            maxWidth: '100%', // Avoid overflow
-            boxSizing: 'border-box',
-          }}
-        >
-          <CollapsibleSEOContent />
         </Box>
       </Box>
 
@@ -114,10 +103,7 @@ const Home = () => {
         }}
       >
         <Typography variant="body2" color="text.secondary">
-          © 2024 Flying Comet Games. All rights reserved. Enjoy the best online puzzle and casual games.
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Explore our collection of games, including word puzzles, clicker games, reflex challenges, and color match games, optimized for both mobile and desktop users.
+          © 2024 Flying Comet Games. All rights reserved.
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           Connect with us: <Link to="https://twitter.com/CalliFuch" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Calli</Link> and <Link to="https://twitter.com/EntreEden" target="_blank" rel="noopener noreferrer" sx={{ color: theme.palette.primary.light }}>Eden</Link>
