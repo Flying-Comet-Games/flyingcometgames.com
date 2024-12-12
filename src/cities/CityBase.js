@@ -93,7 +93,7 @@ const CityBase = ({ cityName, cityPath }) => {
             <Grid mb={2} size={12}>
               <GameTileBase
                 title="TIL Trivia"
-                description={`Today I learned” ${cityName} trivia, increases in difficulty as you win.`}
+                description={`"Today I learned” ${cityName} trivia, increases in difficulty as you win.`}
                 svgLogo={`${process.env.PUBLIC_URL}/assets/game-tiles/til-trivia.svg`}
                 // link={`${cityPath}/til-trivia`}
                 link="/"
