@@ -316,7 +316,7 @@ const BaseWordyGame = ({
             <Keyboard
               onGuessUpdate={handleGuessUpdate}
               currentGuess={currentGuess}
-              wordData={wordData}
+              answerText={wordData.word}
               gameOver={gameOver}
               isGuessFocused={isGuessFocused}
               isLocked={false}

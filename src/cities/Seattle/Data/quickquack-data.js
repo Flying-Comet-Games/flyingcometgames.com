@@ -53,10 +53,6 @@ export const getPhraseForDate = (date) => {
     "-" +
     String(ptDate.getDate()).padStart(2, "0");
 
-    console.log("SHARING DATE STRING :)");
-    console.log(dateString);
-    console.log(SEATTLE_PHRASES.find((entry) => entry.date === dateString))
-
   return SEATTLE_PHRASES.find((entry) => entry.date === dateString);
 };
 

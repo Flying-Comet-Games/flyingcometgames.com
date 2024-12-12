@@ -51,8 +51,6 @@ const QuickQuackBase = ({
     if (!currentDate) return;
 
     const data = getPhraseForDate(currentDate);
-    console.log("Got the data!");
-    console.log(data);
     if (!data) {
       const latestPhraseData = findLatestAvailableDate();
       if (latestPhraseData) {
@@ -235,7 +233,7 @@ const QuickQuackBase = ({
       }}
     >
       <Box>
-        <Box
+        {/* <Box
           sx={{
             maxWidth: "600px",
             border: "1px black dotted",
@@ -246,7 +244,7 @@ const QuickQuackBase = ({
           }}
         >
           <GoogleAd slot="9715652655" />
-        </Box>
+        </Box> */}
 
         <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
 
@@ -284,7 +282,7 @@ const QuickQuackBase = ({
         <Keyboard
           onGuessUpdate={handleGuess}
           currentGuess=""
-          wordData={phraseData}
+          answerText={phraseData.phrase}
           gameOver={gameOver}
           guesses={[]}
         />
