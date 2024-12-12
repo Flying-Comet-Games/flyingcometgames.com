@@ -12,7 +12,7 @@ const KofiButton = () => {
         display: "flex",
         alignItems: "center",
         gap: 1.5,
-        mt: 2,
+        mt: 4,
         backgroundColor: "black",
         maxWidth: "240px",
         mx: "auto",

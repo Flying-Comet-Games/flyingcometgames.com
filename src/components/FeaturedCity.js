@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
 const FeaturedCity = ({ title, bgColor }) => {
   const theme = useTheme();
@@ -25,7 +26,7 @@ const FeaturedCity = ({ title, bgColor }) => {
     >
       <Typography
         sx={{
-          fontSize: { xs: "3rem", sm: "2rem", md: "2.5rem" },
+          fontSize: { xs: "3rem", sm: "3.15rem", md: "3.5rem" },
           fontWeight: 800,
           color: "black",
           mb: 2
@@ -36,6 +37,8 @@ const FeaturedCity = ({ title, bgColor }) => {
 
       <Button
         variant="contained"
+        component={Link}
+        to={`/${title}`}
         sx={{
           width: "50%",
           fontWeight: 500,

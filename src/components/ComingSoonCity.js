@@ -25,7 +25,7 @@ const ComingSoonCity = ({ title, bgColor }) => {
     >
       <Typography
         sx={{
-          fontSize: { xs: "3rem", sm: "2rem", md: "2.5rem" },
+          fontSize: { xs: "3rem", sm: "3.15rem", md: "3.5rem" },
           fontWeight: 800,
           color: "black",
           mb: 2
@@ -36,7 +36,7 @@ const ComingSoonCity = ({ title, bgColor }) => {
 
       <Typography
         sx={{
-          fontSize: { xs: "1rem", sm: "2rem", md: "2.5rem" },
+          fontSize: { xs: "1rem", sm: "1.25rem", md: "1.75rem" },
           color: "black",
           mb: 2
         }}

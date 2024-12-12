@@ -59,6 +59,7 @@ import NewJerseyTrivia from "./games/TriviaRoundup/Topics/NewJersey/NewJerseyTri
 import SFStandardDemo from "./games/TriviaRoundup/Topics/SFStandardDemo/SFStandardDemo";
 import Tempus from "./games/Tempus/Tempus";
 import SeattleCrosswordle from "./games/CrossWordy/CrossWordy";
+import SeattleHome from "./cities/Seattle/Seattle";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -102,6 +103,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
             element={<StartupSpeedrunSimulator />}
           />
           <Route path="/whack-a-mole" element={<WhackAMole />} />
+          <Route path="/seattle" element={<SeattleHome />} />
           <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
           <Route path="/my-strands" element={<TwitterStrands />} />
           <Route

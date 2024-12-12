@@ -39,7 +39,7 @@ const GameBody = () => {
           svgLogo={`${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`}
           description="A collection of themed word puzzles for niche content that’s new each day."
           title="Seattle"
-          link="/wordy-verse"
+          link="/seattle"
           bgColor="#91b2d1"
         />
       </Grid>
