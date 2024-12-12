@@ -18,7 +18,9 @@ const Keyboard = ({
   const handleKeyPress = (e) => {
     if (!wordData || gameOver) return;
 
-    if (e.key === "Enter" && currentGuess.length === wordData.word.length) {
+    const length = wordData.word ? wordData.word.length : wordData.phrase.length;
+
+    if (e.key === "Enter" && currentGuess.length === length) {
       e.preventDefault(); // Prevent form submission
       onGuessUpdate("ENTER");
     } else if (e.key === "Backspace") {
@@ -26,7 +28,7 @@ const Keyboard = ({
       onGuessUpdate("BACKSPACE");
     } else if (
       /^[A-Za-z]$/.test(e.key) &&
-      currentGuess.length < wordData.word.length
+      currentGuess.length < length
     ) {
       e.preventDefault();
       onGuessUpdate(e.key.toUpperCase());
@@ -42,21 +44,24 @@ const Keyboard = ({
   // On-screen keyboard handler
   const handleKeyClick = (key) => {
     if (gameOver) return;
+    const length = wordData.word ? wordData.word.length : wordData.phrase.length;
 
-    if (key === "ENTER" && currentGuess.length === wordData.word.length) {
+    if (key === "ENTER" && currentGuess.length === length) {
       onGuessUpdate("ENTER");
     } else if (key === "⌫") {
       onGuessUpdate("BACKSPACE");
-    } else if (currentGuess.length < wordData.word.length) {
+    } else if (currentGuess.length < length) {
       onGuessUpdate(key);
     }
   };
 
   const getKeyboardKeyColor = (key) => {
+    console.log("This is the word data: ");
+    console.log(wordData);
     if (!wordData || !guesses) return ["white", "black"];
 
     const keyUpperCase = key.toUpperCase();
-    const wordUpperCase = wordData.word.toUpperCase();
+    const wordUpperCase = wordData.word ? wordData.word.toUpperCase() : wordData.phrase.toUpperCase();
     let keyFound = false;
     let correctPosition = false;
 

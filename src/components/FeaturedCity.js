@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
-const FeaturedCity = ({ title, bgColor }) => {
+const FeaturedCity = ({ title, bgColor, link }) => {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,7 @@ const FeaturedCity = ({ title, bgColor }) => {
       <Button
         variant="contained"
         component={Link}
-        to={`/${title}`}
+        to={link}
         sx={{
           width: "50%",
           fontWeight: 500,

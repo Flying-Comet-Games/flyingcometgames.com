@@ -60,6 +60,7 @@ import SFStandardDemo from "./games/TriviaRoundup/Topics/SFStandardDemo/SFStanda
 import Tempus from "./games/Tempus/Tempus";
 import SeattleCrosswordle from "./games/CrossWordy/CrossWordy";
 import SeattleHome from "./cities/Seattle/Seattle";
+import QuickQuackSeattle from "./cities/Seattle/QuickQuackSeattle";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -98,6 +99,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/cowboy-quest" element={<EmojiQuest />} />
           <Route path="/color-dash" element={<ColorDash />} />
           <Route path="/tempus" element={<Tempus />} />
+          <Route path="/seattle/quick-quack" element={<QuickQuackSeattle />} />
           <Route
             path="/startup-speedrun-simulator"
             element={<StartupSpeedrunSimulator />}
