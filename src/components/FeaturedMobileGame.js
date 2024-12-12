@@ -17,9 +17,8 @@ const FeaturedMobileGame = ({ title, description, appStoreLink, appStoreImageSrc
         border: '1px solid black',
         background: "#b8c26c",
         color: theme.palette.text.primary,
-        borderRadius: '12px',
+        borderRadius: '5px',
         overflow: 'hidden',
-        boxShadow: theme.shadows[2],
         mb: 0.5,
       }}
     >
