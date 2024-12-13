@@ -172,7 +172,7 @@ export const ShareButton = ({ onClick }) => (
     onClick={onClick}
     startIcon={<SendIcon />}
     sx={{
-      mt: 2,
+      my: 2,
       color: "#000",
       textDecoration: "underline",
       "&:hover": {

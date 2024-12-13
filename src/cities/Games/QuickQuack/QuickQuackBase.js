@@ -100,9 +100,12 @@ const QuickQuackBase = ({
         (char) => /[A-Z]/.test(char) && !revealedLetters.has(char)
       );
       if (unrevealedLetters.length > 0) {
-        const randomIndex = Math.floor(Math.random() * unrevealedLetters.length);
+        const randomIndex = Math.floor(
+          Math.random() * unrevealedLetters.length
+        );
         const newLetter = unrevealedLetters[randomIndex];
         setRevealedLetters((prev) => new Set([...prev, newLetter]));
+        setGuessedLetters((prev) => new Set([...prev, newLetter]))
         checkWinCondition();
       }
     }, REVEAL_INTERVAL);
@@ -111,10 +114,32 @@ const QuickQuackBase = ({
 
   const calculateBasePoints = (letter) => {
     const letterFrequency = {
-      E: 1, A: 1, R: 1, I: 1, O: 1, T: 1, N: 1, S: 1, L: 1,
-      U: 2, D: 2, G: 2, B: 2, C: 2, M: 2, P: 2,
-      F: 3, H: 3, V: 3, W: 3, Y: 3,
-      K: 4, J: 4, X: 4, Q: 5, Z: 5
+      E: 1,
+ A: 1,
+R: 1,
+     I: 1,
+    O: 1,
+    T: 1,
+   N: 1,
+  S: 1,
+ L: 1,
+      U: 2,
+D: 2,
+     G: 2,
+    B: 2,
+    C: 2,
+   M: 2,
+   P: 2,
+      F: 3,
+  H: 3,
+  V: 3,
+ W: 3,
+     Y: 3,
+      K: 4,
+     J: 4,
+    X: 4,
+   Q: 5,
+  Z: 5,
     };
     return (letterFrequency[letter] || 1) * 50;
   };
@@ -148,6 +173,10 @@ const QuickQuackBase = ({
     setScore(finalScore);
     const newStreak = updateStreak(currentDate);
     setStreak(newStreak);
+
+    // Show share modal immediately
+    setShareModalOpen(true);
+
     logGameEnded(title, {
       won,
       score: finalScore,
@@ -169,29 +198,29 @@ const QuickQuackBase = ({
     if (!guessedLetters.has(letter) && !revealedLetters.has(letter)) {
       const isCorrect = phraseData.phrase.toUpperCase().includes(letter);
 
+      setGuessedLetters((prev) => new Set([...prev, letter]));
       if (isCorrect) {
-        setGuessedLetters(prev => new Set([...prev, letter]));
         const basePoints = calculateBasePoints(letter);
         const points = basePoints * multiplier;
-        setScore(prev => prev + points);
+        setScore((prev) => prev + points);
 
-        setCombo(prev => {
+        setCombo((prev) => {
           const newCombo = prev + 1;
           if (newCombo >= COMBO_THRESHOLD) {
-            setMultiplier(prev => Math.min(prev + 0.5, MAX_MULTIPLIER));
+            setMultiplier((prev) => Math.min(prev + 0.5, MAX_MULTIPLIER));
             return 0;
           }
           return newCombo;
         });
       } else {
-        setWrongGuesses(prev => {
+        setWrongGuesses((prev) => {
           const newWrongGuesses = prev + 1;
           if (newWrongGuesses >= MAX_WRONG_GUESSES) {
             endGame(false);
           }
           return newWrongGuesses;
         });
-        setScore(prev => Math.max(0, prev - WRONG_GUESS_PENALTY));
+        setScore((prev) => Math.max(0, prev - WRONG_GUESS_PENALTY));
         setCombo(0);
         setMultiplier(1);
       }
@@ -202,12 +231,14 @@ const QuickQuackBase = ({
 
   const checkWinCondition = () => {
     const remainingLetters = [...phraseData.phrase.toUpperCase()]
-      .filter(char => /[A-Z]/.test(char))
-      .filter(char => !revealedLetters.has(char) && !guessedLetters.has(char));
+      .filter((char) => /[A-Z]/.test(char))
+      .filter(
+        (char) => !revealedLetters.has(char) && !guessedLetters.has(char)
+      );
 
     if (remainingLetters.length === 0) {
       const timeBonus = Math.floor((timeRemaining / GAME_DURATION) * 1000);
-      setScore(prev => prev + timeBonus);
+      setScore((prev) => prev + timeBonus);
       endGame(true);
     }
   };
@@ -215,7 +246,7 @@ const QuickQuackBase = ({
   const handleShare = () => {
     const dateStr = currentDate.toLocaleDateString("en-US");
     const shareString = `${shareText} ${dateStr}\nScore: ${score}\nTime: ${Math.ceil(
-      timeRemaining / 1000
+      (GAME_DURATION - timeRemaining) / 1000
     )}s\nCombo: ${combo}x\n\nPlay at: ${shareUrl}`;
 
     navigator.clipboard
@@ -268,24 +299,28 @@ const QuickQuackBase = ({
                 revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
 
               return (
-                <Box
-                  key={`${wordIndex}-${charIndex}`}
-                  sx={{
-                    width: isLetter ? "48px" : "24px",
-                    height: "48px",
-                    border: isLetter ? "2px solid black" : "none",
-                    margin: "2px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: isLetter ? "white" : "transparent",
-                    fontSize: "1.5rem",
-                    fontWeight: "bold",
-                    boxShadow: isLetter ? "2px 2px 4px rgba(0,0,0,0.1)" : "none",
-                  }}
-                >
-                  {isLetter ? (isRevealed ? upperChar : "") : char}
-                </Box>
+                isLetter && (
+                  <Box
+                    key={`${wordIndex}-${charIndex}`}
+                    sx={{
+                      width: isLetter ? "48px" : "24px",
+                      height: "48px",
+                      border: isLetter ? "2px solid black" : "none",
+                      margin: "2px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: isLetter ? "white" : "transparent",
+                      fontSize: "1.5rem",
+                      fontWeight: "bold",
+                      boxShadow: isLetter
+                    ? "2px 2px 4px rgba(0,0,0,0.1)"
+                 : "none",
+                    }}
+                  >
+                    {isLetter ? (isRevealed ? upperChar : "") : char}
+                  </Box>
+                )
               );
             })}
           </Box>
@@ -324,10 +359,12 @@ const QuickQuackBase = ({
 
         <Box sx={{ mb: 2 }}>
           <Typography variant="h6" sx={{ mb: 1, fontFamily: "monospace" }}>
-            Time: {Math.ceil(timeRemaining / 1000)}s | Score: {score} | Combo: {combo}x
+            Time: {Math.ceil(timeRemaining / 1000)}s | Score: {score} | Combo:{" "}
+            {combo}x
           </Typography>
           <Typography variant="subtitle1" sx={{ fontFamily: "monospace" }}>
-            Multiplier: {multiplier.toFixed(1)}x | Wrong Guesses: {wrongGuesses}/{MAX_WRONG_GUESSES}
+            Multiplier: {multiplier.toFixed(1)}x | Wrong Guesses: {wrongGuesses}
+            /{MAX_WRONG_GUESSES}
           </Typography>
         </Box>
 
