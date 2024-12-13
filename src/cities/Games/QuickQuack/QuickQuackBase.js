@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, Snackbar } from "@mui/material";
 import { useStytchUser } from "@stytch/react";
 import { useNavigate } from "react-router-dom";
-import { logGameStarted, logGameEnded, logGameShared } from "../../../analytics";
+import {
+  logGameStarted,
+  logGameEnded,
+  logGameShared,
+} from "../../../analytics";
 import GameHeader from "../../../games/WordyVerse/Components/GameBoard/GameHeader";
 import GameControls from "../../../games/WordyVerse/Components/GameBoard/GameControls";
-import Keyboard from "../../../games/WordyVerse/Components/GameBoard/Keyboard";
+import Keyboard from "./Keyboard";
 import { ShareButton, ShareModal } from "../../../components/ShareModal";
-import { getStreakFromStorage, updateStreak } from "../../../components/StreakUtil";
+import {
+  getStreakFromStorage,
+  updateStreak,
+} from "../../../components/StreakUtil";
 import GoogleAd from "../../../games/WordyVerse/Components/GoogleAd";
 
 const REVEAL_INTERVAL = 5000; // 5 seconds between auto-reveals
@@ -68,7 +75,7 @@ const QuickQuackBase = ({
     if (!gameStarted || gameOver) return;
 
     const timer = setInterval(() => {
-      setTimeRemaining(prev => {
+      setTimeRemaining((prev) => {
         if (prev <= 0) {
           endGame(false);
           return 0;
@@ -85,12 +92,17 @@ const QuickQuackBase = ({
     if (!gameStarted || gameOver || !phraseData) return;
 
     const revealTimer = setInterval(() => {
-      const unrevealedLetters = [...phraseData.phrase.toUpperCase()]
-        .filter(char => /[A-Z]/.test(char) && !revealedLetters.has(char));
+      const unrevealedLetters = [...phraseData.phrase.toUpperCase()].filter(
+        (char) => /[A-Z]/.test(char) && !revealedLetters.has(char)
+      );
 
       if (unrevealedLetters.length > 0) {
-        const randomIndex = Math.floor(Math.random() * unrevealedLetters.length);
-        setRevealedLetters(prev => new Set([...prev, unrevealedLetters[randomIndex]]));
+        const randomIndex = Math.floor(
+          Math.random() * unrevealedLetters.length
+        );
+        setRevealedLetters(
+          (prev) => new Set([...prev, unrevealedLetters[randomIndex]])
+        );
       }
     }, REVEAL_INTERVAL);
 
@@ -119,10 +131,10 @@ const QuickQuackBase = ({
   const endGame = (won) => {
     setGameOver(true);
     const dateStr = currentDate.toLocaleDateString("en-US");
-    
+
     if (won) {
       const timeBonus = Math.floor((timeRemaining / GAME_DURATION) * 1000);
-      setScore(prev => prev + timeBonus);
+      setScore((prev) => prev + timeBonus);
     }
 
     const newStreak = updateStreak(currentDate);
@@ -152,16 +164,16 @@ const QuickQuackBase = ({
       return;
     }
 
-    setGuessedLetters(prev => new Set([...prev, letter]));
+    setGuessedLetters((prev) => new Set([...prev, letter]));
 
     // Check if letter is in phrase
     if (phraseData.phrase.toUpperCase().includes(letter)) {
-      setScore(prev => prev + 100);
-      
+      setScore((prev) => prev + 100);
+
       // Check if all letters are revealed
       const remainingLetters = [...phraseData.phrase.toUpperCase()]
-        .filter(char => /[A-Z]/.test(char))
-        .filter(char => !guessedLetters.has(char) && char !== letter);
+        .filter((char) => /[A-Z]/.test(char))
+        .filter((char) => !guessedLetters.has(char) && char !== letter);
 
       if (remainingLetters.length === 0) {
         endGame(true);
@@ -172,31 +184,57 @@ const QuickQuackBase = ({
   const renderPhrase = () => {
     if (!phraseData) return null;
 
-    return [...phraseData.phrase].map((char, index) => {
-      const upperChar = char.toUpperCase();
-      const isLetter = /[A-Z]/.test(upperChar);
-      const isRevealed = revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
+    // Split phrase into words and spaces
+    const words = phraseData.phrase.split(/(\s+)/).filter(Boolean);
 
-      return (
-        <Box
-          key={index}
-          sx={{
-            width: isLetter ? 40 : 20,
-            height: 40,
-            border: isLetter ? "2px solid black" : "none",
-            margin: 0.5,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: isLetter ? (isRevealed ? "#b8c26c" : "white") : "transparent",
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-          }}
-        >
-          {isLetter ? (isRevealed ? upperChar : "") : char}
-        </Box>
-      );
-    });
+    return (
+      <Box sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 2,
+        width: '100%',
+        maxWidth: '600px',
+        mx: 'auto'
+      }}>
+        {words.map((word, wordIndex) => (
+          <Box
+            key={wordIndex}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'nowrap',
+            }}
+          >
+            {[...word].map((char, charIndex) => {
+              const upperChar = char.toUpperCase();
+              const isLetter = /[A-Z]/.test(upperChar);
+              const isRevealed = revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
+
+              return (
+                <Box
+                  key={`${wordIndex}-${charIndex}`}
+                  sx={{
+                    width: isLetter ? 40 : 20,
+                    height: 40,
+                    border: isLetter ? "2px solid black" : "none",
+                    margin: '2px',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: isLetter ? "white" : "transparent",
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {isLetter ? (isRevealed ? upperChar : "") : char}
+                </Box>
+              );
+            })}
+          </Box>
+        ))}
+      </Box>
+    );
   };
 
   const handleShare = () => {
@@ -214,7 +252,7 @@ const QuickQuackBase = ({
           date: dateStr,
         });
       })
-      .catch(err => console.error("Failed to copy:", err));
+      .catch((err) => console.error("Failed to copy:", err));
 
     setShareModalOpen(false);
   };
@@ -233,19 +271,6 @@ const QuickQuackBase = ({
       }}
     >
       <Box>
-        {/* <Box
-          sx={{
-            maxWidth: "600px",
-            border: "1px black dotted",
-            p: 2,
-            mb: 2,
-            mx: "auto",
-            backgroundColor: "background.default",
-          }}
-        >
-          <GoogleAd slot="9715652655" />
-        </Box> */}
-
         <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
 
         <GameControls
@@ -281,10 +306,9 @@ const QuickQuackBase = ({
 
         <Keyboard
           onGuessUpdate={handleGuess}
-          currentGuess=""
           answerText={phraseData.phrase}
           gameOver={gameOver}
-          guesses={[]}
+          guessedLetters={guessedLetters}
         />
 
         <ShareButton onClick={() => setShareModalOpen(true)} />

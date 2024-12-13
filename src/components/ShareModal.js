@@ -153,6 +153,7 @@ export const ShareModal = ({
           sx={{
             mb: 2,
             bgcolor: "black",
+            borderRadius: "20px",
             color: "white",
             "&:hover": {
               bgcolor: "#333",

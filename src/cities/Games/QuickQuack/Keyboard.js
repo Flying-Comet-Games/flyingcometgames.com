@@ -34,15 +34,15 @@ const Keyboard = ({
     if (!answerText || key === "⌫") return ["#FFFFFF", "#000000"];
 
     const keyUpper = key.toUpperCase();
-    const isGuessed = guessedLetters.has(keyUpper);
     const isInAnswer = answerText.toUpperCase().includes(keyUpper);
+    const isGuessed = guessedLetters.has(keyUpper);
 
-    if (isGuessed && isInAnswer) return ["#b8c26c", "#000000"];
-    if (isGuessed) return ["#010101", "#FFFFFF"];
-    return ["#FFFFFF", "#000000"];
+    if (!isGuessed) return ["#FFFFFF", "#000000"];
+    if (isInAnswer) return ["#b8c26c", "#000000"];
+    return ["#010101", "#FFFFFF"];
   }, [answerText, guessedLetters]);
 
-  const keyColors = useMemo(() =>
+  const keyColors = useMemo(() => 
     KEYBOARD_KEYS.flat().reduce((acc, key) => ({
       ...acc,
       [key]: getKeyColor(key)
@@ -51,9 +51,9 @@ const Keyboard = ({
   );
 
   return (
-    <Box
-      component="section"
-      role="group"
+    <Box 
+      component="section" 
+      role="group" 
       aria-label="Quick Quack Keyboard"
       sx={{ mt: 2, mb: 4 }}
     >
