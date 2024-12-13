@@ -10,7 +10,7 @@ import {
 import GameHeader from "../../../games/WordyVerse/Components/GameBoard/GameHeader";
 import GameControls from "../../../games/WordyVerse/Components/GameBoard/GameControls";
 import Keyboard from "./Keyboard";
-import { ShareButton, ShareModal } from "../../../components/ShareModal";
+import { ShareButton, ShareModal } from "./ShareModal";
 import {
   getStreakFromStorage,
   updateStreak,
@@ -188,28 +188,31 @@ const QuickQuackBase = ({
     const words = phraseData.phrase.split(/(\s+)/).filter(Boolean);
 
     return (
-      <Box sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 2,
-        width: '100%',
-        maxWidth: '600px',
-        mx: 'auto'
-      }}>
+      <Box
+sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 2,
+          width: "100%",
+          maxWidth: "600px",
+          mx: "auto",
+        }}
+      >
         {words.map((word, wordIndex) => (
           <Box
             key={wordIndex}
             sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'nowrap',
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "nowrap",
             }}
           >
             {[...word].map((char, charIndex) => {
               const upperChar = char.toUpperCase();
               const isLetter = /[A-Z]/.test(upperChar);
-              const isRevealed = revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
+              const isRevealed =
+revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
 
               return (
                 <Box
@@ -218,7 +221,7 @@ const QuickQuackBase = ({
                     width: isLetter ? 40 : 20,
                     height: 40,
                     border: isLetter ? "2px solid black" : "none",
-                    margin: '2px',
+                    margin: "2px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -239,17 +242,20 @@ const QuickQuackBase = ({
 
   const handleShare = () => {
     const dateStr = currentDate.toLocaleDateString("en-US");
-    const shareString = `${shareText} ${dateStr}\nScore: ${score}\n\nPlay at: ${shareUrl}`;
+    const shareString = `${shareText} ${dateStr}\nScore: ${score}\nTime: ${Math.ceil(
+      timeRemaining / 1000
+    )}s\n\nPlay at: ${shareUrl}`;
 
     navigator.clipboard
       .writeText(shareString)
       .then(() => {
         setShowShareToast(true);
         logGameShared(title, {
-          won: !gameOver || score > 0,
+          won: gameOver && score > 0,
           score,
           phrase: phraseData.phrase,
           date: dateStr,
+          timeRemaining,
         });
       })
       .catch((err) => console.error("Failed to copy:", err));
@@ -318,7 +324,9 @@ const QuickQuackBase = ({
           onClose={() => setShareModalOpen(false)}
           onShare={handleShare}
           score={score}
-          isCorrect={!gameOver || score > 0}
+          timeRemaining={timeRemaining}
+          gameOver={gameOver}
+          isCorrect={gameOver && score > 0}
           onCreateAccount={() => navigate("/quick-quack/auth")}
         />
 
