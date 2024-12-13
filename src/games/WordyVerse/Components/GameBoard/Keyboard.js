@@ -1,62 +1,92 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
-import { Box } from '@mui/material';
+import React, { useEffect } from "react";
+import { Box } from "@mui/material";
 
 const KEYBOARD_KEYS = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-  ["Z", "X", "C", "V", "B", "N", "M", "⌫"],
+  ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "⌫"],
 ];
 
 const Keyboard = ({
   onGuessUpdate,
-  answerText = "",
-  gameOver = false,
-  guessedLetters = new Set(),
+  currentGuess,
+  wordData,
+  gameOver,
+  guesses,
 }) => {
-  const handleKeyPress = useCallback((e) => {
-    if (!answerText || gameOver) return;
+  // Keyboard event handler
+  const handleKeyPress = (e) => {
+    if (!wordData || gameOver) return;
 
-    if (e.key === "Backspace") {
+    if (e.key === "Enter" && currentGuess.length === wordData.word.length) {
+      e.preventDefault(); // Prevent form submission
+      onGuessUpdate("ENTER");
+    } else if (e.key === "Backspace") {
       e.preventDefault();
       onGuessUpdate("BACKSPACE");
-    } else if (/^[A-Za-z]$/.test(e.key)) {
+    } else if (
+      /^[A-Za-z]$/.test(e.key) &&
+      currentGuess.length < wordData.word.length
+    ) {
       e.preventDefault();
       onGuessUpdate(e.key.toUpperCase());
     }
-  }, [gameOver, answerText, onGuessUpdate]);
+  };
 
+  // Add keyboard event listener
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [handleKeyPress]);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
+  }, [currentGuess, gameOver, wordData, onGuessUpdate]);
 
-  const getKeyColor = useCallback((key) => {
-    if (!answerText || key === "⌫") return ["#FFFFFF", "#000000"];
+  // On-screen keyboard handler
+  const handleKeyClick = (key) => {
+    if (gameOver) return;
 
-    const keyUpper = key.toUpperCase();
-    const isGuessed = guessedLetters.has(keyUpper);
-    const isInAnswer = answerText.toUpperCase().includes(keyUpper);
+    if (key === "ENTER" && currentGuess.length === wordData.word.length) {
+      onGuessUpdate("ENTER");
+    } else if (key === "⌫") {
+      onGuessUpdate("BACKSPACE");
+    } else if (currentGuess.length < wordData.word.length) {
+      onGuessUpdate(key);
+    }
+  };
 
-    if (isGuessed && isInAnswer) return ["#b8c26c", "#000000"];
-    if (isGuessed) return ["#010101", "#FFFFFF"];
-    return ["#FFFFFF", "#000000"];
-  }, [answerText, guessedLetters]);
+  const getKeyboardKeyColor = (key) => {
+    if (!wordData || !guesses) return ["white", "black"];
 
-  const keyColors = useMemo(() =>
-    KEYBOARD_KEYS.flat().reduce((acc, key) => ({
-      ...acc,
-      [key]: getKeyColor(key)
-    }), {}),
-    [getKeyColor]
-  );
+    const keyUpperCase = key.toUpperCase();
+    const wordUpperCase = wordData.word.toUpperCase();
+    let keyFound = false;
+    let correctPosition = false;
+
+    const letterInWord = wordUpperCase.includes(keyUpperCase);
+
+    if (letterInWord) {
+      for (let guess of guesses) {
+        const guessArray = guess.toUpperCase().split("");
+        for (let i = 0; i < guessArray.length; i++) {
+          if (guessArray[i] === keyUpperCase) {
+            keyFound = true;
+            if (keyUpperCase === wordUpperCase[i]) {
+              correctPosition = true;
+              break;
+            }
+          }
+        }
+        if (correctPosition) break;
+      }
+    }
+
+    if (correctPosition) return ["#b8c26c", "black"];
+    if (letterInWord && keyFound) return ["#ecb061", "white"];
+    return guesses.some((guess) => guess.toUpperCase().includes(keyUpperCase))
+      ? ["black", "white"]
+      : ["white", "black"];
+  };
 
   return (
-    <Box
-      component="section"
-      role="group"
-      aria-label="Quick Quack Keyboard"
-      sx={{ mt: 2, mb: 4 }}
-    >
+    <Box sx={{ mt: 2, mb: 4 }}>
       {KEYBOARD_KEYS.map((row, i) => (
         <Box
           key={i}
@@ -70,29 +100,25 @@ const Keyboard = ({
           {row.map((key) => (
             <Box
               key={key}
-              onClick={() => !gameOver && onGuessUpdate(key)}
+              onClick={() => handleKeyClick(key)}
               sx={{
-                backgroundColor: keyColors[key][0],
-                color: keyColors[key][1],
-                minWidth: key === "⌫" ? "55px" : "36px",
+                backgroundColor: getKeyboardKeyColor(key)[0],
+                color: getKeyboardKeyColor(key)[1],
+                minWidth: key === "ENTER" || key === "⌫" ? "55px" : "36px",
                 height: "58px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: "4px",
-                fontSize: key === "⌫" ? "12px" : "1.25em",
+                fontSize: key === "ENTER" || key === "⌫" ? "12px" : "1.25em",
                 fontWeight: "bold",
-                cursor: gameOver ? "not-allowed" : "pointer",
+                cursor: "pointer",
                 userSelect: "none",
                 textTransform: "uppercase",
-                transition: "all 0.1s",
+                transition: "transform 0.1s",
                 "&:hover": {
-                  transform: gameOver ? "none" : "scale(1.1)",
-                  backgroundColor: keyColors[key][0],
+                  transform: "scale(1.1)",
                 },
-                "&:active": {
-                  transform: "scale(0.95)",
-                }
               }}
             >
               {key}

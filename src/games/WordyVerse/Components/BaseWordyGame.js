@@ -19,7 +19,11 @@ import {
   ShareButton,
   ShareModal,
 } from "../../../components/ShareModal";
-import { getStreakFromStorage, newStreak, updateStreak } from "../../../components/StreakUtil";
+import {
+  getStreakFromStorage,
+  newStreak,
+  updateStreak,
+} from "../../../components/StreakUtil";
 
 const BaseWordyGame = ({
   title,
@@ -101,7 +105,8 @@ const BaseWordyGame = ({
         });
       }
 
-      const isCorrect = currentGuess.toUpperCase() === wordData.word.toUpperCase();
+      const isCorrect =
+        currentGuess.toUpperCase() === wordData.word.toUpperCase();
 
       if (isCorrect || newGuesses.length >= 5) {
         setGameOver(true);
@@ -111,7 +116,6 @@ const BaseWordyGame = ({
         // Update streak when game ends, regardless of win/loss
         const newStreak = updateStreak(currentDate);
         setStreak(newStreak);
-
 
         logGameEnded(title, {
           won: isCorrect,
@@ -316,7 +320,7 @@ const BaseWordyGame = ({
             <Keyboard
               onGuessUpdate={handleGuessUpdate}
               currentGuess={currentGuess}
-              answerText={wordData.word}
+              wordData={wordData}
               gameOver={gameOver}
               isGuessFocused={isGuessFocused}
               isLocked={false}
@@ -346,8 +350,8 @@ const BaseWordyGame = ({
               maxGuesses={5}
               isCorrect={
                 guesses.length > 0 &&
-               guesses[guesses.length - 1].toUpperCase() ===
-                 wordData.word.toUpperCase()
+                guesses[guesses.length - 1].toUpperCase() ===
+                  wordData.word.toUpperCase()
               }
               onCreateAccount={() => navigate("/wordy-verse/auth")}
             />

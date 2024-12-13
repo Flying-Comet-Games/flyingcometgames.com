@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Snackbar } from "@mui/material";
+import { Box, Typography, Snackbar, Button, TextField } from "@mui/material";
 import { useStytchUser } from "@stytch/react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,8 +17,13 @@ import {
 } from "../../../components/StreakUtil";
 import GoogleAd from "../../../games/WordyVerse/Components/GoogleAd";
 
-const REVEAL_INTERVAL = 5000; // 5 seconds between auto-reveals
-const GAME_DURATION = 60000; // 60 seconds total
+const REVEAL_INTERVAL = 2500;
+const GAME_DURATION = 45000;
+const WRONG_GUESS_PENALTY = 150;
+const MIN_SCORE_TO_WIN = 500;
+const MAX_WRONG_GUESSES = 5;
+const COMBO_THRESHOLD = 3;
+const MAX_MULTIPLIER = 4;
 
 const QuickQuackBase = ({
   title,
@@ -35,15 +40,19 @@ const QuickQuackBase = ({
   const [phraseData, setPhraseData] = useState(null);
   const [revealedLetters, setRevealedLetters] = useState(new Set());
   const [guessedLetters, setGuessedLetters] = useState(new Set());
+  const [wrongGuesses, setWrongGuesses] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(GAME_DURATION);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [multiplier, setMultiplier] = useState(1);
+  const [combo, setCombo] = useState(0);
   const [showShareToast, setShowShareToast] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const [streak, setStreak] = useState(getStreakFromStorage().count);
 
-  // Initialize game
+  // Game initialization effect
   useEffect(() => {
     const latestPhraseData = findLatestAvailableDate();
     if (latestPhraseData) {
@@ -53,10 +62,9 @@ const QuickQuackBase = ({
     }
   }, []);
 
-  // Handle date changes
+  // Date change effect
   useEffect(() => {
     if (!currentDate) return;
-
     const data = getPhraseForDate(currentDate);
     if (!data) {
       const latestPhraseData = findLatestAvailableDate();
@@ -66,14 +74,12 @@ const QuickQuackBase = ({
       }
       return;
     }
-
     resetGame(data);
   }, [currentDate]);
 
-  // Game timer
+  // Game timer effect
   useEffect(() => {
     if (!gameStarted || gameOver) return;
-
     const timer = setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 0) {
@@ -83,40 +89,47 @@ const QuickQuackBase = ({
         return prev - 100;
       });
     }, 100);
-
     return () => clearInterval(timer);
   }, [gameStarted, gameOver]);
 
-  // Auto-reveal letters
+  // Auto-reveal effect
   useEffect(() => {
     if (!gameStarted || gameOver || !phraseData) return;
-
     const revealTimer = setInterval(() => {
       const unrevealedLetters = [...phraseData.phrase.toUpperCase()].filter(
         (char) => /[A-Z]/.test(char) && !revealedLetters.has(char)
       );
-
       if (unrevealedLetters.length > 0) {
-        const randomIndex = Math.floor(
-          Math.random() * unrevealedLetters.length
-        );
-        setRevealedLetters(
-          (prev) => new Set([...prev, unrevealedLetters[randomIndex]])
-        );
+        const randomIndex = Math.floor(Math.random() * unrevealedLetters.length);
+        const newLetter = unrevealedLetters[randomIndex];
+        setRevealedLetters((prev) => new Set([...prev, newLetter]));
+        checkWinCondition();
       }
     }, REVEAL_INTERVAL);
-
     return () => clearInterval(revealTimer);
   }, [gameStarted, gameOver, phraseData, revealedLetters]);
+
+  const calculateBasePoints = (letter) => {
+    const letterFrequency = {
+      E: 1, A: 1, R: 1, I: 1, O: 1, T: 1, N: 1, S: 1, L: 1,
+      U: 2, D: 2, G: 2, B: 2, C: 2, M: 2, P: 2,
+      F: 3, H: 3, V: 3, W: 3, Y: 3,
+      K: 4, J: 4, X: 4, Q: 5, Z: 5
+    };
+    return (letterFrequency[letter] || 1) * 50;
+  };
 
   const resetGame = (data) => {
     setPhraseData(data);
     setRevealedLetters(new Set());
     setGuessedLetters(new Set());
+    setWrongGuesses(0);
     setTimeRemaining(GAME_DURATION);
     setGameStarted(false);
     setGameOver(false);
     setScore(0);
+    setMultiplier(1);
+    setCombo(0);
   };
 
   const startGame = () => {
@@ -131,18 +144,13 @@ const QuickQuackBase = ({
   const endGame = (won) => {
     setGameOver(true);
     const dateStr = currentDate.toLocaleDateString("en-US");
-
-    if (won) {
-      const timeBonus = Math.floor((timeRemaining / GAME_DURATION) * 1000);
-      setScore((prev) => prev + timeBonus);
-    }
-
+    const finalScore = score >= MIN_SCORE_TO_WIN && won ? score : 0;
+    setScore(finalScore);
     const newStreak = updateStreak(currentDate);
     setStreak(newStreak);
-
     logGameEnded(title, {
       won,
-      score,
+      score: finalScore,
       phrase: phraseData.phrase,
       date: dateStr,
     });
@@ -151,45 +159,90 @@ const QuickQuackBase = ({
   const handleGuess = (letter) => {
     if (!gameStarted) {
       startGame();
-    }
-
-    if (gameOver) return;
-
-    if (letter === "ENTER") {
-      // Handle full solve attempt
       return;
     }
 
-    if (letter === "BACKSPACE") {
-      return;
-    }
+    if (gameOver || letter === "ENTER") return;
 
-    setGuessedLetters((prev) => new Set([...prev, letter]));
+    if (letter === "BACKSPACE") return;
 
-    // Check if letter is in phrase
-    if (phraseData.phrase.toUpperCase().includes(letter)) {
-      setScore((prev) => prev + 100);
+    if (!guessedLetters.has(letter) && !revealedLetters.has(letter)) {
+      const isCorrect = phraseData.phrase.toUpperCase().includes(letter);
 
-      // Check if all letters are revealed
-      const remainingLetters = [...phraseData.phrase.toUpperCase()]
-        .filter((char) => /[A-Z]/.test(char))
-        .filter((char) => !guessedLetters.has(char) && char !== letter);
+      if (isCorrect) {
+        setGuessedLetters(prev => new Set([...prev, letter]));
+        const basePoints = calculateBasePoints(letter);
+        const points = basePoints * multiplier;
+        setScore(prev => prev + points);
 
-      if (remainingLetters.length === 0) {
-        endGame(true);
+        setCombo(prev => {
+          const newCombo = prev + 1;
+          if (newCombo >= COMBO_THRESHOLD) {
+            setMultiplier(prev => Math.min(prev + 0.5, MAX_MULTIPLIER));
+            return 0;
+          }
+          return newCombo;
+        });
+      } else {
+        setWrongGuesses(prev => {
+          const newWrongGuesses = prev + 1;
+          if (newWrongGuesses >= MAX_WRONG_GUESSES) {
+            endGame(false);
+          }
+          return newWrongGuesses;
+        });
+        setScore(prev => Math.max(0, prev - WRONG_GUESS_PENALTY));
+        setCombo(0);
+        setMultiplier(1);
       }
     }
+
+    checkWinCondition();
+  };
+
+  const checkWinCondition = () => {
+    const remainingLetters = [...phraseData.phrase.toUpperCase()]
+      .filter(char => /[A-Z]/.test(char))
+      .filter(char => !revealedLetters.has(char) && !guessedLetters.has(char));
+
+    if (remainingLetters.length === 0) {
+      const timeBonus = Math.floor((timeRemaining / GAME_DURATION) * 1000);
+      setScore(prev => prev + timeBonus);
+      endGame(true);
+    }
+  };
+
+  const handleShare = () => {
+    const dateStr = currentDate.toLocaleDateString("en-US");
+    const shareString = `${shareText} ${dateStr}\nScore: ${score}\nTime: ${Math.ceil(
+      timeRemaining / 1000
+    )}s\nCombo: ${combo}x\n\nPlay at: ${shareUrl}`;
+
+    navigator.clipboard
+      .writeText(shareString)
+      .then(() => {
+        setShowShareToast(true);
+        logGameShared(title, {
+          won: score >= MIN_SCORE_TO_WIN,
+          score,
+          phrase: phraseData.phrase,
+          date: dateStr,
+          timeRemaining,
+        });
+      })
+      .catch((err) => console.error("Failed to copy:", err));
+
+    setShareModalOpen(false);
   };
 
   const renderPhrase = () => {
     if (!phraseData) return null;
 
-    // Split phrase into words and spaces
     const words = phraseData.phrase.split(/(\s+)/).filter(Boolean);
 
     return (
       <Box
-sx={{
+        sx={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
@@ -212,14 +265,14 @@ sx={{
               const upperChar = char.toUpperCase();
               const isLetter = /[A-Z]/.test(upperChar);
               const isRevealed =
-revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
+                revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
 
               return (
                 <Box
                   key={`${wordIndex}-${charIndex}`}
                   sx={{
-                    width: isLetter ? 40 : 20,
-                    height: 40,
+                    width: isLetter ? "48px" : "24px",
+                    height: "48px",
                     border: isLetter ? "2px solid black" : "none",
                     margin: "2px",
                     display: "flex",
@@ -228,6 +281,7 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
                     backgroundColor: isLetter ? "white" : "transparent",
                     fontSize: "1.5rem",
                     fontWeight: "bold",
+                    boxShadow: isLetter ? "2px 2px 4px rgba(0,0,0,0.1)" : "none",
                   }}
                 >
                   {isLetter ? (isRevealed ? upperChar : "") : char}
@@ -240,29 +294,6 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
     );
   };
 
-  const handleShare = () => {
-    const dateStr = currentDate.toLocaleDateString("en-US");
-    const shareString = `${shareText} ${dateStr}\nScore: ${score}\nTime: ${Math.ceil(
-      timeRemaining / 1000
-    )}s\n\nPlay at: ${shareUrl}`;
-
-    navigator.clipboard
-      .writeText(shareString)
-      .then(() => {
-        setShowShareToast(true);
-        logGameShared(title, {
-          won: gameOver && score > 0,
-          score,
-          phrase: phraseData.phrase,
-          date: dateStr,
-          timeRemaining,
-        });
-      })
-      .catch((err) => console.error("Failed to copy:", err));
-
-    setShareModalOpen(false);
-  };
-
   if (!phraseData) return null;
 
   return (
@@ -273,7 +304,7 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "background.default",
+        backgroundColor: "rgb(244, 238, 224)",
       }}
     >
       <Box>
@@ -286,28 +317,28 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
             newDate.setDate(newDate.getDate() + increment);
             setCurrentDate(newDate);
           }}
-          showHint={false}
-          onHintToggle={() => {}}
+          showHint={showHint}
+          onHintToggle={() => setShowHint(!showHint)}
           wordData={{ theme: phraseData.category }}
         />
 
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Time: {Math.ceil(timeRemaining / 1000)}s
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 1, fontFamily: "monospace" }}>
+            Time: {Math.ceil(timeRemaining / 1000)}s | Score: {score} | Combo: {combo}x
           </Typography>
+          <Typography variant="subtitle1" sx={{ fontFamily: "monospace" }}>
+            Multiplier: {multiplier.toFixed(1)}x | Wrong Guesses: {wrongGuesses}/{MAX_WRONG_GUESSES}
+          </Typography>
+        </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              mb: 2,
-            }}
-          >
-            {renderPhrase()}
-          </Box>
+        <Box sx={{ mb: 4 }}>
+          {showHint && (
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              Category: {phraseData.category}
+            </Typography>
+          )}
 
-          <Typography variant="h6">Score: {score}</Typography>
+          {renderPhrase()}
         </Box>
 
         <Keyboard
@@ -326,7 +357,7 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
           score={score}
           timeRemaining={timeRemaining}
           gameOver={gameOver}
-          isCorrect={gameOver && score > 0}
+          isCorrect={score >= MIN_SCORE_TO_WIN}
           onCreateAccount={() => navigate("/quick-quack/auth")}
         />
 
@@ -336,6 +367,23 @@ revealedLetters.has(upperChar) || guessedLetters.has(upperChar);
           onClose={() => setShowShareToast(false)}
           message="Results copied to clipboard!"
         />
+      </Box>
+      <Box
+        component="footer"
+        sx={{
+          py: 2,
+          px: 2,
+          mt: "auto",
+          borderTop: "1px solid",
+          borderColor: "divider",
+          textAlign: "center",
+          width: "100%",
+          boxSizing: "border-box",
+        }}
+      >
+        <Typography variant="body2" color="text.secondary">
+          © 2024 Flying Comet Games. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   );
