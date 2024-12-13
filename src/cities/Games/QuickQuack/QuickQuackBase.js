@@ -188,7 +188,6 @@ D: 2,
   const handleGuess = (letter) => {
     if (!gameStarted) {
       startGame();
-      return;
     }
 
     if (gameOver || letter === "ENTER") return;
@@ -236,7 +235,7 @@ D: 2,
         (char) => !revealedLetters.has(char) && !guessedLetters.has(char)
       );
 
-    if (remainingLetters.length === 0) {
+    if (remainingLetters.length === 0 && !gameOver) { // Add gameOver check
       const timeBonus = Math.floor((timeRemaining / GAME_DURATION) * 1000);
       setScore((prev) => prev + timeBonus);
       endGame(true);
@@ -358,12 +357,13 @@ D: 2,
         />
 
         <Box sx={{ mb: 2 }}>
-          <Typography variant="h6" sx={{ mb: 1, fontFamily: "monospace" }}>
+          <Typography variant="body" sx={{ mb: 1, fontFamily: "monospace" }}>
             Time: {Math.ceil(timeRemaining / 1000)}s | Score: {score} | Combo:{" "}
             {combo}x
           </Typography>
-          <Typography variant="subtitle1" sx={{ fontFamily: "monospace" }}>
-            Multiplier: {multiplier.toFixed(1)}x | Wrong Guesses: {wrongGuesses}
+          <br/>
+          <Typography variant="body" sx={{ fontFamily: "monospace" }}>
+            Multiplier: {multiplier.toFixed(1)}x <br/> Wrong Guesses: {wrongGuesses}
             /{MAX_WRONG_GUESSES}
           </Typography>
         </Box>
