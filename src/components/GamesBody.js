@@ -18,9 +18,9 @@ const GameBody = () => {
       container
       spacing={2}
       justifyContent="center"
-      sx={{
-        width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
-      }}
+      // sx={{
+      //   width: { xs: "100%", sm: "80%", md: "80%", lg: "60%" },
+      // }}
     >
       <Grid
         sx={{

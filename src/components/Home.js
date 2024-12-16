@@ -79,7 +79,7 @@ const Home = () => {
         <Box
           sx={{
             width: '100%',
-            maxWidth: "lg",
+            maxWidth: "sm",
             display: 'flex',
             justifyContent: 'center',
             boxSizing: 'border-box',
