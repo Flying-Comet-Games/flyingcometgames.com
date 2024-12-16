@@ -281,21 +281,6 @@ const BaseWordyGame = ({
       }}
     >
       <Box>
-        <Box
-          sx={{
-            maxWidth: "600px",
-            border: "1px black dotted",
-            textAlign: "center",
-            p: 2,
-            mb: 2,
-            mx: "auto",
-            backgroundColor: "background.default",
-            overflow: "hidden", // This helps contain the ad
-          }}
-        >
-          <GoogleAd slot="9715652655" />
-        </Box>
-
         <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
 
         <GameControls
@@ -357,6 +342,20 @@ const BaseWordyGame = ({
             />
 
             <ShareButton onClick={handleShare} />
+            <Box
+              sx={{
+                maxWidth: "600px",
+                border: "1px black dotted",
+                textAlign: "center",
+                p: 2,
+                mb: 2,
+                mx: "auto",
+                backgroundColor: "background.default",
+                overflow: "hidden", // This helps contain the ad
+              }}
+            >
+              <GoogleAd slot="9715652655" />
+            </Box>
           </>
         )}
 
