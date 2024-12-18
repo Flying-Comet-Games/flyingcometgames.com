@@ -63,6 +63,9 @@ import SeattleHome from "./cities/Seattle/Seattle";
 import QuickQuackSeattle from "./cities/Seattle/QuickQuackSeattle";
 import PlusMinus from "./games/PlusMinus";
 import RainCounter from "./games/RainCounter";
+import SeattleStack from "./games/SeattleStack";
+import SeattleGymStack from "./games/SeattleStack";
+import SeattleCoffeeStack from "./games/SeattleStack";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -103,6 +106,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/tempus" element={<Tempus />} />
           <Route path="/plusminus" element={<PlusMinus />} />
           <Route path="/seattle/raincounter" element={<RainCounter />} />
+          <Route path="/seattle/stack" element={<SeattleCoffeeStack />} />
           <Route path="/seattle/quick-quack" element={<QuickQuackSeattle />} />
           <Route
             path="/startup-speedrun-simulator"
