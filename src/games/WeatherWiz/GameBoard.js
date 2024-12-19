@@ -1,13 +1,49 @@
-// src/components/WeatherWhiz/GameBoard.js
+import React, { useState, useEffect } from 'react';
+import { Box } from '@mui/material';
+import AnimatedTile from './AnimatedTile';
 
-import React from 'react';
-import { Box, Button } from '@mui/material';
-import { COLORS } from './types';
+const GameBoard = ({ grid, selectedTiles, onTileClick, isMatched }) => {
+  const [fallDistances, setFallDistances] = useState({});
+  const [matchedTiles, setMatchedTiles] = useState(new Set());
+  const [lastMatchPoints, setLastMatchPoints] = useState({});
 
-const GameBoard = ({ grid, selectedTiles, onTileClick }) => {
+  useEffect(() => {
+    const newFallDistances = {};
+    grid.forEach((row, rowIndex) => {
+      row.forEach((tile, colIndex) => {
+        if (tile) {
+          let distance = 0;
+          for (let i = rowIndex + 1; i < grid.length; i++) {
+            if (!grid[i][colIndex]) distance++;
+          }
+          newFallDistances[`${rowIndex}-${colIndex}`] = distance;
+        }
+      });
+    });
+    setFallDistances(newFallDistances);
+  }, [grid]);
+
+  useEffect(() => {
+    if (isMatched && selectedTiles.length >= 3) {
+      const newMatched = new Set();
+      const points = {};
+      selectedTiles.forEach(tile => {
+        const key = `${tile.row}-${tile.col}`;
+        newMatched.add(key);
+        points[key] = 100;
+      });
+      setMatchedTiles(newMatched);
+      setLastMatchPoints(points);
+
+      setTimeout(() => {
+        setMatchedTiles(new Set());
+        setLastMatchPoints({});
+      }, 500);
+    }
+  }, [selectedTiles, isMatched]);
+
   return (
     <Box
-      component="div"
       sx={{
         p: { xs: 1, sm: 2 },
         mb: 2,
@@ -29,54 +65,25 @@ const GameBoard = ({ grid, selectedTiles, onTileClick }) => {
         }}
       >
         {grid.map((row, rowIndex) =>
-          row.map((tile, colIndex) => (
-            <Button
-              key={`${rowIndex}-${colIndex}`}
-              onClick={() => onTileClick(rowIndex, colIndex)}
-              sx={{
-                width: "100%",
-                height: "100%",
-                minWidth: "unset",
-                p: 0,
-                backgroundColor: selectedTiles.some(
+          row.map((tile, colIndex) => {
+            const tileKey = `${rowIndex}-${colIndex}`;
+            return (
+              <AnimatedTile
+                key={tileKey}
+                tile={tile}
+                isSelected={selectedTiles.some(
                   (t) => t.row === rowIndex && t.col === colIndex
-                )
-                  ? COLORS.accent
-                  : "white",
-                position: "relative",
-                border: "1px solid rgba(0,0,0,0.1)",
-                "&:hover": {
-                  backgroundColor: selectedTiles.some(
-                    (t) => t.row === rowIndex && t.col === colIndex
-                  )
-                    ? COLORS.accent
-                    : COLORS.background,
-                },
-              }}
-            >
-              {tile && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    width: "100%",
-                  }}
-                >
-                  <span style={{ fontSize: "clamp(1rem, 4vw, 1.2rem)", lineHeight: 1 }}>
-                    {tile.symbol}
-                  </span>
-                  <Box sx={{ fontSize: "clamp(0.8rem, 3.5vw, 0.9rem)", fontWeight: "bold", lineHeight: 1 }}>
-                    {tile.value === "wild" ? "★" : tile.value}
-                  </Box>
-                </Box>
-              )}
-            </Button>
-          ))
+                )}
+                isPotentialMatch={false}
+                isMatched={matchedTiles.has(tileKey)}
+                points={lastMatchPoints[tileKey]}
+                onTileClick={() => onTileClick(rowIndex, colIndex)}
+                row={rowIndex}
+                col={colIndex}
+                fallDistance={fallDistances[tileKey]}
+              />
+            );
+          })
         )}
       </Box>
     </Box>
