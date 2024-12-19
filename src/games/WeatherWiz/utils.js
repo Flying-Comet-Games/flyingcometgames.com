@@ -193,33 +193,8 @@ export const calculateScore = (gameState) => {
 };
 
 export const checkLevelGoal = (gameState, levelGoal) => {
-  const { matches, score, negativesUsed, maxCombo, timeLeft, selectedTiles } =
-    gameState;
-
-  switch (levelGoal.type) {
-    case "MATCHES":
-      return matches >= levelGoal.target;
-    case "POINTS":
-      return score >= levelGoal.target;
-    case "NEGATIVES":
-      return negativesUsed >= levelGoal.target;
-    case "COMBO":
-      return maxCombo >= levelGoal.target;
-    case "QUICK":
-      return matches >= 3 && timeLeft >= 30;
-    case "LONG_CHAIN":
-      return selectedTiles?.length >= levelGoal.target;
-    case "EXACT":
-      return matches === levelGoal.target;
-    case "EFFICIENCY":
-      return score >= levelGoal.target;
-    case "SPEED":
-      return timeLeft >= levelGoal.target;
-    case "MASTER":
-      return score >= levelGoal.target;
-    default:
-      return false;
-  }
+  const progress = gameState[levelGoal.type.toLowerCase()];
+  return progress >= levelGoal.target;
 };
 
 export const canAdvanceLevel = (score) => {

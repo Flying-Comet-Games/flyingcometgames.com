@@ -44,12 +44,12 @@ const WeatherWhiz = () => {
   const currentGoal =
     LEVEL_GOALS[(gameState.currentLevel - 1) % LEVEL_GOALS.length];
   const [levelProgress, setLevelProgress] = useState({
-    matches: 0, // For MATCHES type
-    negativesUsed: 0, // For NEGATIVES type
-    maxCombo: 0, // For COMBO type
-    bestTime: Infinity, // For SPEED type
-    longestChain: 0, // For LONG_CHAIN type
-    points: 0, // For POINTS type
+    matches: 0,
+    negatives: 0,
+    combo: 0,
+    speed: 0,
+    points: 0,
+    long_chain: 0,
   });
 
   useEffect(() => {
@@ -133,7 +133,17 @@ const WeatherWhiz = () => {
 
     const newSum = tile.value === "wild" ? currentSum : currentSum + tile.value;
 
-    if (newSum > TARGET_NUMBER && tile.value !== "wild") {
+    // Log values for debugging
+    console.log("Current sum:", currentSum);
+    console.log("New tile value:", tile.value);
+    console.log("New sum:", newSum);
+
+    if (newSum === 10) {
+      handleMatch([...selectedTiles, { row, col, ...tile }]);
+      return;
+    }
+
+    if (newSum > 10) {
       setSelectedTiles([]);
       setCurrentSum(0);
       setMessage("Too high! Try again.");
@@ -143,71 +153,58 @@ const WeatherWhiz = () => {
     const newSelection = [...selectedTiles, { row, col, ...tile }];
     setSelectedTiles(newSelection);
     setCurrentSum(newSum);
-
-    if (
-      newSum === TARGET_NUMBER ||
-      (tile.value === "wild" && newSelection.length >= 3)
-    ) {
-      handleMatch(newSelection);
-    }
   };
 
   const handleMatch = (matches) => {
     const now = Date.now();
     const newCombo =
-      lastMatchTime && now - lastMatchTime < COMBO_TIME_WINDOW
+lastMatchTime && now - lastMatchTime < COMBO_TIME_WINDOW
         ? Math.min(combo + 1, 5)
         : 1;
 
     const points = calculatePoints(matches.length, newCombo);
-
-    setLevelProgress((prev) => ({
-      ...prev,
-      matches: prev.matches + 1,
-      negativesUsed:
-        prev.negativesUsed +
-        matches.filter((tile) => grid[tile.row][tile.col]?.value < 0).length,
-      maxCombo: Math.max(prev.maxCombo, newCombo),
-      longestChain: Math.max(prev.longestChain, matches.length),
-      points: prev.points + points,
-      bestTime: Math.min(prev.bestTime, 60 - timeLeft),
-    }));
     setScore((prev) => prev + points);
     setCombo(newCombo);
     setLastMatchTime(now);
-    setMatches((prev) => prev + 1);
-    setMessage(generateMatchMessage(points, newCombo));
 
-    // Count negatives used in this match
-    const newNegativesUsed = matches.reduce(
-      (count, tile) => count + (grid[tile.row][tile.col]?.value < 0 ? 1 : 0),
-      0
-    );
-
-    setNegativesUsed((prev) => prev + newNegativesUsed);
-
-    // Check goal completion
-    const currentGameState = {
-      matches: matches.length,
-      score,
-      negativesUsed: negativesUsed + newNegativesUsed,
-      maxCombo,
-      timeLeft,
-      selectedTiles: matches,
-    };
-
-    const goalMet = checkLevelGoal(currentGameState, currentGoal);
-
-    if (goalMet && score >= GAME_RULES.MIN_SCORE_TO_ADVANCE) {
-      setGameState((prev) => ({
+    setLevelProgress((prev) => {
+      const newProgress = {
         ...prev,
-        currentLevel: prev.currentLevel + 1,
-        attemptsRemaining: GAME_RULES.ATTEMPTS_PER_LEVEL,
-      }));
-      handleNextLevel();
-    }
+        matches: prev.matches + 1,
+        negatives:
+prev.negatives +
+          (matches.some((tile) => grid[tile.row][tile.col]?.value < 0) ? 1 : 0),
+        combo: Math.max(prev.combo, newCombo),
+        long_chain: Math.max(prev.long_chain, matches.length),
+        points: prev.points + points,
+        speed: Math.min(prev.speed || 60, 60 - timeLeft),
+      };
 
-    // Update grid with animation delay
+      const isGoalMet =
+       newProgress[currentGoal.type.toLowerCase()] >= currentGoal.target;
+
+      if (isGoalMet) {
+        const nextLevel = gameState.currentLevel + 1;
+        setGameState((prevState) => {
+          const newState = {
+            ...prevState,
+            currentLevel: nextLevel,
+            attemptsRemaining: GAME_RULES.ATTEMPTS_PER_LEVEL,
+          };
+          // Immediately save to ensure consistency
+          saveGameState(newState);
+          return newState;
+        });
+
+        // Use timeout to ensure state is updated
+        setTimeout(() => {
+          handleNextLevel();
+        }, 500);
+      }
+
+      return newProgress;
+    });
+
     setTimeout(() => {
       const newGrid = [...grid];
       matches.forEach(({ row, col }) => {
@@ -225,12 +222,19 @@ const WeatherWhiz = () => {
     setGrid(initializeGrid(gameState.currentLevel));
     setTimeLeft(60);
     setMatches(0);
-    setNegativesUsed(0);
-    setMaxCombo(0);
+    setScore(0);
+    setCombo(0);
     setMoveCount(0);
     setMessage("");
     setGameOver(false);
-    setScore(0);
+    setLevelProgress({
+      matches: 0,
+      negatives: 0,
+      combo: 0,
+      speed: 0,
+      points: 0,
+      long_chain: 0,
+    });
   };
 
   const getProgressForCurrentGoal = () => {
@@ -261,8 +265,7 @@ const WeatherWhiz = () => {
         currentLevel={gameState.currentLevel}
         attemptsRemaining={gameState.attemptsRemaining}
         goal={currentGoal}
-        score={score}
-        completedSums={getProgressForCurrentGoal()}
+        levelProgress={levelProgress}
       />
 
       <GameControls
