@@ -52,39 +52,32 @@ export const useGame = () => {
     return dx + dy === 1; // Ensure tiles are directly adjacent
   };
 
-  const undoLastSelection = () => {
-    if (state.selectedTiles.length > 0) {
-      const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
-      setState((prev) => ({
-        ...prev,
-        selectedTiles: prev.selectedTiles.slice(0, -1),
-        currentSum: prev.currentSum - lastTile.value,
-      }));
-    }
-  };
-
-  const resetChain = () => {
-    setState((prev) => ({
-      ...prev,
-      selectedTiles: [],
-      currentSum: 0,
-    }));
-  };
-
   const handleTileSelect = (row, col) => {
     if (state.gameOver) return;
 
     const currentTile = { row, col };
-    const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
+    const selectedIndex = state.selectedTiles.findIndex(
+      (tile) => tile.row === row && tile.col === col
+    );
 
-    // Prevent selecting the same tile or non-adjacent tiles
-    if (
-      state.selectedTiles.some(
-        (tile) => tile.row === row && tile.col === col
-      ) ||
-      !isAdjacent(lastTile, currentTile)
-    )
+    // If the tile is already selected, undo back to this tile
+    if (selectedIndex !== -1) {
+      const newSelectedTiles = state.selectedTiles.slice(0, selectedIndex);
+      const newSum = newSelectedTiles.reduce(
+        (sum, tile) => sum + tile.value,
+        0
+      );
+      setState((prev) => ({
+        ...prev,
+        selectedTiles: newSelectedTiles,
+        currentSum: newSum,
+      }));
       return;
+    }
+
+    // Check adjacency for new tile
+    const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
+    if (lastTile && !isAdjacent(lastTile, currentTile)) return;
 
     const tile = state.grid[row][col];
     const newSum = state.currentSum + tile.value;
@@ -108,7 +101,6 @@ export const useGame = () => {
           { ...currentTile, value: tile.value },
         ],
         currentSum: newSum,
-        moves: prev.moves + 1,
       }));
     }
   };
@@ -150,9 +142,7 @@ export const useGame = () => {
     state,
     currentMode,
     handleTileSelect,
-    progress,
-    undoLastSelection,
-    resetChain
+    progress
   };
 };
 

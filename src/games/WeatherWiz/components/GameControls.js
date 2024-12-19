@@ -2,11 +2,8 @@ import React from "react";
 import { Box, Typography, Paper, Button } from "@mui/material";
 import { Timer } from "lucide-react";
 import { COLORS } from "../constants/config";
-import { useGame } from "../hooks/useGame";
 
 const GameControls = ({ score, timeLeft, currentSum, target }) => {
-  const { resetChain, undoLastSelection } = useGame();
-
   return (
     <Paper elevation={3} sx={{ maxWidth: "600px", mx: "auto", p: 2, mb: 2 }}>
       <Box
@@ -36,15 +33,6 @@ const GameControls = ({ score, timeLeft, currentSum, target }) => {
       >
         Sum: {currentSum} / {target}
       </Typography>
-
-      <Box sx={{ display: "flex", gap: 1, justifyContent: "center", mt: 2 }}>
-        <Button variant="contained" onClick={undoLastSelection}>
-          Undo
-        </Button>
-        <Button variant="outlined" onClick={resetChain}>
-          Reset
-        </Button>
-      </Box>
     </Paper>
   );
 };

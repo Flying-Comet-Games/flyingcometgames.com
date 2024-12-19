@@ -1,10 +1,10 @@
-import React from 'react';
-import { Box } from '@mui/material';
-import Tile from './Tile';
+import React from "react";
+import { Box } from "@mui/material";
+import Tile from "./Tile";
 
 const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
-  const isSelected = (row, col) => 
-    selectedTiles.some(tile => tile.row === row && tile.col === col);
+  const isPartOfChain = (row, col) =>
+    selectedTiles.some((tile) => tile.row === row && tile.col === col);
 
   return (
     <Box
@@ -32,7 +32,7 @@ const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
             <Tile
               key={tile.id}
               value={tile.value}
-              isSelected={isSelected(rowIndex, colIndex)}
+              isSelected={isPartOfChain(rowIndex, colIndex)}
               onClick={() => onTileSelect(rowIndex, colIndex)}
             />
           ))
