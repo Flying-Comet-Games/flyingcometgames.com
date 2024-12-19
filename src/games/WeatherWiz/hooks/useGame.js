@@ -60,7 +60,7 @@ export const useGame = () => {
       (tile) => tile.row === row && tile.col === col
     );
 
-    // If the tile is already selected, undo back to this tile
+    // Undo logic: If the tile is already selected, undo back to this point
     if (selectedIndex !== -1) {
       const newSelectedTiles = state.selectedTiles.slice(0, selectedIndex);
       const newSum = newSelectedTiles.reduce(
@@ -75,31 +75,24 @@ export const useGame = () => {
       return;
     }
 
-    // Check adjacency for new tile
-    const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
-    if (lastTile && !isAdjacent(lastTile, currentTile)) return;
-
     const tile = state.grid[row][col];
     const newSum = state.currentSum + tile.value;
 
     if (newSum === currentMode.target) {
-      handleMatch([
-        ...state.selectedTiles,
-        { ...currentTile, value: tile.value },
-      ]);
+      // Correct sum: clear selectedTiles after handling match
+      handleMatch([...state.selectedTiles, { row, col, value: tile.value }]);
     } else if (newSum > currentMode.target) {
+      // Too high: clear selection and reset
       setState((prev) => ({
         ...prev,
         selectedTiles: [],
         currentSum: 0,
       }));
     } else {
+      // Add tile to the chain
       setState((prev) => ({
         ...prev,
-        selectedTiles: [
-          ...prev.selectedTiles,
-          { ...currentTile, value: tile.value },
-        ],
+        selectedTiles: [...prev.selectedTiles, { row, col, value: tile.value }],
         currentSum: newSum,
       }));
     }
@@ -142,7 +135,7 @@ export const useGame = () => {
     state,
     currentMode,
     handleTileSelect,
-    progress
+    progress,
   };
 };
 

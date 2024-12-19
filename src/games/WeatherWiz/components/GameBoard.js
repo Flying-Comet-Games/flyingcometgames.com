@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import Tile from "./Tile";
 
 const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
-  const isPartOfChain = (row, col) =>
+  const isSelected = (row, col) =>
     selectedTiles.some((tile) => tile.row === row && tile.col === col);
 
   return (
@@ -32,7 +32,7 @@ const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
             <Tile
               key={tile.id}
               value={tile.value}
-              isSelected={isPartOfChain(rowIndex, colIndex)}
+              isSelected={isSelected(rowIndex, colIndex)}
               onClick={() => onTileSelect(rowIndex, colIndex)}
             />
           ))
