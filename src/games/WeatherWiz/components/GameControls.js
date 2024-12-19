@@ -8,7 +8,7 @@ const GameControls = ({ score, timeLeft, currentSum, target }) => {
   const { resetChain, undoLastSelection } = useGame();
 
   return (
-    <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+    <Paper elevation={3} sx={{ maxWidth: "600px", mx: "auto", p: 2, mb: 2 }}>
       <Box
         sx={{
           display: "flex",

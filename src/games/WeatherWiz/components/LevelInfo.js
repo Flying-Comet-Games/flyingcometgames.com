@@ -12,7 +12,7 @@ const LevelInfo = ({ level, description, moves, moveLimit, progress }) => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+    <Paper elevation={3} sx={{ maxWidth: "600px", p: 2, mb: 2, mx: "auto" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
         <Typography variant="h6">Level {level}</Typography>
         {moveLimit && (
