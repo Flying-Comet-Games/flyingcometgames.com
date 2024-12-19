@@ -1,49 +1,56 @@
-// src/components/WeatherWhiz/Header.js
-
 import React from 'react';
-import { CONSTANTS } from './types';
+import { Box, Typography, LinearProgress } from '@mui/material';
+import { GAME_RULES } from './types';
 
-/**
- * @param {Object} props
- * @param {number} props.currentLevel
- * @param {number} props.score
- */
 const Header = ({ currentLevel, score }) => {
-  const ProgressDots = () => {
-    return (
-      <div className="flex gap-2 items-center">
-        {[...Array(CONSTANTS.MAX_LEVEL)].map((_, i) => (
-          <div
-            key={i}
-            className={`w-2 h-2 rounded-full ${
-              i < currentLevel ? 'bg-[#FF6B6B]' : 'bg-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <>
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-xl">☔️ Weather Whiz</span>
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="text-sm">Level {currentLevel}</span>
-            <ProgressDots />
-          </div>
-          <div className="h-1 bg-gray-200 rounded-full">
-            <div 
-              className="h-full bg-[#FF6B6B] rounded-full transition-all duration-300"
-              style={{ width: `${(score / CONSTANTS.MAX_SCORE_PER_LEVEL) * 100}%` }}
-            />
-          </div>
-        </div>
-      </div>
-    </>
+    <Box sx={{ mb: 3, p: 2, bgcolor: 'white', borderRadius: 1, boxShadow: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Typography variant="h5">☔️ Weather Whiz</Typography>
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+          <Typography variant="body2">Level {currentLevel}</Typography>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+            {[...Array(GAME_RULES.MAX_LEVELS)].map((_, i) => (
+              <React.Fragment key={i}>
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    bgcolor: i < currentLevel ? '#FF6B6B' : 'grey.300'
+                  }}
+                />
+                {i < GAME_RULES.MAX_LEVELS - 1 && (
+                  <Box
+                    sx={{
+                      height: 1,
+                      width: 16,
+                      bgcolor: i < currentLevel - 1 ? '#FF6B6B' : 'grey.300'
+                    }}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </Box>
+        </Box>
+
+        <LinearProgress
+          variant="determinate"
+          value={Math.min(100, (score / GAME_RULES.MIN_SCORE_TO_ADVANCE) * 100)}
+          sx={{
+            height: 8,
+            borderRadius: 1,
+            bgcolor: 'grey.200',
+            '& .MuiLinearProgress-bar': {
+              bgcolor: '#FF6B6B'
+            }
+          }}
+        />
+      </Box>
+    </Box>
   );
 };
 

@@ -43,6 +43,14 @@ const WeatherWhiz = () => {
   const [gameOver, setGameOver] = useState(false);
   const currentGoal =
     LEVEL_GOALS[(gameState.currentLevel - 1) % LEVEL_GOALS.length];
+  const [levelProgress, setLevelProgress] = useState({
+    matches: 0, // For MATCHES type
+    negativesUsed: 0, // For NEGATIVES type
+    maxCombo: 0, // For COMBO type
+    bestTime: Infinity, // For SPEED type
+    longestChain: 0, // For LONG_CHAIN type
+    points: 0, // For POINTS type
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -147,11 +155,23 @@ const WeatherWhiz = () => {
   const handleMatch = (matches) => {
     const now = Date.now();
     const newCombo =
-    lastMatchTime && now - lastMatchTime < COMBO_TIME_WINDOW
+      lastMatchTime && now - lastMatchTime < COMBO_TIME_WINDOW
         ? Math.min(combo + 1, 5)
         : 1;
 
     const points = calculatePoints(matches.length, newCombo);
+
+    setLevelProgress((prev) => ({
+      ...prev,
+      matches: prev.matches + 1,
+      negativesUsed:
+        prev.negativesUsed +
+        matches.filter((tile) => grid[tile.row][tile.col]?.value < 0).length,
+      maxCombo: Math.max(prev.maxCombo, newCombo),
+      longestChain: Math.max(prev.longestChain, matches.length),
+      points: prev.points + points,
+      bestTime: Math.min(prev.bestTime, 60 - timeLeft),
+    }));
     setScore((prev) => prev + points);
     setCombo(newCombo);
     setLastMatchTime(now);
@@ -213,12 +233,36 @@ const WeatherWhiz = () => {
     setScore(0);
   };
 
+  const getProgressForCurrentGoal = () => {
+    const { type, target } = currentGoal;
+    switch (type) {
+      case "MATCHES":
+        return levelProgress.matches;
+      case "NEGATIVES":
+        return levelProgress.negativesUsed;
+      case "COMBO":
+        return levelProgress.maxCombo;
+      case "POINTS":
+        return levelProgress.points;
+      case "QUICK":
+        return levelProgress.matches;
+      case "LONG_CHAIN":
+        return levelProgress.longestChain;
+      case "SPEED":
+        return levelProgress.bestTime;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <Box sx={{ p: 2, backgroundColor: COLORS.background, minHeight: "100vh" }}>
       <LevelInfo
         currentLevel={gameState.currentLevel}
         attemptsRemaining={gameState.attemptsRemaining}
-        goal={LEVEL_GOALS[(gameState.currentLevel - 1) % LEVEL_GOALS.length]}
+        goal={currentGoal}
+        score={score}
+        completedSums={getProgressForCurrentGoal()}
       />
 
       <GameControls
