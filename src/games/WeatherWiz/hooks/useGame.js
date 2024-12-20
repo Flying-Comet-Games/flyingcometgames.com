@@ -102,50 +102,129 @@ export const useGame = () => {
   };
 
   const playCorrectAnimation = (tiles, onComplete) => {
+    const targets = tiles.map(({ row, col }) => `.tile-${row}-${col}`);
+
+    // Reset previous animation properties
+    anime.set(targets, {
+      translateX: 0,
+      translateY: 0,
+      backgroundColor: "white", // Explicitly set to avoid conflicts
+      filter: "none", // Clear any previous filters
+    });
+
     playScorePopUp(tiles);
+
     anime({
-      targets: tiles.map(({ row, col }) => `.tile-${row}-${col}`),
+      targets: targets,
       backgroundColor: "#4CAF50",
       scale: [1, 1.2, 1],
-      filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+      filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"], // Controlled brightness effect
       duration: 600,
       easing: "easeInOutQuad",
       delay: (el, i) => i * 100, // Uniform delay based on index
       complete: () => {
-        // Ensure onComplete is triggered only after the last tile
+        // Reset backgroundColor and filter after animation
+        anime.set(targets, {
+          backgroundColor: "white", // Ensure tiles return to their default state
+          filter: "none", // Remove any residual brightness
+        });
+
         if (onComplete) onComplete();
       },
     });
   };
 
+
   const playIncorrectAnimation = (tiles) => {
-    tiles.forEach(({ row, col }) => {
-      anime({
-        targets: `.tile-${row}-${col}`,
-        backgroundColor: "#F44336",
-        translateX: [0, -10, 10, -10, 0],
-        translateY: [0, -5, 5, -5, 0], // Add vertical shake
-        duration: 600,
-        easing: "easeInOutQuad",
-        complete: () => {
-          const tileElement = document.querySelector(`.tile-${row}-${col}`);
-          if (tileElement) {
-            tileElement.style.transition = "background-color 0.3s ease";
-            tileElement.style.backgroundColor = "white";
-          }
-        },
-      });
+    const targets = tiles.map(({ row, col }) => `.tile-${row}-${col}`);
+
+    // Reset previous animation properties
+    anime.set(targets, {
+      translateX: 0,
+      translateY: 0,
+      backgroundColor: "",
+    });
+
+    // Apply the aggressive shake animation
+    anime({
+      targets,
+      backgroundColor: "#F44336",
+      translateX: [0, -20, 20, -20, 20, -20, 20, 0], // Aggressive shake
+      translateY: [0, -10, 10, -10, 10, -10, 10, 0],
+      duration: 500, // Slightly longer duration for emphasis
+      // easing: "easeOutExpo", // Jarring effect
+      complete: () => {
+        // Reset background color after animation
+        anime.set(targets, {
+          backgroundColor: "white",
+        });
+      },
     });
   };
 
-  const triggerConfetti = () => {
-    confetti({
-      particleCount: 150,
-      spread: 100,
-      origin: { x: 0.5, y: 0.5 },
-      colors: ["#4CAF50", "#FFEB3B", "#2196F3"],
-      shapes: ["circle", "square"],
+  const playTileParticles = (row, col) => {
+    const tileElement = document.querySelector(`.tile-${row}-${col}`);
+    if (tileElement) {
+      const { top, left, width, height } = tileElement.getBoundingClientRect();
+      const x = left + width / 2;
+      const y = top + height / 2;
+
+      confetti({
+        particleCount: 5, // Fewer particles for subtlety
+        startVelocity: 10,
+        spread: 50,
+        scalar: 0.75, // Smaller particle size
+        origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+      });
+    }
+  };
+
+  const playTileBounce = (row, col) => {
+    const tileElement = document.querySelector(`.tile-${row}-${col}`);
+    if (tileElement) {
+      anime({
+        targets: tileElement,
+        scale: [1, 1.1, 1], // Small bounce
+        duration: 300,
+        easing: "easeOutElastic(1, 0.5)", // Elastic bounce effect
+      });
+    }
+  };
+
+
+  const applyTileColor = (tiles) => {
+    tiles.forEach((tile, index) => {
+      const tileElement = document.querySelector(
+        `.tile-${tile.row}-${tile.col}`
+      );
+      if (tileElement) {
+        const intensity = 0.5 + (index / tiles.length) * 0.5;
+        tileElement.style.backgroundColor = `rgba(76, 175, 80, ${intensity})`;
+      }
     });
+  };
+
+  const renderLines = (selectedTiles) => {
+    if (selectedTiles.length < 2) return null;
+
+    const lines = selectedTiles.slice(1).map((tile, index) => {
+      const start = selectedTiles[index];
+      const end = tile;
+
+      return (
+        <line
+          key={`${start.row}-${start.col}-${end.row}-${end.col}`}
+          x1={`${start.col * 100 + 50}px`}
+          y1={`${start.row * 100 + 50}px`}
+          x2={`${end.col * 100 + 50}px`}
+          y2={`${end.row * 100 + 50}px`}
+          stroke="rgba(76, 175, 80, 0.8)"
+          strokeWidth="4"
+        />
+      );
+    });
+
+    return <svg>{lines}</svg>;
   };
 
   const handleTileSelect = (row, col) => {
@@ -193,19 +272,19 @@ export const useGame = () => {
           });
 
           const newMatches = prev.matches + 1;
-          const isLevelComplete = newMatches >= 5; // Fixed to match win condition
+          const isLevelComplete = newMatches >= 5;
 
           if (isLevelComplete) {
-            triggerConfetti();
+            confetti();
             return {
               ...prev,
               grid: createGrid(),
               selectedTiles: [],
               currentSum: 0,
               score: prev.score + BASE_SCORE * updatedTiles.length,
-              matches: 0, // Reset matches for the next level
-              level: prev.level + 1, // Advance to the next level
-              timerStarted: false, // Reset timer for the next level
+              matches: 0,
+              level: prev.level + 1,
+              timerStarted: false,
             };
           }
 
@@ -215,26 +294,34 @@ export const useGame = () => {
             selectedTiles: [],
             currentSum: 0,
             score: prev.score + BASE_SCORE * updatedTiles.length,
-            matches: newMatches, // Update matches for progress tracking
+            matches: newMatches,
           };
         });
       });
     } else if (newSum > currentMode.target) {
       // Too high: clear selection and reset
       const currentTiles = [...state.selectedTiles, currentTile];
-      playIncorrectAnimation(currentTiles);
+      applyTileColor(currentTiles);
+
+      setTimeout(() => {
+        playIncorrectAnimation(currentTiles);
+      }, 100);
+
       setTimeout(() => {
         setState((prev) => ({
           ...prev,
           selectedTiles: [],
           currentSum: 0,
         }));
-      }, 700); // Delay to allow animation
+      }, 700);
     } else {
       // Add tile to the chain
+      const newSelectedTiles = [...state.selectedTiles, currentTile];
+      applyTileColor(newSelectedTiles);
+      playTileBounce(row, col);
       setState((prev) => ({
         ...prev,
-        selectedTiles: [...prev.selectedTiles, currentTile],
+        selectedTiles: newSelectedTiles,
         currentSum: newSum,
       }));
     }
@@ -247,13 +334,14 @@ export const useGame = () => {
     currentMode,
     handleTileSelect,
     progress,
+    renderLines,
   };
 };
 
 const getProgress = (state, mode) => {
   switch (mode.type) {
     case "BASIC_SUM":
-      return { current: state.matches, required: 5 }; // Updated to reflect match count, not target sum
+      return { current: state.matches, required: 5 };
     case "TARGET_PRACTICE":
       return { current: state.moves, required: mode.moveLimit };
     case "CHAIN":
