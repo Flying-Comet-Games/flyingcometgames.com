@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Tile from "./Tile";
+import { col } from "framer-motion/client";
 
 const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
   const isSelected = (row, col) =>
@@ -34,6 +35,8 @@ const GameBoard = ({ grid, selectedTiles, onTileSelect }) => {
               value={tile.value}
               isSelected={isSelected(rowIndex, colIndex)}
               onClick={() => onTileSelect(rowIndex, colIndex)}
+              row={rowIndex}
+              col={colIndex}
             />
           ))
         )}
