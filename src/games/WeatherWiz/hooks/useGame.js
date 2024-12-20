@@ -16,6 +16,20 @@ const createGrid = () => {
     );
 };
 
+const updateGridNumbers = (grid, matchedTiles) => {
+  const newGrid = grid.map((row, rowIndex) =>
+    row.map((tile, colIndex) => {
+      const isMatched = matchedTiles.some(
+        (matched) => matched.row === rowIndex && matched.col === colIndex
+      );
+      return isMatched
+        ? { ...tile, value: Math.floor(Math.random() * 5) + 1 }
+        : tile;
+    })
+  );
+  return newGrid;
+};
+
 const initialState = {
   grid: createGrid(),
   score: 0,
@@ -53,15 +67,14 @@ export const useGame = () => {
     return dx + dy === 1; // Ensure tiles are directly adjacent
   };
 
-  const playCorrectAnimation = (tiles) => {
-    tiles.forEach(({ row, col }) => {
-      anime({
-        targets: `.tile-${row}-${col}`,
-        backgroundColor: "#4CAF50",
-        scale: [1, 1.2, 0],
-        duration: 800,
-        easing: "easeInOutQuad",
-      });
+  const playCorrectAnimation = (tiles, onComplete) => {
+    anime({
+      targets: tiles.map(({ row, col }) => `.tile-${row}-${col}`),
+      backgroundColor: "#4CAF50",
+      scale: [1, 1.2, 1],
+      duration: 800,
+      easing: "easeInOutQuad",
+      complete: onComplete,
     });
   };
 
@@ -112,8 +125,23 @@ export const useGame = () => {
 
     if (newSum === currentMode.target) {
       // Correct sum: clear selectedTiles after handling match
-      playCorrectAnimation([...state.selectedTiles, currentTile]);
-      setTimeout(() => handleMatch([...state.selectedTiles, currentTile]), 900); // Delay to allow animation
+      const updatedTiles = [...state.selectedTiles, currentTile];
+      playCorrectAnimation(updatedTiles, () => {
+        setState((prev) => {
+          const newGrid = updateGridNumbers(prev.grid, updatedTiles);
+          const resetTiles = updatedTiles.map(({ row, col }) => {
+            const tileElement = document.querySelector(`.tile-${row}-${col}`);
+            if (tileElement) tileElement.style.backgroundColor = "white";
+          });
+          return {
+            ...prev,
+            grid: newGrid,
+            selectedTiles: [],
+            currentSum: 0,
+            score: prev.score + BASE_SCORE * updatedTiles.length,
+          };
+        });
+      });
     } else if (newSum > currentMode.target) {
       // Too high: clear selection and reset
       const currentTiles = [...state.selectedTiles, currentTile];
@@ -133,40 +161,6 @@ export const useGame = () => {
         currentSum: newSum,
       }));
     }
-  };
-
-  const handleMatch = (matchedTiles) => {
-    const points = BASE_SCORE * matchedTiles.length;
-    const isLongChain =
-      matchedTiles.length >= (currentMode.minChainLength || 0);
-
-    setState((prev) => {
-      const newState = {
-        ...prev,
-        score: prev.score + points,
-        matches: prev.matches + 1,
-        longChains: isLongChain ? prev.longChains + 1 : prev.longChains,
-        selectedTiles: [],
-        currentSum: 0,
-      };
-
-      setTimeout(() => {
-        setState((prevState) => ({ ...prevState, grid: createGrid() }));
-      }, 300); // Additional delay to avoid interrupting animation
-
-      if (currentMode.winCondition(newState)) {
-        return {
-          ...newState,
-          level: prev.level + 1,
-          moves: 0,
-          matches: 0,
-          longChains: 0,
-          timeLeft: GAME_MODES[prev.level % GAME_MODES.length].timeLimit || 60,
-        };
-      }
-
-      return newState;
-    });
   };
 
   const progress = getProgress(state, currentMode);
