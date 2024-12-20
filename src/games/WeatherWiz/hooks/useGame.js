@@ -107,9 +107,14 @@ export const useGame = () => {
       targets: tiles.map(({ row, col }) => `.tile-${row}-${col}`),
       backgroundColor: "#4CAF50",
       scale: [1, 1.2, 1],
-      duration: 800,
+      filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+      duration: 600,
       easing: "easeInOutQuad",
-      complete: onComplete,
+      delay: (el, i) => i * 100, // Uniform delay based on index
+      complete: () => {
+        // Ensure onComplete is triggered only after the last tile
+        if (onComplete) onComplete();
+      },
     });
   };
 
@@ -119,11 +124,15 @@ export const useGame = () => {
         targets: `.tile-${row}-${col}`,
         backgroundColor: "#F44336",
         translateX: [0, -10, 10, -10, 0],
+        translateY: [0, -5, 5, -5, 0], // Add vertical shake
         duration: 600,
         easing: "easeInOutQuad",
         complete: () => {
           const tileElement = document.querySelector(`.tile-${row}-${col}`);
-          if (tileElement) tileElement.style.backgroundColor = "white";
+          if (tileElement) {
+            tileElement.style.transition = "background-color 0.3s ease";
+            tileElement.style.backgroundColor = "white";
+          }
         },
       });
     });
