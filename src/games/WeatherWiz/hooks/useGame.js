@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GRID_SIZE, BASE_SCORE } from "../constants/config";
+import { GRID_SIZE, BASE_SCORE, COLORS } from "../constants/config";
 import { GAME_MODES } from "../constants/gameModes";
 import anime from "animejs";
 import confetti from "canvas-confetti";
@@ -108,7 +108,7 @@ export const useGame = () => {
     anime.set(targets, {
       translateX: 0,
       translateY: 0,
-      backgroundColor: "white", // Explicitly set to avoid conflicts
+      backgroundColor: COLORS.background, // Explicitly set to avoid conflicts
       filter: "none", // Clear any previous filters
     });
 
@@ -125,7 +125,7 @@ export const useGame = () => {
       complete: () => {
         // Reset backgroundColor and filter after animation
         anime.set(targets, {
-          backgroundColor: "white", // Ensure tiles return to their default state
+          backgroundColor: COLORS.background, // Ensure tiles return to their default state
           filter: "none", // Remove any residual brightness
         });
 
@@ -142,7 +142,7 @@ export const useGame = () => {
     anime.set(targets, {
       translateX: 0,
       translateY: 0,
-      backgroundColor: "",
+      backgroundColor: COLORS.background,
     });
 
     // Apply the aggressive shake animation
@@ -156,7 +156,7 @@ export const useGame = () => {
       complete: () => {
         // Reset background color after animation
         anime.set(targets, {
-          backgroundColor: "white",
+          backgroundColor: COLORS.background,
         });
       },
     });
@@ -268,7 +268,7 @@ export const useGame = () => {
           const newGrid = updateGridNumbers(prev.grid, updatedTiles);
           const resetTiles = updatedTiles.map(({ row, col }) => {
             const tileElement = document.querySelector(`.tile-${row}-${col}`);
-            if (tileElement) tileElement.style.backgroundColor = "white";
+            if (tileElement) tileElement.style.backgroundColor = COLORS.background;
           });
 
           const newMatches = prev.matches + 1;

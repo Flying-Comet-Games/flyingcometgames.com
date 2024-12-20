@@ -10,7 +10,7 @@ const WeatherWhiz = () => {
   const { state, currentMode, handleTileSelect, progress } = useGame();
 
   return (
-    <Box sx={{ p: 2, backgroundColor: COLORS.background, minHeight: "100vh" }}>
+    <Box sx={{ p: 2, backgroundColor: "#f4f0df", minHeight: "100vh" }}>
       <LevelInfo
         level={state.level}
         description={currentMode.description}

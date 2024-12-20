@@ -1,38 +1,44 @@
-import React, { useRef } from "react";
+import React from "react";
+import { Box } from "@mui/material";
 import { COLORS } from "../constants/config";
 
 const Tile = ({ value, isSelected, onClick, row, col }) => {
-  const tileRef = useRef(null);
-
   const handleClick = () => {
-    if (tileRef.current) {
-      // Custom behavior or animation triggering can go here
-    }
-
     onClick(); // Call the parent click handler
   };
 
   return (
-    <div
-      ref={tileRef}
+    <Box
       onClick={handleClick}
       className={`tile tile-${row}-${col}`}
-      style={{
+      sx={{
         position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
         height: "100%",
-        backgroundColor: isSelected ? COLORS.accent : "white",
-        border: "1px solid rgba(0,0,0,0.1)",
-        transition: "background-color 0.3s ease, transform 0.3s ease", // Smooth transitions
-        fontSize: "clamp(1rem, 4vw, 1.2rem)",
+        backgroundColor: isSelected ? COLORS.accent : COLORS.background,
+        transition: "background-color 0.3s ease, transform 0.2s ease",
+        transform: isSelected ? "scale(1.1)" : "scale(1)", // Slight zoom on selection
         cursor: "pointer",
+        "&:hover": {
+          transform: "scale(1.05)", // Hover effect
+        },
       }}
     >
-      {value}
-    </div>
+      <Box
+        component="span"
+        sx={{
+          fontSize: "clamp(1.2rem, 2vw, 1.8rem)", // Responsive font size
+          fontWeight: "bold",
+          color: COLORS.text,
+          // textShadow: "0px 0px 8px rgba(0, 0, 0, 0.5)", // Text glow effect
+        }}
+      >
+        {value}
+      </Box>
+    </Box>
   );
 };
 
