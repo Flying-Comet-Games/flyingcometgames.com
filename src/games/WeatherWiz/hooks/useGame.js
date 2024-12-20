@@ -131,9 +131,11 @@ export const useGame = () => {
 
   const triggerConfetti = () => {
     confetti({
-      particleCount: 100,
-      spread: 70,
+      particleCount: 150,
+      spread: 100,
       origin: { x: 0.5, y: 0.5 },
+      colors: ["#4CAF50", "#FFEB3B", "#2196F3"],
+      shapes: ["circle", "square"],
     });
   };
 
