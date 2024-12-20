@@ -55,7 +55,11 @@ export const useGame = () => {
   const handleTileSelect = (row, col) => {
     if (state.gameOver) return;
 
-    const currentTile = { row, col };
+    const currentTile = { row, col, value: state.grid[row][col].value };
+    const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
+
+    if (!isAdjacent(lastTile, currentTile)) return; // Ignore non-adjacent tiles
+
     const selectedIndex = state.selectedTiles.findIndex(
       (tile) => tile.row === row && tile.col === col
     );
@@ -75,12 +79,11 @@ export const useGame = () => {
       return;
     }
 
-    const tile = state.grid[row][col];
-    const newSum = state.currentSum + tile.value;
+    const newSum = state.currentSum + currentTile.value;
 
     if (newSum === currentMode.target) {
       // Correct sum: clear selectedTiles after handling match
-      handleMatch([...state.selectedTiles, { row, col, value: tile.value }]);
+      handleMatch([...state.selectedTiles, currentTile]);
     } else if (newSum > currentMode.target) {
       // Too high: clear selection and reset
       setState((prev) => ({
@@ -92,7 +95,7 @@ export const useGame = () => {
       // Add tile to the chain
       setState((prev) => ({
         ...prev,
-        selectedTiles: [...prev.selectedTiles, { row, col, value: tile.value }],
+        selectedTiles: [...prev.selectedTiles, currentTile],
         currentSum: newSum,
       }));
     }
