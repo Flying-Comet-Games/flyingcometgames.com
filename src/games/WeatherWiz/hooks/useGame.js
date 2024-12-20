@@ -42,6 +42,7 @@ const initialState = {
   level: 1,
   timeLeft: 60,
   gameOver: false,
+  timerStarted: false,
 };
 
 export const useGame = () => {
@@ -49,7 +50,7 @@ export const useGame = () => {
   const currentMode = GAME_MODES[(state.level - 1) % GAME_MODES.length];
 
   useEffect(() => {
-    if (!currentMode.timeLimit) return;
+    if (!currentMode.timeLimit || !state.timerStarted) return;
 
     const timer = setInterval(() => {
       setState((prev) => ({
@@ -59,7 +60,7 @@ export const useGame = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [currentMode]);
+  }, [currentMode, state.timerStarted]);
 
   const isAdjacent = (lastTile, currentTile) => {
     if (!lastTile) return true; // First tile can be any tile
@@ -105,6 +106,10 @@ export const useGame = () => {
 
   const handleTileSelect = (row, col) => {
     if (state.gameOver) return;
+
+    if (!state.timerStarted) {
+      setState((prev) => ({ ...prev, timerStarted: true }));
+    }
 
     const currentTile = { row, col, value: state.grid[row][col].value };
     const lastTile = state.selectedTiles[state.selectedTiles.length - 1];
@@ -156,6 +161,7 @@ export const useGame = () => {
               score: prev.score + BASE_SCORE * updatedTiles.length,
               matches: 0, // Reset matches for the next level
               level: prev.level + 1, // Advance to the next level
+              timerStarted: false, // Reset timer for the next level
             };
           }
 
@@ -210,5 +216,5 @@ const getProgress = (state, mode) => {
       return { current: state.longChains, required: 3 };
     default:
       return null;
-  };
+  }
 };
