@@ -50,13 +50,19 @@ export const useGame = () => {
   const currentMode = GAME_MODES[(state.level - 1) % GAME_MODES.length];
 
   useEffect(() => {
-    if (!currentMode.timeLimit || !state.timerStarted) return;
+    if (!currentMode.timeLimit || state.timerStarted) return;
 
     const timer = setInterval(() => {
-      setState((prev) => ({
-        ...prev,
-        timeLeft: Math.max(0, prev.timeLeft - 1),
-      }));
+      setState((prev) => {
+        if (!prev.timerStarted) {
+          clearInterval(timer);
+          return prev;
+        }
+        return {
+          ...prev,
+          timeLeft: Math.max(0, prev.timeLeft - 1),
+        };
+      });
     }, 1000);
 
     return () => clearInterval(timer);
@@ -69,7 +75,34 @@ export const useGame = () => {
     return dx + dy === 1; // Ensure tiles are directly adjacent
   };
 
+  const playScorePopUp = (tiles) => {
+    tiles.forEach(({ row, col }) => {
+      const tileElement = document.querySelector(`.tile-${row}-${col}`);
+      if (tileElement) {
+        const scorePopup = document.createElement("div");
+        scorePopup.textContent = `+${BASE_SCORE}`;
+        scorePopup.style.position = "absolute";
+        scorePopup.style.color = "#FFD700";
+        scorePopup.style.fontSize = "1.2rem";
+        scorePopup.style.fontWeight = "bold";
+        scorePopup.style.pointerEvents = "none";
+        scorePopup.style.transform = "translate(-50%, -50%)";
+        tileElement.appendChild(scorePopup);
+
+        anime({
+          targets: scorePopup,
+          translateY: -50,
+          opacity: [1, 0],
+          duration: 1000,
+          easing: "easeOutQuad",
+          complete: () => scorePopup.remove(),
+        });
+      }
+    });
+  };
+
   const playCorrectAnimation = (tiles, onComplete) => {
+    playScorePopUp(tiles);
     anime({
       targets: tiles.map(({ row, col }) => `.tile-${row}-${col}`),
       backgroundColor: "#4CAF50",
