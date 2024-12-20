@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { GRID_SIZE, BASE_SCORE } from "../constants/config";
 import { GAME_MODES } from "../constants/gameModes";
 import anime from "animejs";
+import confetti from "canvas-confetti";
 
 const createGrid = () => {
   return Array(GRID_SIZE)
@@ -94,6 +95,14 @@ export const useGame = () => {
     });
   };
 
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0.5, y: 0.5 },
+    });
+  };
+
   const handleTileSelect = (row, col) => {
     if (state.gameOver) return;
 
@@ -133,12 +142,30 @@ export const useGame = () => {
             const tileElement = document.querySelector(`.tile-${row}-${col}`);
             if (tileElement) tileElement.style.backgroundColor = "white";
           });
+
+          const newMatches = prev.matches + 1;
+          const isLevelComplete = newMatches >= 5; // Fixed to match win condition
+
+          if (isLevelComplete) {
+            triggerConfetti();
+            return {
+              ...prev,
+              grid: createGrid(),
+              selectedTiles: [],
+              currentSum: 0,
+              score: prev.score + BASE_SCORE * updatedTiles.length,
+              matches: 0, // Reset matches for the next level
+              level: prev.level + 1, // Advance to the next level
+            };
+          }
+
           return {
             ...prev,
             grid: newGrid,
             selectedTiles: [],
             currentSum: 0,
             score: prev.score + BASE_SCORE * updatedTiles.length,
+            matches: newMatches, // Update matches for progress tracking
           };
         });
       });
@@ -176,7 +203,7 @@ export const useGame = () => {
 const getProgress = (state, mode) => {
   switch (mode.type) {
     case "BASIC_SUM":
-      return { current: state.matches, required: 5 };
+      return { current: state.matches, required: 5 }; // Updated to reflect match count, not target sum
     case "TARGET_PRACTICE":
       return { current: state.moves, required: mode.moveLimit };
     case "CHAIN":
