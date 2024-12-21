@@ -17,6 +17,13 @@ const createGrid = () => {
     );
 };
 
+const calculateStars = (score) => {
+  if (score >= 1500) return 3; // Expert level
+  if (score >= 1200) return 2; // Intermediate level
+  if (score >= 1000) return 1; // Basic completion
+  return 0;
+};
+
 const updateGridNumbers = (grid, matchedTiles) => {
   const newGrid = grid.map((row, rowIndex) =>
     row.map((tile, colIndex) => {
@@ -328,6 +335,7 @@ export const useGame = () => {
   };
 
   const progress = getProgress(state, currentMode);
+  const stars = calculateStars(state.score);
 
   return {
     state,
@@ -335,6 +343,7 @@ export const useGame = () => {
     handleTileSelect,
     progress,
     renderLines,
+    stars
   };
 };
 

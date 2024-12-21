@@ -1,9 +1,16 @@
 import React from "react";
 import { Box, Typography, Paper, LinearProgress } from "@mui/material";
 import { COLORS } from "../constants/config";
+import { Star, StarOutline } from "@mui/icons-material";
 
-const LevelInfo = ({ level, description, moves, moveLimit, progress }) => {
-  // Calculate progress percentage
+const LevelInfo = ({
+level,
+description,
+ moves,
+ moveLimit,
+progress,
+ stars,
+}) => {
   const getProgress = () => {
     if (progress?.required && progress?.current) {
       return Math.min(100, (progress.current / progress.required) * 100);
@@ -26,6 +33,30 @@ const LevelInfo = ({ level, description, moves, moveLimit, progress }) => {
         {description}
       </Typography>
 
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        {[...Array(3)].map((_, index) =>
+          index < stars ? (
+            <Star
+              key={index}
+              sx={{
+                color: "gold",
+                fontSize: "32px",
+                transition: "transform 0.3s ease",
+                transform: index < stars ? "scale(1.2)" : "scale(1)",
+              }}
+            />
+          ) : (
+            <StarOutline
+              key={index}
+              sx={{
+                color: "gold",
+                fontSize: "32px",
+              }}
+            />
+          )
+        )}
+      </Box>
+
       {progress && (
         <Box sx={{ width: "100%" }}>
           <Box
@@ -44,7 +75,7 @@ const LevelInfo = ({ level, description, moves, moveLimit, progress }) => {
               borderRadius: 1,
               bgcolor: "grey.200",
               "& .MuiLinearProgress-bar": {
-                bgcolor: COLORS.primary,
+                bgcolor: "#4CAF50",
               },
             }}
           />

@@ -7,7 +7,7 @@ import { COLORS } from "./constants/config";
 import LevelInfo from "./components/LevelInfo";
 
 const WeatherWhiz = () => {
-  const { state, currentMode, handleTileSelect, progress } = useGame();
+  const { state, currentMode, handleTileSelect, progress, stars } = useGame();
 
   return (
     <Box sx={{ p: 2, backgroundColor: "#f4f0df", minHeight: "100vh" }}>
@@ -17,6 +17,7 @@ const WeatherWhiz = () => {
         moves={state.moves}
         moveLimit={currentMode.moveLimit}
         progress={progress}
+        stars={stars}
       />
 
       <GameControls
