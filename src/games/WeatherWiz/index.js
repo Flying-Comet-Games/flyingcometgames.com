@@ -26,6 +26,7 @@ const WeatherWhiz = () => {
         timeLeft={state.timeLeft}
         currentSum={state.currentSum}
         target={currentMode.target}
+        sumsLeft={progress.required - progress.current}
       />
 
       <GameBoard

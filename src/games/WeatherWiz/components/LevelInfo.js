@@ -9,8 +9,18 @@ const LevelInfo = ({ level, description, score }) => {
   return (
     <Box sx={{ maxWidth: "600px", mx: "auto", mb: 2, textAlign: "center" }}>
       {/* Level Info */}
-      <Typography variant="h6">Level {level}</Typography>
-      <Typography variant="body2" sx={{ mb: 2 }}>{description}</Typography>
+      <Typography
+        variant="h4"
+        sx={{ fontWeight: "bold", mb: 1, fontSize: { xs: "1.5rem", sm: "2rem" } }}
+      >
+        Level {level}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{ mb: 2, color: "grey.600", fontSize: { xs: "0.875rem", sm: "1rem" } }}
+      >
+        {description}
+      </Typography>
 
       {/* Progress Bar with Stars */}
       <Box
@@ -63,12 +73,8 @@ const LevelInfo = ({ level, description, score }) => {
               <Star
                 sx={{
                   color: "gold",
-                  fontSize: "32px",
+                  fontSize: "36px", // Slightly larger for emphasis
                   zIndex: 1,
-                  border: "2px solid white", // Subtle outline
-                  borderRadius: "50%",
-                  padding: "2px", // Creates a "halo" effect
-                  bgcolor: "rgba(255, 255, 255, 0.5)", // Optional glow background
                   transition: "transform 0.3s ease, color 0.3s ease",
                   transform: "scale(1.2)",
                 }}
@@ -77,7 +83,7 @@ const LevelInfo = ({ level, description, score }) => {
               <StarOutline
                 sx={{
                   color: "grey.400",
-                  fontSize: "32px",
+                  fontSize: "36px", // Match size for consistency
                   zIndex: 1,
                 }}
               />
@@ -87,7 +93,7 @@ const LevelInfo = ({ level, description, score }) => {
               variant="caption"
               sx={{
                 position: "absolute",
-                top: "36px", // Adjusted to position below the star
+                top: "40px", // Adjusted to position below the star
                 fontSize: "0.8rem",
                 color: "grey.700",
               }}
