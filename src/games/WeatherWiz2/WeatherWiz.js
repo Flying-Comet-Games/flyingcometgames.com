@@ -8,7 +8,7 @@ const WeatherWiz = () => {
       sx={{
         textAlign: "center",
         padding: 3,
-        backgroundColor: "#f7f9fc",
+        backgroundColor: 'background.default',
         minHeight: "100vh",
       }}
     >

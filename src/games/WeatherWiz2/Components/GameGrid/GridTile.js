@@ -1,22 +1,29 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const GridTile = ({ value, onClick }) => {
-  return (
+const GridTile = ({ value, row, col, onClick }) => {
+  return value === null ? (
+    <div
+      className={`grid-tile tile-${row}-${col}`}
+      style={{
+        width: "60px",
+        height: "60px",
+        backgroundColor: "#e0e0e0",
+        border: "1px solid #ccc",
+      }}
+    ></div>
+  ) : (
     <Button
+      className={`grid-tile tile-${row}-${col}`}
       onClick={onClick}
       variant="contained"
+      disableElevation
       sx={{
         width: "60px",
         height: "60px",
         fontSize: "1.2rem",
         fontWeight: "bold",
-        backgroundColor: "#f0f0f0",
         border: "1px solid #ccc",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
         "&:hover": {
           backgroundColor: "#e0e0e0",
         },
