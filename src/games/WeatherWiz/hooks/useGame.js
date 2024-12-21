@@ -250,6 +250,12 @@ export const useGame = () => {
     );
 
     if (selectedIndex !== -1) {
+      const tileToDeselect = state.selectedTiles[selectedIndex];
+      const tileElement = document.querySelector(`.tile-${tileToDeselect.row}-${tileToDeselect.col}`);
+      if (tileElement) {
+        tileElement.style.backgroundColor = COLORS.background; // Reset the background color
+      }
+
       const newSelectedTiles = state.selectedTiles.slice(0, selectedIndex);
       const newSum = newSelectedTiles.reduce(
         (sum, tile) => sum + tile.value,

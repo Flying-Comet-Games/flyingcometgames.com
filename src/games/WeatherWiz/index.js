@@ -18,6 +18,7 @@ const WeatherWhiz = () => {
         moveLimit={currentMode.moveLimit}
         progress={progress}
         stars={stars}
+        score={state.score}
       />
 
       <GameControls

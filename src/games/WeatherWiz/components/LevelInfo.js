@@ -1,87 +1,103 @@
-import React from "react";
-import { Box, Typography, Paper, LinearProgress } from "@mui/material";
-import { COLORS } from "../constants/config";
+import { Box, Typography } from "@mui/material";
 import { Star, StarOutline } from "@mui/icons-material";
 
-const LevelInfo = ({
-level,
-description,
- moves,
- moveLimit,
-progress,
- stars,
-}) => {
-  const getProgress = () => {
-    if (progress?.required && progress?.current) {
-      return Math.min(100, (progress.current / progress.required) * 100);
-    }
-    return 0;
-  };
+const LevelInfo = ({ level, description, score }) => {
+  const starThresholds = [1000, 1200, 1500]; // Define thresholds for stars
+  const maxThreshold = starThresholds[starThresholds.length - 1];
+  const progress = Math.min((score / maxThreshold) * 100, 100); // Total progress percentage
 
   return (
-    <Paper elevation={3} sx={{ maxWidth: "600px", p: 2, mb: 2, mx: "auto" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-        <Typography variant="h6">Level {level}</Typography>
-        {moveLimit && (
-          <Typography>
-            Moves: {moves} / {moveLimit}
-          </Typography>
-        )}
-      </Box>
+    <Box sx={{ maxWidth: "600px", mx: "auto", mb: 2, textAlign: "center" }}>
+      {/* Level Info */}
+      <Typography variant="h6">Level {level}</Typography>
+      <Typography variant="body2" sx={{ mb: 2 }}>{description}</Typography>
 
-      <Typography variant="body2" sx={{ mb: 2, textAlign: "center" }}>
-        {description}
-      </Typography>
-
-      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        {[...Array(3)].map((_, index) =>
-          index < stars ? (
-            <Star
-              key={index}
-              sx={{
-                color: "gold",
-                fontSize: "32px",
-                transition: "transform 0.3s ease",
-                transform: index < stars ? "scale(1.2)" : "scale(1)",
-              }}
-            />
-          ) : (
-            <StarOutline
-              key={index}
-              sx={{
-                color: "gold",
-                fontSize: "32px",
-              }}
-            />
-          )
-        )}
-      </Box>
-
-      {progress && (
-        <Box sx={{ width: "100%" }}>
+      {/* Progress Bar with Stars */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+          height: "48px",
+          mt: 2,
+        }}
+      >
+        {/* Base Line */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            width: "100%",
+            height: "4px",
+            bgcolor: "grey.300",
+            transform: "translateY(-50%)",
+          }}
+        />
+        {/* Progress Line */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            width: `${progress}%`,
+            height: "4px",
+            background: "linear-gradient(to right, gold, orange)",
+            transform: "translateY(-50%)",
+          }}
+        />
+        {/* Star Points */}
+        {starThresholds.map((threshold, index) => (
           <Box
-            sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}
+            key={index}
+            sx={{
+              position: "relative",
+              flex: "1 1 0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Typography variant="caption">Progress</Typography>
-            <Typography variant="caption">
-              {progress.current} / {progress.required}
+            {/* Star Icons */}
+            {score >= threshold ? (
+              <Star
+                sx={{
+                  color: "gold",
+                  fontSize: "32px",
+                  zIndex: 1,
+                  border: "2px solid white", // Subtle outline
+                  borderRadius: "50%",
+                  padding: "2px", // Creates a "halo" effect
+                  bgcolor: "rgba(255, 255, 255, 0.5)", // Optional glow background
+                  transition: "transform 0.3s ease, color 0.3s ease",
+                  transform: "scale(1.2)",
+                }}
+              />
+            ) : (
+              <StarOutline
+                sx={{
+                  color: "grey.400",
+                  fontSize: "32px",
+                  zIndex: 1,
+                }}
+              />
+            )}
+            {/* Threshold Labels */}
+            <Typography
+              variant="caption"
+              sx={{
+                position: "absolute",
+                top: "36px", // Adjusted to position below the star
+                fontSize: "0.8rem",
+                color: "grey.700",
+              }}
+            >
+              {threshold}
             </Typography>
           </Box>
-          <LinearProgress
-            variant="determinate"
-            value={getProgress()}
-            sx={{
-              height: 8,
-              borderRadius: 1,
-              bgcolor: "grey.200",
-              "& .MuiLinearProgress-bar": {
-                bgcolor: "#4CAF50",
-              },
-            }}
-          />
-        </Box>
-      )}
-    </Paper>
+        ))}
+      </Box>
+    </Box>
   );
 };
 
