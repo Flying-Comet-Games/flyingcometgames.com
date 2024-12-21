@@ -67,6 +67,7 @@ import SeattleStack from "./games/SeattleStack";
 import SeattleGymStack from "./games/SeattleStack";
 import SeattleCoffeeStack from "./games/SeattleStack";
 import WeatherWhiz from "./games/WeatherWiz";
+import WeatherWiz from "./games/WeatherWiz2/WeatherWiz";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -107,7 +108,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/tempus" element={<Tempus />} />
           <Route path="/plusminus" element={<PlusMinus />} />
           <Route path="/seattle/raincounter" element={<RainCounter />} />
-          <Route path="/seattle/weatherwiz" element={<WeatherWhiz />} />
+          <Route path="/seattle/weatherwiz" element={<WeatherWiz />} />
           <Route path="/seattle/stack" element={<SeattleCoffeeStack />} />
           <Route path="/seattle/quick-quack" element={<QuickQuackSeattle />} />
           <Route
