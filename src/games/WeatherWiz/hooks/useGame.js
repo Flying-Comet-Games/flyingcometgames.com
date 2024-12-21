@@ -108,6 +108,18 @@ export const useGame = () => {
     });
   };
 
+  const playInvalidSelectionAnimation = (row, col) => {
+    const tileElement = document.querySelector(`.tile-${row}-${col}`);
+    if (tileElement) {
+      anime({
+        targets: tileElement,
+        translateX: [-10, 10, -10, 10, 0], // Shake horizontally
+        duration: 300, // Total duration of the shake
+        easing: "easeInOutQuad", // Smooth easing
+      });
+    }
+  };
+
   const playCorrectAnimation = (tiles, onComplete) => {
     const targets = tiles.map(({ row, col }) => `.tile-${row}-${col}`);
 
@@ -140,7 +152,6 @@ export const useGame = () => {
       },
     });
   };
-
 
   const playIncorrectAnimation = (tiles) => {
     const targets = tiles.map(({ row, col }) => `.tile-${row}-${col}`);
@@ -198,7 +209,6 @@ export const useGame = () => {
     }
   };
 
-
   const applyTileColor = (tiles) => {
     tiles.forEach((tile, index) => {
       const tileElement = document.querySelector(
@@ -251,7 +261,9 @@ export const useGame = () => {
 
     if (selectedIndex !== -1) {
       const tileToDeselect = state.selectedTiles[selectedIndex];
-      const tileElement = document.querySelector(`.tile-${tileToDeselect.row}-${tileToDeselect.col}`);
+      const tileElement = document.querySelector(
+        `.tile-${tileToDeselect.row}-${tileToDeselect.col}`
+      );
       if (tileElement) {
         tileElement.style.backgroundColor = COLORS.background; // Reset the background color
       }
@@ -269,7 +281,10 @@ export const useGame = () => {
       return;
     }
 
-    if (!isAdjacent(lastTile, currentTile)) return; // Ignore non-adjacent tiles
+    if (!isAdjacent(lastTile, currentTile)) {
+      playInvalidSelectionAnimation(row, col);
+      return; // Ignore selection
+    }
 
     const newSum = state.currentSum + currentTile.value;
 
@@ -281,7 +296,8 @@ export const useGame = () => {
           const newGrid = updateGridNumbers(prev.grid, updatedTiles);
           const resetTiles = updatedTiles.map(({ row, col }) => {
             const tileElement = document.querySelector(`.tile-${row}-${col}`);
-            if (tileElement) tileElement.style.backgroundColor = COLORS.background;
+            if (tileElement)
+              tileElement.style.backgroundColor = COLORS.background;
           });
 
           const newMatches = prev.matches + 1;
@@ -349,7 +365,7 @@ export const useGame = () => {
     handleTileSelect,
     progress,
     renderLines,
-    stars
+    stars,
   };
 };
 
