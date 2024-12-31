@@ -18,16 +18,16 @@ const GameHeader = ({ title, subtitle, iconPath }) => {
         src={iconPath}
         alt={`${title} Logo`}
         style={{
-          width: "64px",
           height: "54px",
         }}
       />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
         <Typography
           variant="h4"
+          textAlign={'left'}
           sx={{ fontWeight: "bold", color: "black", lineHeight: 1 }}
         >
-          {title}
+          The {title} <br/>Wordy
         </Typography>
         {typeof subtitle === "string" ? (
           <Typography variant="body2" sx={{ color: "text.secondary" }}>

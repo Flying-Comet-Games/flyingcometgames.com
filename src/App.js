@@ -68,6 +68,7 @@ import SeattleGymStack from "./games/SeattleStack";
 import SeattleCoffeeStack from "./games/SeattleStack";
 import WeatherWhiz from "./games/WeatherWiz";
 import WeatherWiz from "./games/WeatherWiz2";
+import BurienWordy from "./games/WordyVerse/Topics/Burien/Burien";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";
@@ -131,6 +132,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           <Route path="/wordy-verse/auth" element={<Auth />} />
           <Route path="/wordy-verse/gymnastics" element={<GymnasticsWordy />} />
           <Route path="/wordy-verse/seattle" element={<SeattleWordy />} />
+          <Route path="/wordy-verse/burien" element={<BurienWordy />} />
           <Route path="/wordy-verse/yoga" element={<YogaWordy />} />
           <Route path="/wordy-verse/yc" element={<YCombinatorWordy />} />
           <Route
