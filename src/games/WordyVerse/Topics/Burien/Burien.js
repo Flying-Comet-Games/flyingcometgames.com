@@ -6,9 +6,9 @@ import BaseWordyGame from "../../Components/BaseWordyGame";
 const BurienWordy = () => {
   return (
     <BaseWordyGame
-      title="Burien"
+      title="Burien Local Lingo"
       iconPath={`${process.env.PUBLIC_URL}/assets/wordy-topics/burien.png`}
-      shareText="Seattle Wordy"
+      shareText="Burien Local Lingo"
       shareUrl="https://flyingcometgames.com/wordy-verse/burien"
       getWordForDate={getWordForDate}
       findLatestAvailableDate={findLatestAvailableDate}

@@ -27,7 +27,7 @@ const GameHeader = ({ title, subtitle, iconPath }) => {
           textAlign={'left'}
           sx={{ fontWeight: "bold", color: "black", lineHeight: 1 }}
         >
-          The {title} <br/>Wordy
+          {title}
         </Typography>
         {typeof subtitle === "string" ? (
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
