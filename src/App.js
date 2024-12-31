@@ -67,7 +67,7 @@ import SeattleStack from "./games/SeattleStack";
 import SeattleGymStack from "./games/SeattleStack";
 import SeattleCoffeeStack from "./games/SeattleStack";
 import WeatherWhiz from "./games/WeatherWiz";
-import WeatherWiz from "./games/WeatherWiz2/WeatherWiz";
+import WeatherWiz from "./games/WeatherWiz2";
 
 const COOKIE_CONSENT_KEY = "analytics_cookie_consent";
 const USER_ID_KEY = "user_id";

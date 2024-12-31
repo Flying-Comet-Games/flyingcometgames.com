@@ -90,6 +90,19 @@ const CityBase = ({ cityName, cityPath }) => {
               </Typography>
             </Grid>
 
+
+            <Grid mb={2} size={12}>
+              <GameTileBase
+                title="Weather Wiz"
+                description={`Select adjacent tiles that sum 10 until the board is cleared.`}
+                svgLogo={`${process.env.PUBLIC_URL}/assets/game-tiles/weather-wiz.svg`}
+                // link={`${cityPath}/til-trivia`}
+                link="/"
+                bgColor="#91b2d1"
+                isLocked={true}
+              />
+            </Grid>
+
             <Grid mb={2} size={12}>
               <GameTileBase
                 title="TIL Trivia"
