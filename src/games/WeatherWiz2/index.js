@@ -19,7 +19,15 @@ const WeatherWiz = () => {
   };
 
   const validatePlacement = (row, col) => {
-    return true; // Placeholder for validation logic
+    const symbol = grid[row][col];
+    if (!symbol) return true;
+
+    // Ensure no duplicates in the same row or column
+    for (let i = 0; i < GRID_SIZE; i++) {
+      if (i !== col && grid[row][i] === symbol) return false;
+      if (i !== row && grid[i][col] === symbol) return false;
+    }
+    return true;
   };
 
   const handleClear = () => {
@@ -37,7 +45,11 @@ const WeatherWiz = () => {
       }
     }
 
-    if (Object.values(counts).every(count => count === 5)) {
+    if (
+      Object.values(counts).every(count => count === 5) &&
+      grid.every((row, rowIndex) =>
+        row.every((cell, colIndex) => validatePlacement(rowIndex, colIndex))
+      )) {
       setChallengeStatus("Congratulations! You've solved the puzzle! 🎉");
     } else {
       setChallengeStatus("Not quite right. Keep trying!");
@@ -68,7 +80,10 @@ const WeatherWiz = () => {
           validatePlacement={validatePlacement}
         />
 
-        <Typography variant="body2" color={challengeStatus.includes('Congratulations') ? 'success.main' : 'error.main'}>
+        <Typography
+          variant="body2"
+          color={challengeStatus.includes('Congratulations') ? 'success.main' : 'error.main'}
+        >
           {challengeStatus}
         </Typography>
       </Paper>
