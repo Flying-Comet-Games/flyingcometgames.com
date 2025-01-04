@@ -6,6 +6,9 @@ import { Helmet } from "react-helmet";
 import GameTileBase from "./GameTileBase";
 import SignupButton from "../games/WordyVerse/SignupButton";
 import Grid from "@mui/material/Grid2";
+import AsSeenInSection from "../components/AsSeenIn";
+import AboutUs from "../components/About";
+import Footer from "../components/Footer";
 
 const CityBase = ({ cityName, cityPath }) => {
   return (
@@ -16,6 +19,10 @@ const CityBase = ({ cityName, cityPath }) => {
         minHeight: "100vh",
         overflowX: "hidden",
         backgroundColor: "background.default",
+        backgroundImage: `url(${process.env.PUBLIC_URL}/assets/background.svg)`,
+        backgroundRepeat: "no-repeat repeat", // Prevents horizontal repeat but allows vertical repeat
+        backgroundSize: "auto", // Keeps the image's original size
+        backgroundPosition: "center 40px", // Adds padding (10px from top and left)
       }}
     >
       <Helmet>
@@ -41,23 +48,17 @@ const CityBase = ({ cityName, cityPath }) => {
       >
         <Box>
           <Typography
-            sx={{
-              fontSize: { xs: "1.125rem", sm: "1.25rem", md: "1.5rem" },
-              textAlign: "left",
-            }}
-          >
-            Welcome stranger!
-          </Typography>
-
-          <Typography
             gutterBottom
+            variant="h4"
             sx={{
-              fontSize: { xs: "2.75rem", sm: "2.25rem", md: "2.5rem" },
               textAlign: "left",
               fontWeight: 900,
             }}
           >
-            {cityName} Word & Puzzle Games
+            Feel-good games for people who know{" "}
+            <Box component="span" sx={{ textDecoration: "underline" }}>
+              {cityName}.
+            </Box>
           </Typography>
         </Box>
 
@@ -74,10 +75,7 @@ const CityBase = ({ cityName, cityPath }) => {
               />
             </Grid>
 
-            <Grid mb={4} size={12}>
-              <SignupButton />
-            </Grid>
-
+            {/*
             <Grid mb={2} size={12}>
               <Typography
                 sx={{
@@ -88,8 +86,7 @@ const CityBase = ({ cityName, cityPath }) => {
               >
                 Coming Soon!
               </Typography>
-            </Grid>
-
+            </Grid> */}
 
             <Grid mb={2} size={12}>
               <GameTileBase
@@ -103,7 +100,7 @@ const CityBase = ({ cityName, cityPath }) => {
               />
             </Grid>
 
-            <Grid mb={2} size={12}>
+            {/* <Grid mb={2} size={12}>
               <GameTileBase
                 title="TIL Trivia"
                 description={`"Today I learned” ${cityName} trivia, increases in difficulty as you win.`}
@@ -113,16 +110,16 @@ const CityBase = ({ cityName, cityPath }) => {
                 bgColor="#c0abeb"
                 isLocked={true}
               />
-            </Grid>
+            </Grid> */}
 
-            <Grid mb={2} size={12}>
+            <Grid size={12}>
               <GameTileBase
                 title="Quick Quack"
                 description={`Complete the phrase before the clock fills it in for you, inspired by Wheel of Fortune.`}
                 svgLogo={`${process.env.PUBLIC_URL}/assets/game-tiles/quick-quack-seattle.svg`}
                 // link={`${cityPath}/til-trivia`}
                 link="/"
-                bgColor="#91b2d1"
+                bgColor="#b8c26c"
                 isLocked={true}
               />
             </Grid>
@@ -130,23 +127,11 @@ const CityBase = ({ cityName, cityPath }) => {
         </Grid>
       </Box>
 
-      <Box
-        component="footer"
-        sx={{
-          py: 2,
-          px: 2,
-          mt: "auto",
-          borderTop: "1px solid",
-          borderColor: "divider",
-          textAlign: "center",
-          width: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        <Typography variant="body2" color="text.secondary">
-          © 2024 Flying Comet Games. All rights reserved.
-        </Typography>
-      </Box>
+      <AsSeenInSection />
+
+      <AboutUs isComponent={true} />
+
+      <Footer />
     </Box>
   );
 };

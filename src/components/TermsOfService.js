@@ -1,6 +1,7 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Container, Divider } from "@mui/material";
+import Footer from "./Footer";
 
 const TermsOfUse = () => {
   const theme = useTheme();
@@ -150,6 +151,8 @@ const TermsOfUse = () => {
           Last updated: {new Date().toLocaleDateString()}
         </Typography>
       </Box>
+
+      <Footer />
     </Container>
   );
 };

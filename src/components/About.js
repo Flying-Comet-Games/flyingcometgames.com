@@ -3,8 +3,9 @@ import KofiButton from "./KofiButton";
 import { Box, Typography, Container, Link as MuiLink } from "@mui/material";
 import { Bold, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
-const AboutUs = ({isComponent = false}) => {
+const AboutUs = ({ isComponent = false }) => {
   return (
     <Container
       maxWidth="100%"
@@ -18,7 +19,7 @@ const AboutUs = ({isComponent = false}) => {
           backgroundRepeat: "no-repeat repeat",
           backgroundSize: "auto",
           backgroundPosition: "center 40px",
-        })
+        }),
       }}
     >
       <Box
@@ -100,6 +101,7 @@ const AboutUs = ({isComponent = false}) => {
           Have feedback for us?
         </MuiLink>
       </Box>
+      {!isComponent && <Footer />}
     </Container>
   );
 };

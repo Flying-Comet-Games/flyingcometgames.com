@@ -6,7 +6,7 @@ const AsSeenInSection = () => {
   return (
     <Box
       sx={{
-        maxWidth: "600px", // Limits the width of the section
+        // maxWidth: "600px", // Limits the width of the section
         width: "100%", // Ensures responsiveness
         marginX: "auto", // Centers the section horizontally
         py: 2,

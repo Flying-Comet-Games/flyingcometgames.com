@@ -24,6 +24,7 @@ import {
   newStreak,
   updateStreak,
 } from "../../../components/StreakUtil";
+import Footer from "../../../components/Footer";
 
 const BaseWordyGame = ({
   title,
@@ -365,7 +366,9 @@ const BaseWordyGame = ({
           onClose={() => setShowShareToast(false)}
           message="Results copied to clipboard!"
         />
+
       </Box>
+      <Footer />
     </Box>
   );
 };

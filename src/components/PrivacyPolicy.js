@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Container, Divider } from "@mui/material";
+import Footer from "./Footer";
 
 const PrivacyPolicy = () => {
   return (
@@ -145,16 +146,8 @@ const PrivacyPolicy = () => {
           exercise your privacy rights, please contact us at
           calli@flyingcometgames.com.
         </Typography>
-
-        <Divider sx={{ my: 3 }} />
-
-        <Typography
-          variant="body2"
-          sx={{ textAlign: "center", color: "text.secondary" }}
-        >
-          Flying Comet Games - Privacy Policy
-        </Typography>
       </Box>
+      <Footer />
     </Container>
   );
 };

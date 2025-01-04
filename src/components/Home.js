@@ -18,6 +18,7 @@ import CTAButtons from "./CTAButtons";
 import Testimonials from "./Testimonials";
 import WorkWithUs from "./WorkWithUs";
 import AboutUs from "./About";
+import Footer from "./Footer";
 
 const Home = () => {
   const theme = useTheme();
@@ -109,43 +110,7 @@ const Home = () => {
 
       <AboutUs isComponent={true} />
 
-      <Box
-        component="footer"
-        sx={{
-          py: 2,
-          px: 2,
-          mt: "auto",
-          borderTop: "1px solid",
-          borderColor: "divider",
-          textAlign: "center",
-          width: "100%",
-          boxSizing: "border-box",
-        }}
-      >
-        <Typography variant="body2" color="text.secondary">
-          © 2024 Flying Comet Games. All rights reserved.
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Connect with us:{" "}
-          <Link
-            to="https://bsky.app/profile/flyingcometgames.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ color: theme.palette.primary.light }}
-          >
-            Calli
-          </Link>{" "}
-          and{" "}
-          <Link
-            to="https://bsky.app/profile/3den.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ color: theme.palette.primary.light }}
-          >
-            Eden
-          </Link>
-        </Typography>
-      </Box>
+      <Footer />
     </Box>
   );
 };
