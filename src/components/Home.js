@@ -39,11 +39,11 @@ const Home = () => {
     >
       <Helmet>
         <title>
-          Online Puzzle Games | Flying Comet Games - NYT Games Alternative
+        Flying Comet Games | Feel-good games for local digital publications.
         </title>
         <meta
           name="description"
-          content="Enjoy engaging online puzzle games, word games, and casual games similar to NYT Games. Challenge yourself with our collection of brain teasers and addictive puzzles."
+          content="Discover feel-good games for local digital publications. Engage your community with Flying Comet Games."
         />
       </Helmet>
 
