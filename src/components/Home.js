@@ -16,6 +16,7 @@ import AsSeenInSection from "./AsSeenIn";
 import WhyGames from "./WhyGames";
 import CTAButtons from "./CTAButtons";
 import Testimonials from "./Testimonials";
+import WorkWithUs from "./WorkWithUs";
 
 const Home = () => {
   const theme = useTheme();
@@ -102,6 +103,8 @@ const Home = () => {
       <CTAButtons />
 
       <Testimonials />
+
+      <WorkWithUs />
 
       <Box
         component="footer"

@@ -6,6 +6,7 @@ const CTAButtons = () => {
   return (
     <>
       <Box
+        mx={"auto"}
         sx={{
           width: "100%",
           maxWidth: "sm",
@@ -35,6 +36,7 @@ const CTAButtons = () => {
       </Box>
 
       <Box
+        mx={"auto"}
         sx={{
           width: "100%",
           maxWidth: "sm",
