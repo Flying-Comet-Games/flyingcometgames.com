@@ -128,7 +128,7 @@ const Home = () => {
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           Connect with us:{" "}
           <Link
-            to="https://twitter.com/CalliFuch"
+            to="https://bsky.app/profile/flyingcometgames.com"
             target="_blank"
             rel="noopener noreferrer"
             sx={{ color: theme.palette.primary.light }}
@@ -137,7 +137,7 @@ const Home = () => {
           </Link>{" "}
           and{" "}
           <Link
-            to="https://twitter.com/EntreEden"
+            to="https://bsky.app/profile/3den.dev"
             target="_blank"
             rel="noopener noreferrer"
             sx={{ color: theme.palette.primary.light }}
