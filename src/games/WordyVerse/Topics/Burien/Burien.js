@@ -6,7 +6,8 @@ import BaseWordyGame from "../../Components/BaseWordyGame";
 const BurienWordy = () => {
   return (
     <BaseWordyGame
-      title="Burien Local Lingo"
+      title={"Burien"}
+      customTitle="Burien Local Lingo"
       iconPath={`${process.env.PUBLIC_URL}/assets/wordy-topics/burien.png`}
       shareText="Burien Local Lingo"
       shareUrl="https://flyingcometgames.com/wordy-verse/burien"

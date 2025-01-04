@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid2";
 import AsSeenInSection from "../components/AsSeenIn";
 import AboutUs from "../components/About";
 import Footer from "../components/Footer";
+import CityCTASection from "./CityCTASection";
 
 const CityBase = ({ cityName, cityPath }) => {
   return (
@@ -112,7 +113,7 @@ const CityBase = ({ cityName, cityPath }) => {
               />
             </Grid> */}
 
-            <Grid size={12}>
+            <Grid mb={4} size={12}>
               <GameTileBase
                 title="Quick Quack"
                 description={`Complete the phrase before the clock fills it in for you, inspired by Wheel of Fortune.`}
@@ -128,6 +129,8 @@ const CityBase = ({ cityName, cityPath }) => {
       </Box>
 
       <AsSeenInSection />
+
+      <CityCTASection />
 
       <AboutUs isComponent={true} />
 

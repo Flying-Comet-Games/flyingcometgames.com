@@ -15,6 +15,7 @@ const SeattleWordy = () => {
   return (
     <BaseWordyGame
       title="Seattle"
+      customTitle="The Seattle Wordy"
       iconPath={`${process.env.PUBLIC_URL}/assets/wordy-topics/seattle.svg`}
     //   subtitle={subtitleContent}
       shareText="Seattle Wordy"

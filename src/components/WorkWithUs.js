@@ -57,8 +57,8 @@ const WorkWithUs = () => {
                 Local focus
               </Typography>
               <Typography variant="body1">
-                We focus exclusively on games tailored to engaging and growing your
-                community.
+                We focus exclusively on games tailored to engaging and growing
+                your community.
               </Typography>
             </Box>
           </Box>
@@ -109,15 +109,14 @@ const WorkWithUs = () => {
             mt: 4,
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{ fontWeight: 600, mb: 2 }}
-          >
+          <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
             Ready to boost retention?
           </Typography>
           <Button
             variant="contained"
-            width= "100%"
+            href="https://cal.com/calli-fuchigami/15min"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{
               textTransform: "none",
               fontWeight: 600,
@@ -128,6 +127,7 @@ const WorkWithUs = () => {
               color: "white",
               "&:hover": {
                 backgroundColor: "#333",
+                color: "#f8f8f8", // Ensure text color changes for accessibility
               },
             }}
           >

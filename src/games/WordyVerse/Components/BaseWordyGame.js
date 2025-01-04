@@ -28,6 +28,7 @@ import Footer from "../../../components/Footer";
 
 const BaseWordyGame = ({
   title,
+  customTitle,
   iconPath,
   subtitle,
   shareText,
@@ -282,7 +283,7 @@ const BaseWordyGame = ({
       }}
     >
       <Box>
-        <GameHeader title={title} subtitle={subtitle} iconPath={iconPath} />
+        <GameHeader title={customTitle || title} subtitle={subtitle} iconPath={iconPath} />
 
         <GameControls
           currentDate={currentDate}

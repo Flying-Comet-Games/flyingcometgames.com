@@ -65,7 +65,7 @@ const GameToolbar = ({
     { text: "About Us", icon: <InfoIcon />, path: "/about" },
     { text: "Privacy Policy", icon: <SecurityIcon />, path: "/privacy" },
     { text: "Terms of Use", icon: <DescriptionIcon />, path: "/terms" },
-    { text: "Send Feedback", icon: <FeedbackIcon />, path: "/feedback" },
+    // { text: "Send Feedback", icon: <FeedbackIcon />, path: "/feedback" },
   ];
 
   const drawerContent = (

@@ -18,16 +18,22 @@ const CTAButtons = () => {
       >
         <Button
           variant="contained"
+          href="https://cal.com/calli-fuchigami/15min"
+          target="_blank"
+          rel="noopener noreferrer"
           sx={{
             width: "80%",
             fontWeight: 600,
             textTransform: "none",
             borderRadius: 20,
             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            transition: "transform 0.2s ease",
+            backgroundColor: "#000000",
+            color: "white",
             "&:hover": {
               transform: "translateY(-2px)",
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              backgroundColor: "#333333",
+              color: "white"
             },
           }}
         >
@@ -48,16 +54,20 @@ const CTAButtons = () => {
       >
         <Button
           variant="contained"
+          href="/play"
           sx={{
             width: "80%",
             fontWeight: 600,
             textTransform: "none",
             borderRadius: 20,
             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            transition: "transform 0.2s ease",
+            backgroundColor: "#f8f8f8",
+            color: "black",
+            border: "2px solid black",
             "&:hover": {
               transform: "translateY(-2px)",
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              backgroundColor: "rgba(0, 0, 0, 0.1)",
             },
           }}
         >
