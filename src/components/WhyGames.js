@@ -9,7 +9,6 @@ const WhyGames = () => {
         py: 4,
         px: 2,
         textAlign: "center",
-        backgroundColor: "background.default",
         display: "flex",
         justifyContent: "center",
       }}
@@ -136,7 +135,13 @@ const WhyGames = () => {
                 gap: 1,
               }}
             >
-              <span>✨</span> Boost retention
+              <Box
+                component="img"
+                src={`${process.env.PUBLIC_URL}/assets/icons/star-bullet.svg`}
+                alt="Star Bullet"
+                sx={{ width: "20px", height: "20px" }}
+              />
+              Boost retention
             </Typography>
             <Typography variant="body1">
               Make your site a daily destination for readers with fun,
@@ -155,7 +160,13 @@ const WhyGames = () => {
                 gap: 1,
               }}
             >
-              <span>✨</span> Build loyalty
+              <Box
+                component="img"
+                src={`${process.env.PUBLIC_URL}/assets/icons/star-bullet.svg`}
+                alt="Star Bullet"
+                sx={{ width: "20px", height: "20px" }}
+              />
+              Build loyalty
             </Typography>
             <Typography variant="body1">
               Build a lasting connection through shared experiences that connect
