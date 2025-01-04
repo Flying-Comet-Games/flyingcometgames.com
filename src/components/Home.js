@@ -10,6 +10,10 @@ import GameButton from "./GameButton";
 import CollapsibleSEOContent from "./CollapsibleSEOContent";
 import GamesBody from "./GamesBody";
 import { Helmet } from "react-helmet";
+import { Assessment } from "@mui/icons-material";
+import AssSeenInSection from "./AsSeenIn";
+import AsSeenInSection from "./AsSeenIn";
+import WhyGames from "./WhyGames";
 
 const Home = () => {
   const theme = useTheme();
@@ -81,11 +85,10 @@ const Home = () => {
               fontSize: { xs: "1.25rem", sm: "1.25rem", md: "1.5rem" },
               pb: 2,
               fontWeight: 400,
-              borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
-            Kick back with our curated collection of mini-games that put your
-            local knowledge to the test.
+            Boost engagement and retention with games that become part of your
+            readers’ daily routine.
           </Typography>
         </Box>
 
@@ -96,12 +99,60 @@ const Home = () => {
             display: "flex",
             justifyContent: "center",
             boxSizing: "border-box",
-            overflow: "hidden", // Prevent horizontal overflow from content
+            paddingBottom: 2,
           }}
         >
-          <GamesBody />
+          <Button
+            variant="contained"
+            sx={{
+              width: "80%",
+              fontWeight: 600,
+              textTransform: "none",
+              borderRadius: 20,
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              },
+            }}
+          >
+            Book a demo
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "sm",
+            display: "flex",
+            justifyContent: "center",
+            boxSizing: "border-box",
+            paddingBottom: 2,
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              width: "80%",
+              fontWeight: 600,
+              textTransform: "none",
+              borderRadius: 20,
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              },
+            }}
+          >
+            Explore ready-to-play games
+          </Button>
         </Box>
       </Box>
+      <AsSeenInSection />
+
+      <WhyGames />
 
       <Box
         component="footer"
