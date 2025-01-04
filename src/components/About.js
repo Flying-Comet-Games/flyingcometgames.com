@@ -4,15 +4,21 @@ import { Box, Typography, Container, Link as MuiLink } from "@mui/material";
 import { Bold, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const AboutUs = () => {
+const AboutUs = ({isComponent = false}) => {
   return (
     <Container
       maxWidth="100%"
       sx={{
-        minHeight: "100vh",
         textAlign: "center",
         p: 2,
-        backgroundColor: "background.default",
+        ...(!isComponent && {
+          backgroundColor: "background.default",
+          minHeight: "100vh",
+          backgroundImage: `url(${process.env.PUBLIC_URL}/assets/background.svg)`,
+          backgroundRepeat: "no-repeat repeat",
+          backgroundSize: "auto",
+          backgroundPosition: "center 40px",
+        })
       }}
     >
       <Box
@@ -25,23 +31,29 @@ const AboutUs = () => {
           flexDirection: "column",
           alignItems: "center",
           gap: 4,
-          backgroundColor: "background.default",
         }}
       >
         <Box
-          sx={{ display: "flex", alignItems: "center", gap: 2, width: "100%" }}
+          sx={{
+            display: "flex",
+            textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            width: "100%",
+          }}
         >
-          {/* <img
-            src={`${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon.svg`}
-            alt="Wordy-verse Logo"
-            style={{ width: 64, height: 64 }}
-          /> */}
+          <Box
+            component="img"
+            src={`${process.env.PUBLIC_URL}/assets/icons/star-bullet.svg`}
+            alt="Star Bullet"
+            sx={{ width: "20px", height: "20px" }}
+          />
           <Typography
             component="h1"
             sx={{
               fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
               fontWeight: "bold",
-              mx: "auto"
             }}
           >
             About Us
@@ -50,14 +62,15 @@ const AboutUs = () => {
 
         <Typography
           variant="body1"
-          sx={{ fontSize: "1.2rem", textAlign: "left" }}
+          sx={{ fontSize: "1.2rem", textAlign: "center" }}
         >
-        We’re friends Calli & Eden, the humans behind Flying Comet Games. We make guilt-free games for clever minds to enjoy daily.
-        In a world of doomscrolling and distractions, we want to offer quick wholesome fun you can share with friends, family and community members.
-
+          We’re friends Calli & Eden, the humans behind Flying Comet Games. We
+          make guilt-free games for clever minds to enjoy daily. In a world of
+          doomscrolling and distractions, we want to offer quick wholesome fun
+          you can share with friends, family and community members.
         </Typography>
 
-        <Typography variant="h6" sx={{ textAlign: "left" }}>
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
           Thanks for joining the fun! ✨
         </Typography>
 
@@ -86,9 +99,6 @@ const AboutUs = () => {
         >
           Have feedback for us?
         </MuiLink>
-
-        <KofiButton />
-
       </Box>
     </Container>
   );

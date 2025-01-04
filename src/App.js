@@ -118,6 +118,7 @@ function AppRouter({ onAcceptCookie, onDeclineCookie }) {
           />
           <Route path="/whack-a-mole" element={<WhackAMole />} />
           <Route path="/seattle" element={<SeattleHome />} />
+          <Route path="/play" element={<SeattleHome />} />
           <Route path="/garden-puzzle" element={<GardenPuzzleGame />} />
           <Route path="/my-strands" element={<TwitterStrands />} />
           <Route

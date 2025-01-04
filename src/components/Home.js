@@ -17,6 +17,7 @@ import WhyGames from "./WhyGames";
 import CTAButtons from "./CTAButtons";
 import Testimonials from "./Testimonials";
 import WorkWithUs from "./WorkWithUs";
+import AboutUs from "./About";
 
 const Home = () => {
   const theme = useTheme();
@@ -105,6 +106,8 @@ const Home = () => {
       <Testimonials />
 
       <WorkWithUs />
+
+      <AboutUs isComponent={true} />
 
       <Box
         component="footer"

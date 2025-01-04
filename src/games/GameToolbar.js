@@ -32,11 +32,11 @@ const GameToolbar = ({
       icon: `${process.env.PUBLIC_URL}/assets/logo.svg`,
       path: "/",
     },
-    // {
-    //   text: "Wordy-verse",
-    //   icon: `${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`,
-    //   path: "/wordy-verse",
-    // },
+    {
+      text: "Ready-to-play games",
+      icon: `${process.env.PUBLIC_URL}/assets/icons/wordy-verse-icon2.svg`,
+      path: "/play",
+    },
     // {
     //   text: "Trivia Roundup",
     //   icon: `${process.env.PUBLIC_URL}/assets/icons/trivia-roundup-icon.svg`,
@@ -157,51 +157,6 @@ const GameToolbar = ({
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
-        <Divider />
-        <AuthListItem />
-        <Divider />
-
-        <Box sx={{ p: 1 }}>
-          <Box
-            onClick={handleKofiClick}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1.5,
-              backgroundColor: "black",
-              color: "white",
-              padding: "12px 24px",
-              borderRadius: "100px",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              "&:hover": {
-                transform: "scale(1.02)",
-                opacity: 0.9,
-              },
-              "&:active": {
-                transform: "scale(0.98)",
-              },
-            }}
-          >
-            <img
-              src={`https://storage.ko-fi.com/cdn/logomarkLogo.png`}
-              alt="Ko-fi"
-              style={{
-                height: "20px",
-                width: "auto",
-              }}
-            />
-            <span
-              style={{
-                fontWeight: 500,
-                fontSize: "16px",
-                lineHeight: "20px",
-              }}
-            >
-              Support our games!
-            </span>
-          </Box>
-        </Box>
       </List>
     </Box>
   );
@@ -227,7 +182,6 @@ const GameToolbar = ({
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <StreakCounter isLoggedIn={user} />
 
             <IconButton
               color="inherit"
